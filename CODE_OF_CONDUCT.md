@@ -53,5 +53,4 @@ report supplied to the accused. In potentially harmful situations, such as
 ongoing harassment or threats to anyone's safety, we may take action without
 notice.
 
-*This document was adapted from the [Google Open Source Code of Conduct][].*
-[Google Open Source Code of Conduct]: https://opensource.google/conduct/>
+*This document was adapted from the [Google Open Source Code of Conduct](https://opensource.google/conduct/).*
