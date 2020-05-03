@@ -1,0 +1,31 @@
+load("@rules_cc//cc:defs.bzl", "objc_library", "cc_library")
+
+cc_library(
+    name = "utils",
+    srcs = [
+        "string.cc"
+    ],
+    hdrs = [
+        "definitions.h",
+        "error.h",
+        "string.h"
+    ],
+    strip_include_prefix = "/larkin/core/",
+    visibility = ["//:__subpackages__"]
+)
+
+objc_library(
+    name = "run_main",
+    srcs = [
+        "run_main_mac.mm",
+    ],
+    hdrs = [
+        "run_main.h",
+    ],
+    copts = ["-Ilarkin/core/"],
+    visibility = ["//:__subpackages__"],
+    sdk_frameworks = [
+        "Foundation",
+        "AppKit"
+    ]
+)

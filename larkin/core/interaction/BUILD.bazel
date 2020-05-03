@@ -1,0 +1,56 @@
+load("@rules_cc//cc:defs.bzl", "objc_library", "cc_library")
+
+cc_library(
+    name = "interaction",
+    deps = [
+        ":interaction_mac"
+    ],
+    copts = ["-Ilarkin/core/"],
+    strip_include_prefix = "/larkin/core/",
+    visibility = ["//:__subpackages__"]
+)
+
+objc_library(
+    name = "interaction_mac",
+    srcs = [
+        "sound/sound_manager.cc",
+        "sound/text2speech/text2speech_synthesizer.cc",
+        "sound/text2speech/text2speech_synthesizer_bridge_mac.mm",
+        "sound/text2speech/voice_bridge_mac.mm",
+        "sound/text2speech/voice.cc",
+
+        "keyboard/keycode_converter_mac.mm",
+        "keyboard/keyboard_simulator_bridge_mac.mm",
+        "keyboard/keyboard_simulator.cc",
+        "keyboard/keyboard_event.cc",
+        "keyboard/keyboard_listener_bridge_mac.mm",
+        "keyboard/keyboard_listener.cc"
+    ],
+    hdrs = [
+        "sound/sound_manager.h",
+        "sound/text2speech/text2speech_synthesizer.h",
+        "sound/text2speech/text2speech_synthesizer_bridge.h",
+        "sound/speech_request.h",
+        "sound/text2speech/voice.h",
+        "sound/text2speech/voice_bridge.h",
+        "sound/text2speech/voice_quality.h",
+
+        "keyboard/keycode.h",
+        "keyboard/keyboard_simulator_bridge.h",
+        "keyboard/keyboard_simulator.h",
+        "keyboard/keycode_converter_mac.h",
+        "keyboard/keyboard_event.h",
+        "keyboard/keyboard_listener_bridge.h",
+        "keyboard/keyboard_listener.h",
+        "keyboard/listener.h"
+    ],
+    copts = ["-Ilarkin/core/"],
+    sdk_frameworks = [
+        "Foundation",
+        "AVFoundation"
+    ],
+    deps = [
+        "//larkin/core/utils:utils"
+    ],
+    visibility = ["//:__subpackages__"]
+)
