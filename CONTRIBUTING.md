@@ -4,10 +4,7 @@ We welcome contributions of all kinds from filing issues and bug or typo fixes t
 Our team is trying to build the premiere tool for developing assistive services on all platforms, so we need your help! 
 
 If you have ideas or want to start working on a contribution, [file an issue](https://github.com/InclusiveTechNU/v11/issues/new) and 
-[submit a pull request](https://github.com/InclusiveTechNU/v11/compare). After it has been
-reviewed and approved by a [commiter](https://github.com/InclusiveTechNU/v11/blob/master/CODEOWNERS), your changes will slide 
-right into `master`. When you file your 10th commit, you will automatically be considered for 
-committer status and will be able to work right in the repository with the other members of the V11 team.
+[submit a pull request](https://github.com/InclusiveTechNU/v11/compare).
 
 ## Code reviews
 
