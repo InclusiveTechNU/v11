@@ -1,0 +1,8 @@
+{
+  "name": "third-party",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "node-gyp": "^6.1.0"
+  }
+}
