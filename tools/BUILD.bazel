@@ -1,1 +1,5 @@
-exports_files(["build_larkin_client", "load_larkin_client"])
+exports_files([
+    "tsconfig.json",
+    "build_larkin_client",
+    "load_larkin_client"
+], visibility = ["//visibility:public"])

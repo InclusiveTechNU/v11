@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Move into tools directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd $DIR
+cd ..
+
+./third_party/node/node_modules/flow-bin/cli.js $1

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Move into tools directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd $DIR
+
+cd ..
+bazel build //larkin:core
+bazel build //larkin/client:node
+
+./third_party/node/node_modules/.bin/babel core/ -d build/v11
