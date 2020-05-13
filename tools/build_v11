@@ -7,5 +7,3 @@ cd $DIR
 cd ..
 bazel build //larkin:core
 bazel build //larkin/client:node
-
-./third_party/node/node_modules/.bin/babel core/ -d build/v11

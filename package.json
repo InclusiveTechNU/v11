@@ -1,0 +1,22 @@
+{
+  "name": "third-party",
+  "version": "0.0.0",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^14.0.1",
+    "electron": "^8.2.5",
+    "gts": "^2.0.2",
+    "node-gyp": "^6.1.0",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.2"
+  },
+  "scripts": {
+    "check": "./third_party/node/node_modules/gts/build/src/cli.js check",
+    "clean": "./third_party/node/node_modules/gts/build/src/cli.js clean",
+    "compile": "yarn run clean && yarn run check && tsc",
+    "fix": "./third_party/node/node_modules/gts/build/src/cli.js fix",
+    "prepare": "yarn run compile",
+    "pretest": "yarn run compile",
+    "posttest": "yarn run check"
+  }
+}

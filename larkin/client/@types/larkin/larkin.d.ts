@@ -5,5 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const v11 = require('../build/core/v11');
-console.log(v11.speech.getVoices());
+// larkin.d.ts
+// Provides the typescript declarations for the larkin native bindings
+
+declare module 'larkin-types' {
+  interface SpeechAPI {
+    getVoices(): Array<any>;
+  }
+}
