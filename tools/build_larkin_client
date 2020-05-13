@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Move into tools directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd $DIR
+
+# Build larkin client
+cd ../larkin/client/node
+../../../third_party/node/node_modules/node-gyp/bin/node-gyp.js configure build

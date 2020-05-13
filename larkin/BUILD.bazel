@@ -1,0 +1,24 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
+
+cc_library(
+    name = "core",
+    deps = [
+        "//larkin/core/accessibility:accessibility",
+        "//larkin/core/environment:environment",
+        "//larkin/core/interaction:interaction",
+    ],
+    hdrs = glob(["core/**/*.h"]),
+    strip_include_prefix = "larkin/core",
+    visibility = ["//visibility:public"]
+)
+
+cc_binary(
+    name = "example",
+    deps = [
+        "//larkin:core",
+    ],
+    srcs = [
+        "examples/example.cc"
+    ],
+    visibility = ["//visibility:public"]
+)

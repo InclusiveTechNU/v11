@@ -1,0 +1,23 @@
+
+filegroup(
+    name = "node-client-files",
+    srcs = glob(["node/**/*"], ["node/build/**/*"]),
+    visibility = ["//larkin/client:__subpackages__"]
+)
+
+genrule(
+  name = "node",
+  srcs = [
+      "//larkin/client:node-client-files",
+      "//larkin:core",
+      "//third_party:node"
+  ],
+  outs = [
+    "node/build/Release/larkin.node"],
+  cmd = "./$(location //tools:build_larkin_client) && \
+         cat ./larkin/client/node/build/Release/larkin.node > $@",
+  tools = [
+    "//tools:build_larkin_client"
+  ],
+  executable = True
+)
