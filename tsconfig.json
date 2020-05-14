@@ -10,6 +10,7 @@
         "bazel-bin",
         "bazel-v11",
         "bazel-testlogs",
-        "bazel-out"
+        "bazel-out",
+        "node_modules"
     ]
 }

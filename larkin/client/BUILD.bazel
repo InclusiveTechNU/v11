@@ -9,7 +9,6 @@ genrule(
   name = "node",
   srcs = [
       "//larkin/client:node-client-files",
-      "//larkin:core",
       "//third_party:node"
   ],
   outs = [

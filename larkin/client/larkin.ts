@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-// ! IGNORE-ERROR: Unknown module from native gyp binding
+// ! IGNORE-ERROR
+// TODO(tommymchugh): Unknown module from native gyp binding
 import * as larkin from '../../../bazel-bin/larkin/client/node/build/Release/larkin.node';
+// ! END-IGNORE-ERROR
+
 import * as Types from 'larkin-types';
 
 export const speech: Types.SpeechAPI = larkin.speech;
