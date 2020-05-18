@@ -47,11 +47,22 @@ napi_status sound(napi_env env, napi_value exports) {
         if (status != napi_ok) return nullptr;
 
         // Fill system voices with mapped Voice class to JS Object
-        static const Voice* voice = Voice::get_default_voice();
-        /*for (size_t i = 0; i < voices.size(); i++) {
-            const Voice* voice = voices[i];
+        std::vector<const Voice*> sys_voices = Voice::get_system_voices();
+        for (size_t i = 0; i < sys_voices.size(); i++) {
+            napi_value voice_name_value;
+            const Voice* voice = sys_voices[i];
+            const char* voice_name = voice->get_name();
+
+            // Add string for voice name and set to array value of i
+            status = napi_create_string_utf8(env,
+                                             voice_name,
+                                             NAPI_AUTO_LENGTH,
+                                             &voice_name_value);
+            if (status != napi_ok) return nullptr;
+            status = napi_set_element(env, system_voices, i, voice_name_value);
+            if (status != napi_ok) return nullptr;
             delete voice;
-        }*/
+        }
 
         return system_voices;
     }, nullptr, &get_sys_voices);
