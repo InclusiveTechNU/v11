@@ -19,4 +19,31 @@ import * as larkin from '../larkin/client/larkin';
 // * v11.speech
 // v11.speech is a replica of the larkin speech synthesis API. The
 // implementation of the API is just an export of the larkin component
-export const speech: larkin.SpeechAPI = larkin.speech;
+interface SpeechAPI extends larkin.SpeechAPI {
+  getVoiceByName(name: string): Array<larkin.Voice>;
+  getVoiceById(id: string): Array<larkin.Voice>;
+  filterVoices(filter: (voice: larkin.Voice) => boolean): Array<larkin.Voice>;
+}
+
+export const speech: SpeechAPI = {
+  getVoices: larkin.speech.getVoices,
+  getDefaultVoice: larkin.speech.getDefaultVoice,
+
+  filterVoices: (filter: (voice: larkin.Voice) => boolean) => {
+    return speech.getVoices().filter((voice: larkin.Voice) => {
+      return filter(voice);
+    });
+  },
+  getVoiceByName: (name: string) => {
+    return speech.filterVoices((voice: larkin.Voice) => {
+      if (voice.name === name) return true;
+      return false;
+    });
+  },
+  getVoiceById: (id: string) => {
+    return speech.filterVoices((voice: larkin.Voice) => {
+      if (voice.id === id) return true;
+      return false;
+    });
+  },
+};

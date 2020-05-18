@@ -16,4 +16,4 @@
 
 const v11 = require('../build/v11/core/v11');
 //console.log(v11.speech.getVoices());
-console.log(v11.speech.getDefaultVoice());
+console.log(v11.speech.getVoiceByName("Alex"));

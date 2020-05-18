@@ -20,6 +20,7 @@ import * as larkin from '../../../larkin/Release/larkin';
 // ! END-IGNORE-ERROR
 
 import * as Types from 'larkin-types';
-
-export const speech: Types.SpeechAPI = larkin.speech;
 export type SpeechAPI = Types.SpeechAPI;
+export type Voice = Types.Voice;
+
+export const speech: SpeechAPI = larkin.speech;
