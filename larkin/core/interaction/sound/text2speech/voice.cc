@@ -63,8 +63,8 @@ const char* Voice::get_id() const {
     return string_copy(native_voice_bridge->get_id());
 }
 
-const char* Voice::get_age() const {
-    return string_copy(native_voice_bridge->get_age());
+int Voice::get_age() const {
+    return native_voice_bridge->get_age();
 }
 
 const char* Voice::get_gender() const {

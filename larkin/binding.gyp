@@ -13,8 +13,10 @@
         "client/node/binding.cc",
 
         # Interactions
-        "client/node/interaction.cc",
         "client/node/interaction.h",
+        "client/node/interaction.cc",
+        "client/node/sound_utils.h",
+        "client/node/sound_utils.cc"
       ],
       "cflags": [
         "-std=c++17",

@@ -73,7 +73,7 @@ class VoiceBridge {
 
     const char* get_name();
 
-    const char* get_age();
+    int get_age();
 
     const char* get_gender();
 

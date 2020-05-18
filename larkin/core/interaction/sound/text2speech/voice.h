@@ -55,7 +55,7 @@ class Voice {
 
     const char* get_name() const;
 
-    const char* get_age() const;
+    int get_age() const;
 
     const char* get_gender() const;
 

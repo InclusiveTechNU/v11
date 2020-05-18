@@ -1,6 +1,6 @@
 {
-  "name": "third-party",
-  "version": "0.0.0",
+  "name": "v11",
+  "version": "0.0.2",
   "private": true,
   "devDependencies": {
     "@types/node": "^14.0.1",
@@ -14,6 +14,6 @@
     "check": "./third_party/node/node_modules/gts/build/src/cli.js check",
     "clean": "./third_party/node/node_modules/gts/build/src/cli.js clean",
     "fix": "./third_party/node/node_modules/gts/build/src/cli.js fix",
-    "build": "./tools/build_larkin_client && yarn run clean && yarn run check && tsc"
+    "build": "yarn install && ./tools/build_larkin_client && yarn run clean && yarn run check && tsc"
   }
 }

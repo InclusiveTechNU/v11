@@ -105,16 +105,16 @@ const char* VoiceBridge::get_name() {
     return [voice_name UTF8String];
 }
 
-const char* VoiceBridge::get_age() {
+int VoiceBridge::get_age() {
     if (!exists()) {
-        return nullptr;
+        return 0;
     }
 
     NSDictionary<VoiceKey, id>* voice_attrs = (__bridge
                                               NSDictionary<VoiceKey, id>*)
                                               native_voice_ptr;
-    NSString* voice_age = voice_attrs[NSVoiceAge];
-    return [voice_age UTF8String];
+    NSNumber* voice_age = voice_attrs[NSVoiceAge];
+    return [voice_age intValue];
 }
 
 const char* VoiceBridge::get_gender() {

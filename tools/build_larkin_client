@@ -11,4 +11,4 @@ rm -rf build/larkin
 cd larkin
 ../third_party/node/node_modules/node-gyp/bin/node-gyp.js configure build
 mkdir -p ../build
-mv build ../build/larkin
+cp -R build ../build/larkin
