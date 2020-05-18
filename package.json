@@ -14,7 +14,6 @@
     "check": "./third_party/node/node_modules/gts/build/src/cli.js check",
     "clean": "./third_party/node/node_modules/gts/build/src/cli.js clean",
     "fix": "./third_party/node/node_modules/gts/build/src/cli.js fix",
-
     "build": "./tools/build_larkin_client && yarn run clean && yarn run check && tsc"
   }
 }
