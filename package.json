@@ -13,10 +13,8 @@
   "scripts": {
     "check": "./third_party/node/node_modules/gts/build/src/cli.js check",
     "clean": "./third_party/node/node_modules/gts/build/src/cli.js clean",
-    "compile": "yarn run clean && yarn run check && tsc",
     "fix": "./third_party/node/node_modules/gts/build/src/cli.js fix",
-    "prepare": "yarn run compile",
-    "pretest": "yarn run compile",
-    "posttest": "yarn run check"
+
+    "build": "./tools/build_larkin_client && yarn run clean && yarn run check && tsc"
   }
 }
