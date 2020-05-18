@@ -16,9 +16,17 @@
 
 // larkin.d.ts
 // Provides the typescript declarations for the larkin native bindings
-
 declare module 'larkin-types' {
+  interface Voice {
+    id: string;
+    name: string;
+    gender: string;
+    age: number;
+    locale: string;
+  }
+
   interface SpeechAPI {
-    getVoices(): Array<any>;
+    getVoices(): Array<Voice>;
+    getDefaultVoice(): Voice;
   }
 }

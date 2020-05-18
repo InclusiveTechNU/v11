@@ -74,6 +74,34 @@ napi_status sound(napi_env env, napi_value exports) {
                                      get_sys_voices);
     if (status != napi_ok) return status;
 
+    // * speech.getDefaultVoice() -> Object
+    // Returns the default voice object of the system
+    napi_value get_default_voice;
+    status = napi_create_function(env,
+                                  nullptr,
+                                  0,
+                                  [](napi_env env,
+                                     napi_callback_info info) -> napi_value {
+        // Create a voice object from the default native system voice
+        napi_status status;
+        napi_value system_voice_object;
+        const Voice* sys_voice = Voice::get_default_voice();
+
+        status = napi_create_object(env, &system_voice_object);
+        if (status != napi_ok) return nullptr;
+        status = voice_to_object(env, sys_voice, system_voice_object);
+
+        delete sys_voice;
+        return system_voice_object;
+    }, nullptr, &get_default_voice);
+    if (status != napi_ok) return status;
+
+    status = napi_set_named_property(env,
+                                     speech,
+                                     "getDefaultVoice",
+                                     get_default_voice);
+    if (status != napi_ok) return status;
+
     // Declare and place speech api binding within v11.speech
     status = napi_set_named_property(env, exports, "speech", speech);
     if (status != napi_ok) return status;
