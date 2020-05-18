@@ -1,4 +1,3 @@
-
 filegroup(
     name = "node-client-files",
     srcs = glob(["node/**/*"], ["node/build/**/*"]),

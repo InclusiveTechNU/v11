@@ -1,14 +1,13 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
 
-cc_library(
-    name = "core",
+cc_binary(
+    name = "liblarkin.so",
     deps = [
         "//larkin/core/accessibility:accessibility",
         "//larkin/core/environment:environment",
         "//larkin/core/interaction:interaction",
     ],
-    hdrs = glob(["core/**/*.h"]),
-    strip_include_prefix = "larkin/core",
+    linkshared=True,
     visibility = ["//visibility:public"]
 )
 

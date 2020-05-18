@@ -9,6 +9,9 @@
         # Interactions
         "interaction.cc",
         "interaction.h"
+      ],
+      "libraries": [
+        '-L/Users/tommymchugh/Developer/v11/bazel-bin/larkin/', '-llarkin'
       ]
     }
   ]
