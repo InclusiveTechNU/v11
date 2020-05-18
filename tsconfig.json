@@ -2,7 +2,7 @@
     "extends": "./third_party/node/node_modules/gts/tsconfig-google.json",
     "compilerOptions": {
       "rootDir": ".",
-      "outDir": "build",
+      "outDir": "build/v11",
       "module": "CommonJS"
     },
     "exclude": [

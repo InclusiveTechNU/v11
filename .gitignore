@@ -68,4 +68,7 @@ $RECYCLE.BIN/
 # based on the name of the directory bazel is cloned into.
 /bazel-*
 
+build-*
+/build-*
+/build
 build

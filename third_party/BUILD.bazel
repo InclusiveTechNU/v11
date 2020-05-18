@@ -1,5 +1,0 @@
-filegroup(
-    name = "node",
-    srcs = glob(["node/**/*"]),
-    visibility = ["//:__subpackages__"]
-)

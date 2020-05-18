@@ -5,7 +5,4 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $DIR
 
 cd ..
-bazel clean
-bazel build //larkin:larkin.so
-bazel build //larkin/client:node
 yarn run compile

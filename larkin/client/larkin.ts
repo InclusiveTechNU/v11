@@ -16,7 +16,7 @@
 
 // ! IGNORE-ERROR
 // TODO(tommymchugh): Unknown module from native gyp binding
-import * as larkin from '../../../bazel-bin/larkin/client/node/build/Release/larkin.node';
+import * as larkin from '../../../larkin/Release/larkin';
 // ! END-IGNORE-ERROR
 
 import * as Types from 'larkin-types';

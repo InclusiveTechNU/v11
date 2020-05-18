@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-const v11 = require('../build/core/v11');
+const v11 = require('../build/v11/core/v11');
 console.log(v11.speech.getVoices());

@@ -16,10 +16,10 @@
 
 #include <functional>
 #include <vector>
-#include "interaction.h"
-//#include "interaction/sound/text2speech/voice.h"
+#include "client/node/interaction.h"
+#include "core/interaction/sound/text2speech/voice.h"
 
-//using sound::voice::Voice;
+using sound::voice::Voice;
 
 namespace interaction {
 
@@ -47,8 +47,8 @@ napi_status sound(napi_env env, napi_value exports) {
         if (status != napi_ok) return nullptr;
 
         // Fill system voices with mapped Voice class to JS Object
-        /*std::vector<const Voice*> voices = Voice::get_system_voices();
-        for (int i = 0; i < voices.length(); i++) {
+        static const Voice* voice = Voice::get_default_voice();
+        /*for (size_t i = 0; i < voices.size(); i++) {
             const Voice* voice = voices[i];
             delete voice;
         }*/

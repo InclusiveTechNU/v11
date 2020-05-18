@@ -15,7 +15,7 @@
  */
 
 #include <node_api.h>
-#include "interaction.h"
+#include "client/node/interaction.h"
 
 namespace larkin {
 
