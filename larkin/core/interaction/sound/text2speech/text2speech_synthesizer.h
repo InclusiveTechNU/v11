@@ -31,7 +31,7 @@ class Text2SpeechSynthesizer {
 
     // Controls whether the synthesizer should play a request
     // that is submitted to the synthesizer
-    bool paused;
+    bool paused = false;
 
     // The default voice used for speech synthesis. If null
     // the voice defaults to the system default voice

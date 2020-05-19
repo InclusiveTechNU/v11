@@ -11,6 +11,8 @@
       "sources": [
         # Main Binding File
         "client/node/binding.cc",
+        "client/node/utils.h",
+        "client/node/utils.cc",
 
         # Interactions
         "client/node/interaction.h",

@@ -39,7 +39,7 @@ interface SpeechAPI {
 const _speech: PrivateSpeechAPI = {
   speak: (text: string, voiceId?: string) => {
     //const guaranteedVoiceId = voiceId ?? speech.getDefaultVoice().id;
-    //larkin.speech.speak(text, guaranteedVoiceId);
+    larkin.speech.speak(text, speech.getDefaultVoice().id);
   },
 };
 
@@ -67,6 +67,6 @@ export const speech: SpeechAPI = {
   },
 
   speak: (text: string, voice?: larkin.Voice) => {
-    //_speech.speak(text, voice?.id ?? undefined);
+    _speech.speak(text, undefined);
   },
 };

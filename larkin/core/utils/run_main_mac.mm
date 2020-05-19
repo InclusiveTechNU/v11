@@ -22,7 +22,7 @@
 namespace utils {
 
 void run_main_loop() {
-    [NSApp run];
+    [[NSApplication sharedApplication] run];
 }
 
 };  // namespace utils

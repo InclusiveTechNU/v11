@@ -20,6 +20,4 @@ namespace utils {
 
 void run_main_loop();
 
-void check_key();
-
 };  // namespace utils

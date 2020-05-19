@@ -18,8 +18,12 @@
 #include <vector>
 #include "client/node/interaction.h"
 #include "client/node/sound_utils.h"
+#include "client/node/utils.h"
 #include "core/interaction/sound/text2speech/voice.h"
+#include "core/interaction/sound/text2speech/text2speech_synthesizer.h"
 
+using utils::string_from_value;
+using sound::voice::Text2SpeechSynthesizer;
 using sound::voice::Voice;
 using interaction::utils::sound::voice_to_object;
 
@@ -100,6 +104,45 @@ napi_status sound(napi_env env, napi_value exports) {
                                      speech,
                                      "getDefaultVoice",
                                      get_default_voice);
+    if (status != napi_ok) return status;
+
+    // * speech.speak(text: string, voice_id: string) -> void
+    // Calls the native speach synthesis API with the specific voice declared
+    napi_value speak;
+    status = napi_create_function(env,
+                                  nullptr,
+                                  0,
+                                  [](napi_env env,
+                                     napi_callback_info info) -> napi_value {
+        // TODO(tommymchugh): Evoke error on failed to collect arguments
+        napi_status status;
+        // Collect text and voice_id from info
+        size_t args_count = 2;
+        napi_value args[2];
+        status = napi_get_cb_info(env, info, &args_count, args, nullptr, 0);
+        if (status != napi_ok) return nullptr;
+
+        napi_value text_object = args[0];
+        napi_value voice_id_object = args[1];
+        char* text_ptr = string_from_value(env, text_object);
+        char* voice_id_ptr = string_from_value(env, voice_id_object);
+        if (!text_ptr || !voice_id_ptr) return nullptr;
+
+        // Send speech request to the native larkin interface
+        const Voice* speaking_voice = Voice::get_voice_by_id(voice_id_ptr);
+        if (speaking_voice != nullptr) {
+            Text2SpeechSynthesizer* speech_synth = new Text2SpeechSynthesizer();
+            speech_synth->speak(text_ptr, speaking_voice);
+            delete speech_synth;
+        } else {
+            // TODO(tommymchugh): throw error for no speaking
+        }
+
+        delete speaking_voice;
+        return nullptr;
+    }, nullptr, &speak);
+    if (status != napi_ok) return status;
+    status = napi_set_named_property(env, speech, "speak", speak);
     if (status != napi_ok) return status;
 
     // Declare and place speech api binding within v11.speech

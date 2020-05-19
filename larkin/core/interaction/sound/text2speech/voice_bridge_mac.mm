@@ -17,7 +17,6 @@
 #include <Foundation/Foundation.h>
 #include <Cocoa/Cocoa.h>
 #include <string.h>
-#include <iostream>
 #include "utils/definitions.h"
 #include "interaction/sound/text2speech/voice_bridge.h"
 

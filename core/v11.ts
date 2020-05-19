@@ -14,5 +14,8 @@
  * limitations under the License.
  */
 
+import * as larkin from '../larkin/client/larkin';
+
+export const start = larkin.utils.run;
 export {system} from './system';
 export {speech} from './sound';
