@@ -12,8 +12,9 @@
   },
   "scripts": {
     "check": "./third_party/node/node_modules/gts/build/src/cli.js check",
-    "clean": "./third_party/node/node_modules/gts/build/src/cli.js clean",
+    "clean": "rm -rf ./larkin/build && rm -rf ./build && yarn run clean:js",
+    "clean:js": "./third_party/node/node_modules/gts/build/src/cli.js clean",
     "fix": "./third_party/node/node_modules/gts/build/src/cli.js fix",
-    "build": "yarn install && ./tools/build_larkin_client && yarn run clean && yarn run check && tsc"
+    "build": "yarn install && ./tools/build_larkin_client && yarn run clean:js && yarn run check && ./third_party/node/node_modules/typescript/bin/tsc"
   }
 }

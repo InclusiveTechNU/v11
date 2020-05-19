@@ -16,6 +16,9 @@
 
 // ! IGNORE-ERROR
 // TODO(tommymchugh): Unknown module from native gyp binding
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+// eslint-disable-next-line node/no-unpublished-import
 import * as larkin from '../../../larkin/Release/larkin';
 // ! END-IGNORE-ERROR
 
