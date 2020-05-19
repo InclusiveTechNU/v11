@@ -74,7 +74,26 @@ napi_status system(napi_env env, napi_value exports) {
     // Returns information related to the platform version
     // Include major version, minor version, patch version, and
     // full string version
-    version sys_platform_version = get_platform_version();
+    version sys_version = get_platform_version();
+    napi_value version, major_ver, minor_ver, patch_ver;
+    status = napi_create_object(env, &version);
+    if (status != napi_ok) return status;
+
+    status = napi_create_uint32(env, sys_version.major_version, &major_ver);
+    if (status != napi_ok) return status;
+    status = napi_create_uint32(env, sys_version.minor_version, &minor_ver);
+    if (status != napi_ok) return status;
+    status = napi_create_uint32(env, sys_version.patch_version, &patch_ver);
+    if (status != napi_ok) return status;
+
+    status = napi_set_named_property(env, version, "major", major_ver);
+    if (status != napi_ok) return status;
+    status = napi_set_named_property(env, version, "minor", minor_ver);
+    if (status != napi_ok) return status;
+    status = napi_set_named_property(env, version, "patch", patch_ver);
+    if (status != napi_ok) return status;
+    status = napi_set_named_property(env, platform_object, "version", version);
+    if (status != napi_ok) return status;
 
     // Declare and place platform api binding within v11.platform
     status = napi_set_named_property(env, exports, "platform", platform_object);

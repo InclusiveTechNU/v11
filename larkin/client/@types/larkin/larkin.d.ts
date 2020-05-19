@@ -25,8 +25,15 @@ declare module 'larkin-types' {
     locale: string;
   }
 
+  interface Version {
+    major: number;
+    minor: number;
+    patch: number;
+  }
+
   interface PlatformAPI {
     type: string;
+    version: Version;
   }
 
   interface UtilsAPI {

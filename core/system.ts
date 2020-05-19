@@ -25,8 +25,13 @@ const PLATFORM_WINDOWS = 'windows';
 const PLATFORM_LINUX = 'linux';
 const PLATFORM_UNKNOWN = 'unknown';
 
+interface Version extends larkin.Version {
+  code: string;
+}
+
 interface Platform {
   type: string;
+  version: Version;
 }
 
 interface SystemAPI {
@@ -36,8 +41,18 @@ interface SystemAPI {
   isLinux: boolean;
 }
 
+const sysMajorVer = larkin.platform.version.major;
+const sysMinorVer = larkin.platform.version.minor;
+const sysPatchVer = larkin.platform.version.patch;
+const systemVersionCombined = `${sysMajorVer}.${sysMinorVer}.${sysPatchVer}`;
+const systemVersion: Version = {
+  ...larkin.platform.version,
+  code: systemVersionCombined,
+};
+
 const systemPlatform: Platform = {
   type: larkin.platform.type,
+  version: systemVersion,
 };
 
 const isPlatform = (platform: string) => {
