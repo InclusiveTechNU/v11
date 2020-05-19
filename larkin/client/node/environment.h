@@ -14,24 +14,12 @@
  * limitations under the License.
  */
 
-// larkin.d.ts
-// Provides the typescript declarations for the larkin native bindings
-declare module 'larkin-types' {
-  interface Voice {
-    id: string;
-    name: string;
-    gender: string;
-    age: number;
-    locale: string;
-  }
+#pragma once
 
-  interface PlatformAPI {
-    type: string;
-  }
+#include <node_api.h>
 
-  interface SpeechAPI {
-    getVoices(): Array<Voice>;
-    getDefaultVoice(): Voice;
-    //speak(text: string, voiceId: string): void;
-  }
-}
+namespace environment {
+
+void init(napi_env env, napi_value exports);
+
+};  // namespace environment

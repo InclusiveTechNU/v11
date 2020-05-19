@@ -21,6 +21,8 @@ import * as larkin from '../../../larkin/Release/larkin';
 
 import * as Types from 'larkin-types';
 export type SpeechAPI = Types.SpeechAPI;
+export type PlatformAPI = Types.PlatformAPI;
 export type Voice = Types.Voice;
 
 export const speech: SpeechAPI = larkin.speech;
+export const platform: PlatformAPI = larkin.platform;

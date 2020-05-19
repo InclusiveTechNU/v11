@@ -16,11 +16,13 @@
 
 #include <node_api.h>
 #include "client/node/interaction.h"
+#include "client/node/environment.h"
 
 namespace larkin {
 
 napi_value init(napi_env env, napi_value exports) {
   interaction::init(env, exports);
+  environment::init(env, exports);
   return exports;
 }
 NAPI_MODULE(NODE_GYP_MODULE_NAME, init)

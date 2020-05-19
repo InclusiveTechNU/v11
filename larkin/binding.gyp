@@ -16,7 +16,11 @@
         "client/node/interaction.h",
         "client/node/interaction.cc",
         "client/node/sound_utils.h",
-        "client/node/sound_utils.cc"
+        "client/node/sound_utils.cc",
+
+        # Environment
+        "client/node/environment.h",
+        "client/node/environment.cc"
       ],
       "cflags": [
         "-std=c++17",
