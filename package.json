@@ -2,7 +2,7 @@
   "name": "v11",
   "package-name": "v11",
   "main": "./build/v11/core/v11.js",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "dependencies": {
     "@types/node": "^14.0.1",
     "electron": "^8.2.5",
@@ -17,7 +17,6 @@
     "clean:js": "./third_party/node/node_modules/gts/build/src/cli.js clean",
     "fix": "./third_party/node/node_modules/gts/build/src/cli.js fix",
     "build": "yarn install && ./tools/build_larkin_client && yarn run clean:js && yarn run check && ./third_party/node/node_modules/typescript/bin/tsc",
-    "postinstall": "yarn build",
     "preinstall": "$npm_execpath --silent run checkyarn",
     "checkyarn": "echo \"$npm_execpath\" | grep -q \"yarn\\.js$\" || (echo '⚠️  Use yarn not npm! ⚠️ ' && echo && exit 1)"
   }
