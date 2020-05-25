@@ -16,6 +16,7 @@
 
 const v11 = require('../build/v11/core/v11');
 
-v11.speech.speak("What's going on you guys", v11.speech.getVoices()[6]);
-console.log(v11.system);
+v11.speech.speak("This is a test for the V11 platform.\
+                  This file's name is hello voice dot j s",
+                 v11.speech.getVoices()[7]);
 v11.start();

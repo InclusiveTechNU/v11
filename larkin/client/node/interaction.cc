@@ -21,8 +21,12 @@
 #include "client/node/utils.h"
 #include "core/interaction/sound/text2speech/voice.h"
 #include "core/interaction/sound/text2speech/text2speech_synthesizer.h"
+#include "core/interaction/keyboard/keyboard_simulator.h"
+#include "core/interaction/keyboard/keycode.h"
 
 using utils::string_from_value;
+using keyboard::keycode;
+using keyboard::KeyboardSimulator;
 using sound::voice::Text2SpeechSynthesizer;
 using sound::voice::Voice;
 using interaction::utils::sound::voice_to_object;
@@ -151,6 +155,79 @@ napi_status sound(napi_env env, napi_value exports) {
     return status;
 }
 
+napi_status keyboard(napi_env env, napi_value exports) {
+    napi_status status;
+    napi_value keyboard;
+    status = napi_create_object(env, &keyboard);
+    if (status != napi_ok) return status;
+
+    // *****************************
+    // *  KEY SIM API Interface
+    // *****************************
+    napi_value simulate;
+    status = napi_create_object(env, &simulate);
+    if (status != napi_ok) return status;
+
+    napi_value hold_key;
+    status = napi_create_function(env, nullptr, 0,
+                                  [](napi_env env,
+                                     napi_callback_info info) -> napi_value {
+        // TODO(tommymchugh): Evoke error on failed to collect arguments
+        napi_status status;
+        // Collect character to hold
+        size_t args_count = 1;
+        napi_value args[1];
+        status = napi_get_cb_info(env, info, &args_count, args, nullptr, 0);
+        if (status != napi_ok) return nullptr;
+
+        napi_value key_to_press_obj = args[0];
+        char* key_to_press = string_from_value(env, key_to_press_obj);
+        if (!key_to_press) return nullptr;
+
+        KeyboardSimulator simulator = KeyboardSimulator();
+        simulator.press_keys({keycode::COMMAND_KEY, keycode::N_KEY});
+
+        return nullptr;
+    }, nullptr, &hold_key);
+    if (status != napi_ok) return status;
+    status = napi_set_named_property(env, simulate, "holdKey", hold_key);
+    if (status != napi_ok) return status;
+
+    napi_value release_key;
+    status = napi_create_function(env, nullptr, 0,
+                                  [](napi_env env,
+                                     napi_callback_info info) -> napi_value {
+        // TODO(tommymchugh): Evoke error on failed to collect arguments
+        napi_status status;
+        // Collect character to release
+        size_t args_count = 1;
+        napi_value args[1];
+        status = napi_get_cb_info(env, info, &args_count, args, nullptr, 0);
+        if (status != napi_ok) return nullptr;
+
+        napi_value key_to_press_obj = args[0];
+        char* key_to_press = string_from_value(env, key_to_press_obj);
+        if (!key_to_press) return nullptr;
+
+        KeyboardSimulator simulator = KeyboardSimulator();
+        simulator.release_key(keycode::A_KEY);
+
+        return nullptr;
+    }, nullptr, &release_key);
+    if (status != napi_ok) return status;
+    status = napi_set_named_property(env, simulate, "releaseKey", release_key);
+    if (status != napi_ok) return status;
+
+    status = napi_set_named_property(env, keyboard, "simulation", simulate);
+    if (status != napi_ok) return status;
+
+    // Declare and place keyboards apis binding within v11.keyboard
+    status = napi_set_named_property(env, exports, "keyboard", keyboard);
+    if (status != napi_ok) return status;
+    return status;
+}
+
+
 // Initialize all variables and functions
 void init(napi_env env, napi_value exports) {
     napi_status sound_status = sound(env, exports);
@@ -158,6 +235,14 @@ void init(napi_env env, napi_value exports) {
         napi_throw_error(env,
                          nullptr,
                          "Failed to initialize interaction/sound");
+        return;
+    }
+
+    napi_status keyboard_status = keyboard(env, exports);
+    if (keyboard_status != napi_ok) {
+        napi_throw_error(env,
+                         nullptr,
+                         "Failed to initialize interaction/keyboard");
         return;
     }
 }

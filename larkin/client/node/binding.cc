@@ -19,12 +19,16 @@
 #include "client/node/interaction.h"
 #include "client/node/environment.h"
 #include "core/utils/run_main.h"
+#include "core/environment/system/system.h"
 
 using utils::run_main_loop;
+using sys::System;
 
 namespace larkin {
 
 napi_value init(napi_env env, napi_value exports) {
+    System* main_sys = new System();
+
     // Add sub platform APIs
     interaction::init(env, exports);
     environment::init(env, exports);

@@ -14,9 +14,4 @@
  * limitations under the License.
  */
 
-import * as larkin from '../larkin/client/larkin';
-
-export const start = larkin.utils.run;
-export {system} from './system';
-export {speech} from './sound';
-export {keyboard} from './keyboard';
+const v11 = require('../build/v11/core/v11');

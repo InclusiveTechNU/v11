@@ -40,6 +40,15 @@ declare module 'larkin-types' {
     run(): void;
   }
 
+  interface KeyboardSimulationAPI {
+    holdKey(): void;
+    releaseKey(): void;
+  }
+
+  interface KeyboardAPI {
+    simulation: KeyboardSimulationAPI;
+  }
+
   interface SpeechAPI {
     getVoices(): Array<Voice>;
     getDefaultVoice(): Voice;

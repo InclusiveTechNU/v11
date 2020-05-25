@@ -16,7 +16,17 @@
 
 import * as larkin from '../larkin/client/larkin';
 
-export const start = larkin.utils.run;
-export {system} from './system';
-export {speech} from './sound';
-export {keyboard} from './keyboard';
+// * v11.keyboard
+// v11.keyboard provides resources and methods for simulating and listening
+// for system keyboard events
+interface KeyboardAPI {
+  pressKey(): void;
+}
+
+// Public Speech API
+export const keyboard: KeyboardAPI = {
+  pressKey: () => {
+    larkin.keyboard.simulation.holdKey();
+    //larkin.keyboard.simulation.releaseKey();
+  },
+};
