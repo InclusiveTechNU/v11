@@ -3,7 +3,7 @@
     "compilerOptions": {
       "rootDir": ".",
       "outDir": "build/v11",
-      "module": "CommonJS"
+      "module": "commonjs"
     },
     "exclude": [
         "third_party",
