@@ -13,29 +13,19 @@ V11 is a JavaScript runtime and code editor for building accessibility plugins, 
 
 *If you're only interested in using V11 in a new or existing tool, just follow [these instructions]().*
 
-The instructions here very briefly cover steps to build the V11 REPL. They assume you have typical native development tools setup for your OS, and support for [bazel](https://bazel.build/) and git. For more details of required dependencies, building V11 with different options, etc. follow these links instead:
+The instructions here very briefly cover steps to build the V11 REPL. They assume you have typical native development tools setup for your OS, and support for Node.JS and Git. For more details of required dependencies, building V11 with different options, etc. follow these links instead:
 
 * [Building and Running V11]() - **TODO: Insert Link**
-* [Using a custom V11 build in your tool]() - **TODO: Insert Link**
 
-**Installing Dependencies**
+**Installing V11**
 
-To get ready to build the source install the software requirements:
-```shell
-```
-
-If you want to compile V8 from source and live on the bleeding edge also install:
-```shell
-```
-
-**Building V11**
-
-To build a local debug version of the V11 CLI tools the following commands should get you started on macOS/Linux:
+To add V11 to an existing Node.JS project install using
 
 ```shell
+yarn add v11
 ```
 
-You will now be in the V11 REPL and can evaluate expressions. Good luck and happy coding!
+Good luck and happy coding!
 
 ## Contributing
 
