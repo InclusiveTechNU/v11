@@ -113,9 +113,7 @@ napi_status sound(napi_env env, napi_value exports) {
     // * speech.speak(text: string, voice_id: string) -> void
     // Calls the native speach synthesis API with the specific voice declared
     napi_value speak;
-    status = napi_create_function(env,
-                                  nullptr,
-                                  0,
+    status = napi_create_function(env, nullptr, 0,
                                   [](napi_env env,
                                      napi_callback_info info) -> napi_value {
         // TODO(tommymchugh): Evoke error on failed to collect arguments

@@ -34,7 +34,7 @@ interface Platform {
   version: Version;
 }
 
-interface SystemAPI {
+interface SystemAPI extends larkin.NotificationsAPI {
   platform: Platform;
   isApple: boolean;
   isWindows: boolean;
@@ -60,6 +60,7 @@ const isPlatform = (platform: string) => {
 };
 
 export const system: SystemAPI = {
+  ...larkin.notifications,
   platform: systemPlatform,
   isApple: isPlatform(PLATFORM_APPLE),
   isWindows: isPlatform(PLATFORM_WINDOWS),

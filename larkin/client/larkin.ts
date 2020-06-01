@@ -27,6 +27,7 @@ export type SpeechAPI = Types.SpeechAPI;
 export type PlatformAPI = Types.PlatformAPI;
 export type UtilsAPI = Types.UtilsAPI;
 export type KeyboardAPI = Types.KeyboardAPI;
+export type NotificationsAPI = Types.NotificationsAPI;
 
 export type Voice = Types.Voice;
 export type Version = Types.Version;
@@ -35,3 +36,4 @@ export const speech: SpeechAPI = larkin.speech;
 export const platform: PlatformAPI = larkin.platform;
 export const utils: UtilsAPI = larkin.utils;
 export const keyboard: KeyboardAPI = larkin.keyboard;
+export const notifications: NotificationsAPI = larkin.notifications;

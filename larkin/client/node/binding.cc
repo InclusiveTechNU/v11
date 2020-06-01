@@ -31,8 +31,9 @@ napi_value init(napi_env env, napi_value exports) {
 
     // Add sub platform APIs
     interaction::init(env, exports);
-    environment::init(env, exports);
+    environment::init(env, exports, main_sys);
 
+    // Core utility V11 features
     napi_status status;
     // * utils.run() -> void
     // Implement runner method to run a non-blocking loop to

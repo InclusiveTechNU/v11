@@ -21,6 +21,18 @@
 #include <functional>
 #include <map>
 
+#define NOTIF_TYPE_UNKNOWN "unknown"
+#define NOTIF_TYPE_APPLICATION_DID_LAUNCH "launch"
+#define NOTIF_TYPE_APPLICATION_DID_TERMINATE "terminate"
+#define NOTIF_TYPE_APPLICATION_DID_HIDE "hide"
+#define NOTIF_TYPE_APPLICATION_DID_UNHIDE "unhide"
+#define NOTIF_TYPE_DEVICE_DID_MOUNT "mount"
+#define NOTIF_TYPE_DEVICE_DID_UNMOUNT "unmount"
+#define NOTIF_TYPE_SYSTEM_DID_WAKE "wake"
+#define NOTIF_TYPE_SYSTEM_DID_SLEEP "sleep"
+#define NOTIF_TYPE_SYSTEM_WILL_POWER_OFF "poweroff"
+#define NOTIF_TYPE_SYSTEM_ACCESSIBILITY_DISPLAY_DID_CHANGE "accessibility"
+
 namespace sys {
 namespace notifications {
 

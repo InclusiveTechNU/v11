@@ -31,6 +31,10 @@ declare module 'larkin-types' {
     patch: number;
   }
 
+  interface NotificationsAPI {
+    addEventListener(type: string, callback: () => void): void;
+  }
+
   interface PlatformAPI {
     type: string;
     version: Version;
