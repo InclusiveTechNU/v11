@@ -31,7 +31,7 @@
 #define NOTIF_TYPE_SYSTEM_DID_WAKE "wake"
 #define NOTIF_TYPE_SYSTEM_DID_SLEEP "sleep"
 #define NOTIF_TYPE_SYSTEM_WILL_POWER_OFF "poweroff"
-#define NOTIF_TYPE_SYSTEM_ACCESSIBILITY_DISPLAY_DID_CHANGE "accessibility"
+#define NOTIF_TYPE_ACCESSIBILITY_DID_CHANGE "accessibility"
 
 namespace sys {
 namespace notifications {
@@ -48,7 +48,7 @@ enum notification_type {
     SYSTEM_DID_WAKE,
     SYSTEM_DID_SLEEP,
     SYSTEM_WILL_POWER_OFF,
-    SYSTEM_ACCESSIBILITY_DISPLAY_DID_CHANGE
+    ACCESSIBILITY_DID_CHANGE
 };
 
 // A platform indepdent structure containining the

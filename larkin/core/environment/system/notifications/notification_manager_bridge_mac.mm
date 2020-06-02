@@ -113,7 +113,7 @@ error NotificationManagerBridge::register_global_observer(const global_observer
                 } else if (native_name == NSWorkspaceWillSleepNotification) {
                     nn_value = SYSTEM_DID_SLEEP;
                 } else if (native_name == A11Y_CHANGE) {
-                    nn_value = SYSTEM_ACCESSIBILITY_DISPLAY_DID_CHANGE;
+                    nn_value = ACCESSIBILITY_DID_CHANGE;
                 }
 
                 Notification* sys_notification = 

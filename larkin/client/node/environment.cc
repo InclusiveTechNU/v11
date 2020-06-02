@@ -185,6 +185,18 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
                 listener_type = notification_type::APPLICATION_DID_TERMINATE;
             } else if (type_str == NOTIF_TYPE_APPLICATION_DID_UNHIDE) {
                 listener_type = notification_type::APPLICATION_DID_UNHIDE;
+            } else if (type_str == NOTIF_TYPE_DEVICE_DID_MOUNT) {
+                listener_type = notification_type::DEVICE_DID_MOUNT;
+            } else if (type_str == NOTIF_TYPE_DEVICE_DID_UNMOUNT) {
+                listener_type = notification_type::DEVICE_DID_UNMOUNT;
+            } else if (type_str == NOTIF_TYPE_SYSTEM_DID_WAKE) {
+                listener_type = notification_type::SYSTEM_DID_WAKE;
+            } else if (type_str == NOTIF_TYPE_SYSTEM_DID_SLEEP) {
+                listener_type = notification_type::SYSTEM_DID_SLEEP;
+            } else if (type_str == NOTIF_TYPE_SYSTEM_WILL_POWER_OFF) {
+                listener_type = notification_type::SYSTEM_WILL_POWER_OFF;
+            } else if (type_str == NOTIF_TYPE_ACCESSIBILITY_DID_CHANGE) {
+                listener_type = notification_type::ACCESSIBILITY_DID_CHANGE;
             }
 
             // TODO(tommymchugh): callback func should delete at some point

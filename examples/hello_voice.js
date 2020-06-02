@@ -16,9 +16,8 @@
 
 const v11 = require('../build/v11/core/v11');
 
-v11.system.addEventListener('hide', () => {
-  v11.speech.speak('hello');
-  console.log("hello world");
+v11.system.addEventListener('terminate', () => {
+  v11.speech.speak('Goodnight Moon');
 });
 
 v11.system.addEventListener('launch', () => {
