@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#include <iostream>
+#include <string>
 #include "client/node/utils.h"
 #include "core/utils/run_main.h"
 
@@ -40,6 +42,15 @@ char* string_from_value(napi_env env, napi_value value) {
         return text_buffer;
     }
     return nullptr;
+}
+
+void notification_to_object(napi_env env,
+                            const Notification* notification,
+                            napi_value* value) {
+    a_ok(napi_create_string_utf8(env,
+                                 notification->get_data_with_key("bundle_id").c_str(),
+                                 NAPI_AUTO_LENGTH,
+                                 value));
 }
 
 void run_non_block_loop(uv_loop_t* node_loop) {

@@ -30,6 +30,7 @@
 #define PLATFORM_TEXT_LINUX "linux"
 #define PLATFORM_TEXT_UNKNOWN "unknown"
 
+using utils::notification_to_object;
 using utils::string_from_value;
 using sys::System;
 using sys::notifications::Notification;
@@ -157,6 +158,26 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
 
         // TODO(tommymchugh): Figure out how to check for null for callback
         // Create async thread-safe callback function
+        // Handle the threadsafe call by sending Notification into callback
+        typedef napi_threadsafe_function_call_js ts_callback;
+        ts_callback notification_cb = [](napi_env env,
+                                         napi_value js_cb,
+                                         void* context,
+                                         void* data) {
+            // Convert data to notification type
+            Notification* notif = reinterpret_cast<Notification*>(data);
+
+            // TODO(tommymchugh): determine proper context not undef
+            napi_value undefined, notif_object;
+            notification_to_object(env, notif, &notif_object);
+            a_ok(napi_get_undefined(env, &undefined));
+            a_ok(napi_call_function(env,
+                                    undefined,
+                                    js_cb,
+                                    1, &notif_object,
+                                    nullptr));
+        };
+
         napi_value listener_callback_object = args[1];
         napi_threadsafe_function listener_callback;
         napi_value res_name;
@@ -167,7 +188,8 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
                                                  nullptr, res_name,
                                                  0, 2,
                                                  nullptr, nullptr, nullptr,
-                                                 nullptr, &listener_callback);
+                                                 notification_cb,
+                                                 &listener_callback);
         if (status != napi_ok) return nullptr;
 
         // Identify listener type
@@ -206,10 +228,11 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
                                         (Notification* notification) {
                 napi_acquire_threadsafe_function(listener_callback);
                 napi_call_threadsafe_function(listener_callback,
-                                              nullptr,
+                                              notification,
                                               napi_tsfn_blocking);
             });
         }
+
         delete listener_type_ptr;
         return nullptr;
     }, sys_ptr, &add_event_listener);

@@ -15,13 +15,12 @@
  */
 
 const v11 = require('../build/v11/core/v11');
+const word = 'com.microsoft.Word';
 
-v11.system.addEventListener('terminate', () => {
-  v11.speech.speak('Goodnight Moon');
-});
-
-v11.system.addEventListener('launch', () => {
-  v11.speech.speak('Application launched');
+v11.system.addEventListener('launch', (app) => {
+  if (app === word) {
+    v11.speech.speak('Microsoft Word Launched');
+  }
 });
 
 v11.start();

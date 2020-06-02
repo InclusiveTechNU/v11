@@ -208,7 +208,7 @@ napi_status keyboard(napi_env env, napi_value exports) {
         if (!key_to_press) return nullptr;
 
         KeyboardSimulator simulator = KeyboardSimulator();
-        simulator.release_key(keycode::A_KEY);
+        simulator.release_keys({keycode::COMMAND_KEY, keycode::N_KEY});
 
         return nullptr;
     }, nullptr, &release_key);

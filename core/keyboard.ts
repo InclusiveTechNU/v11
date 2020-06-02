@@ -27,6 +27,6 @@ interface KeyboardAPI {
 export const keyboard: KeyboardAPI = {
   pressKey: () => {
     larkin.keyboard.simulation.holdKey();
-    //larkin.keyboard.simulation.releaseKey();
+    larkin.keyboard.simulation.releaseKey();
   },
 };

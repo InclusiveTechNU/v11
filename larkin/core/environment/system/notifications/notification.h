@@ -64,7 +64,7 @@ class Notification {
     const notification_type& get_name();
     const char* get_native_name();
 
-    std::string get_data_with_key(const std::string& key);
+    std::string get_data_with_key(const std::string& key) const;
     void put_data_with_key(const std::string& key, const std::string& data);
 
     // Releases the current object from memory.

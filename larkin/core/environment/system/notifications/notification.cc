@@ -37,7 +37,7 @@ const char* Notification::get_native_name() {
     return native_name;
 }
 
-std::string Notification::get_data_with_key(const std::string& key) {
+std::string Notification::get_data_with_key(const std::string& key) const {
     return notification_data.at(key);
 }
 
