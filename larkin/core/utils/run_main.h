@@ -19,5 +19,6 @@
 namespace utils {
 
 void run_main_loop();
+void pause_main_loop();
 
 };  // namespace utils

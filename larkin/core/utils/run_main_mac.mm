@@ -25,4 +25,10 @@ void run_main_loop() {
     [[NSApplication sharedApplication] run];
 }
 
+void pause_main_loop() {
+    if ([NSApplication sharedApplication].running) {
+        [[NSApplication sharedApplication] stop: nil];
+    }
+}
+
 };  // namespace utils

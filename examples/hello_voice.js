@@ -15,8 +15,11 @@
  */
 
 const v11 = require('../build/v11/core/v11');
+var a = 1;
 
-v11.speech.speak("This is a test for the V11 platform.\
-                  This file's name is hello voice dot j s",
-                 v11.speech.getVoices()[7]);
-v11.start();
+//v11.speech.speak("This is a test for the V11 platform.\
+//                  This file's name is hello voice dot j s",
+//                 v11.speech.getVoices()[7]);
+v11.system.addEventListener('hide', () => {
+    console.log("hello world");
+});

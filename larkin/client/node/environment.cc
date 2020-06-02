@@ -15,20 +15,26 @@
  */
 
 #include <iostream>
+#include <thread>
 #include <string>
 #include "client/node/environment.h"
 #include "client/node/utils.h"
+#include "core/utils/run_main.h"
+#include "core/environment/system/system.h"
 #include "core/environment/system/platform/platform.h"
 #include "core/environment/system/notifications/notification.h"
+#include "core/environment/system/notifications/listener.h"
 
 #define PLATFORM_TEXT_MAC "apple"
 #define PLATFORM_TEXT_WINDOWS "windows"
 #define PLATFORM_TEXT_LINUX "linux"
 #define PLATFORM_TEXT_UNKNOWN "unknown"
 
-#define 
-
+using utils::run_main_loop;
 using utils::string_from_value;
+using sys::System;
+using sys::notifications::Notification;
+using sys::notifications::callback;
 using sys::notifications::notification_type;
 using sys::platform::platform;
 using sys::platform::version;
@@ -130,25 +136,53 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
     status = napi_create_function(env, nullptr, 0,
                                   [](napi_env env,
                                      napi_callback_info info) -> napi_value {
-        // TODO(tommymchugh): Evoke error on failed to collect arguments
+        // Retrieve sys_ptr data
         napi_status status;
+        void* sys_void_ptr = nullptr;
+        napi_get_cb_info(env, info, nullptr, nullptr, nullptr, &sys_void_ptr);
+        if (!sys_void_ptr) {
+            // TODO(tommymchugh): Faill on system pointer cannot be found
+            return nullptr;
+        }
+        System* sys_ptr = reinterpret_cast<System*>(sys_void_ptr);
+
+        // TODO(tommymchugh): Evoke error on failed to collect arguments
         // Collect text and voice_id from info
         size_t args_count = 2;
         napi_value args[2];
         status = napi_get_cb_info(env, info, &args_count, args, nullptr, 0);
         if (status != napi_ok) return nullptr;
 
-        // TODO(tommymchugh): Figure out how to check for null for callback
         napi_value listener_type_object = args[0];
-        napi_value listener_callback_object = args[1];
         char* listener_type_ptr = string_from_value(env, listener_type_object);
 
+        // TODO(tommymchugh): Figure out how to check for null for callback
+        // Create async thread-safe callback function
+        napi_threadsafe_function listener_callback;
+        napi_value res_name;
+        napi_value listener_callback_object = args[1];
+        napi_create_string_utf8(env, "resource", NAPI_AUTO_LENGTH, &res_name);
+        if (status != napi_ok) return nullptr;
+
+        status = napi_create_threadsafe_function(env,
+                                                 listener_callback_object,
+                                                 nullptr,
+                                                 res_name,
+                                                 0,
+                                                 2,
+                                                 nullptr,
+                                                 nullptr,
+                                                 nullptr,
+                                                 nullptr,
+                                                 &listener_callback);
+        if (status != napi_ok) return nullptr;
+
         // Identify listener type
-        bool all_types = false;
-        notification_type listener_type = notification_type::UNKNOWN;
-        if (!listener_type_str) {
-            all_types = true;
+        if (!listener_type_ptr) {
+            // TODO(tommymchugh): Implement catch all notification callback
+            // ! Adds a callback function for all events
         } else {
+            notification_type listener_type = notification_type::UNKNOWN;
             std::string type_str = std::string(listener_type_ptr);
             if (type_str == NOTIF_TYPE_APPLICATION_DID_HIDE) {
                 listener_type = notification_type::APPLICATION_DID_HIDE;
@@ -159,12 +193,36 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
             } else if (type_str == NOTIF_TYPE_APPLICATION_DID_UNHIDE) {
                 listener_type = notification_type::APPLICATION_DID_UNHIDE;
             }
+
+            /*std::thread([]() {
+            });*/
+
+            /*std::thread([]() {
+                //System* main_sys = new System();
+                main_sys->add_event_listener(notification_type::APPLICATION_DID_HIDE,
+                                             []
+                                             (Notification* notification) {
+                    std::cout << "hidden";
+                });
+                run_main_loop();
+            });*/
+            // TODO(tommymchugh): callback func should delete at some point
+            // Create the callback function from callback_object
+            /*sys_ptr->add_event_listener(listener_type,
+                                        [listener_callback]
+                                        (Notification* notification) {
+                std::cout << "hey";
+                napi_acquire_threadsafe_function(listener_callback);
+                napi_call_threadsafe_function(listener_callback,
+                                              nullptr,
+                                              napi_tsfn_blocking);
+                napi_release_threadsafe_function(listener_callback,
+                                                 napi_tsfn_release);
+            });*/
         }
         delete listener_type_ptr;
-
-        std::cout << listener_type_str;
         return nullptr;
-    }, nullptr, &add_event_listener);
+    }, sys_ptr, &add_event_listener);
 
     status = napi_set_named_property(env,
                                      notifications_object,
