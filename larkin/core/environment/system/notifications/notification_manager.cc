@@ -32,7 +32,6 @@ global_observer NotificationManager::get_global_event_observer() {
     global_observer event_observer = [&] (Notification* observed_event) {
         // * To print notification name
         // * print(observed_event->get_native_name());
-
         for (int i = 0; i < event_listeners.size(); i++) {
             listener& event_listener = event_listeners[i];
             if (event_listener.name == observed_event->get_name()) {

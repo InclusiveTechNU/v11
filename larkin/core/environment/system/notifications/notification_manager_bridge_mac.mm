@@ -158,7 +158,7 @@ void NotificationManagerBridge::post_notification(const Notification
 NotificationManagerBridge::~NotificationManagerBridge() {
     // Release the notification manager to ARC
     if (notification_manager) {
-        __unused__ (__bridge_transfer NSNotificationCenter*)
+        __lk_unused__ (__bridge_transfer NSNotificationCenter*)
                    notification_manager;
     }
 }

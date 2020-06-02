@@ -62,7 +62,7 @@ void SystemBridge::remove_all_pending_actions() {
 
 SystemBridge::~SystemBridge() {
     if (delegate) {
-        __unused__ (__bridge_transfer SystemDelegate*) delegate;
+        __lk_unused__ (__bridge_transfer SystemDelegate*) delegate;
     }
     delete native_initializer;
     delete keyboard_listener;

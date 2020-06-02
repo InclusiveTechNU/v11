@@ -15,6 +15,10 @@
  */
 
 #include "client/node/utils.h"
+#include "core/utils/run_main.h"
+
+using utils::create_main_app;
+using utils::send_event;
 
 namespace utils {
 
@@ -38,4 +42,11 @@ char* string_from_value(napi_env env, napi_value value) {
     return nullptr;
 }
 
+void run_non_block_loop(uv_loop_t* node_loop) {
+    create_main_app();
+    while (true) {
+        send_event();
+        uv_run(node_loop, uv_run_mode::UV_RUN_NOWAIT);
+    }
+}
 };  // namespace utils

@@ -26,6 +26,10 @@ System::System(): platform(platform::get_platform_info()),
     keyboard_listener = bridge->get_keyboard_listener();
 }
 
+NotificationManager* System::get_notification_center() {
+    return notification_center;
+}
+
 void System::add_event_listener(const keyboard::event::
                                       event_type& action,
                                 const keyboard::callback& callback) {

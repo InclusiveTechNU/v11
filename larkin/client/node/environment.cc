@@ -30,7 +30,6 @@
 #define PLATFORM_TEXT_LINUX "linux"
 #define PLATFORM_TEXT_UNKNOWN "unknown"
 
-using utils::run_main_loop;
 using utils::string_from_value;
 using sys::System;
 using sys::notifications::Notification;
@@ -158,23 +157,17 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
 
         // TODO(tommymchugh): Figure out how to check for null for callback
         // Create async thread-safe callback function
+        napi_value listener_callback_object = args[1];
         napi_threadsafe_function listener_callback;
         napi_value res_name;
-        napi_value listener_callback_object = args[1];
         napi_create_string_utf8(env, "resource", NAPI_AUTO_LENGTH, &res_name);
         if (status != napi_ok) return nullptr;
 
-        status = napi_create_threadsafe_function(env,
-                                                 listener_callback_object,
-                                                 nullptr,
-                                                 res_name,
-                                                 0,
-                                                 2,
-                                                 nullptr,
-                                                 nullptr,
-                                                 nullptr,
-                                                 nullptr,
-                                                 &listener_callback);
+        status = napi_create_threadsafe_function(env, listener_callback_object,
+                                                 nullptr, res_name,
+                                                 0, 2,
+                                                 nullptr, nullptr, nullptr,
+                                                 nullptr, &listener_callback);
         if (status != napi_ok) return nullptr;
 
         // Identify listener type
@@ -194,31 +187,16 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
                 listener_type = notification_type::APPLICATION_DID_UNHIDE;
             }
 
-            /*std::thread([]() {
-            });*/
-
-            /*std::thread([]() {
-                //System* main_sys = new System();
-                main_sys->add_event_listener(notification_type::APPLICATION_DID_HIDE,
-                                             []
-                                             (Notification* notification) {
-                    std::cout << "hidden";
-                });
-                run_main_loop();
-            });*/
             // TODO(tommymchugh): callback func should delete at some point
             // Create the callback function from callback_object
-            /*sys_ptr->add_event_listener(listener_type,
+            sys_ptr->add_event_listener(listener_type,
                                         [listener_callback]
                                         (Notification* notification) {
-                std::cout << "hey";
                 napi_acquire_threadsafe_function(listener_callback);
                 napi_call_threadsafe_function(listener_callback,
                                               nullptr,
                                               napi_tsfn_blocking);
-                napi_release_threadsafe_function(listener_callback,
-                                                 napi_tsfn_release);
-            });*/
+            });
         }
         delete listener_type_ptr;
         return nullptr;

@@ -4,6 +4,7 @@
       "target_name": "larkin",
       'include_dirs': [
           '.',
+          "<!@(node -p \"require('get-uv-event-loop-napi-h').include\")",
       ],
       'dependencies': [
         'libcore',
@@ -27,7 +28,7 @@
       "cflags": [
         "-std=c++17",
         "-stdlib=libc++",
-        "-ObjC++"
+        "-ObjC++",
       ]
     },
 

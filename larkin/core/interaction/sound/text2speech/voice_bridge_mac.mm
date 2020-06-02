@@ -147,7 +147,7 @@ const voice_quality VoiceBridge::get_quality() {
 }
 
 VoiceBridge::~VoiceBridge() {
-    __unused__ (__bridge_transfer NSDictionary<VoiceKey, id>*)
+    __lk_unused__ (__bridge_transfer NSDictionary<VoiceKey, id>*)
                 native_voice_ptr;
 }
 

@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
+#include <iostream>
 #include <functional>
+#include <uv.h>
+#include <get-uv-event-loop-napi.h>
 #include <node_api.h>
 #include "client/node/interaction.h"
+#include "client/node/utils.h"
 #include "client/node/environment.h"
-#include "core/utils/run_main.h"
 #include "core/environment/system/system.h"
 
-using utils::run_main_loop;
+using utils::run_non_block_loop;
 using sys::System;
 
 namespace larkin {
@@ -35,9 +38,6 @@ napi_value init(napi_env env, napi_value exports) {
 
     // Core utility V11 features
     napi_status status;
-    // * utils.run() -> void
-    // Implement runner method to run a non-blocking loop to
-    // listen for shortcuts and keyboard handlers
     napi_value utils;
     status = napi_create_object(env, &utils);
     if (status != napi_ok) {
@@ -48,7 +48,8 @@ napi_value init(napi_env env, napi_value exports) {
     status = napi_create_function(env, nullptr, 0,
                                   [](napi_env env,
                                      napi_callback_info info) -> napi_value {
-        run_main_loop();
+        uv_loop_t* node_loop = get_uv_event_loop(env);
+        run_non_block_loop(node_loop);
         return nullptr;
     }, nullptr, &run_func);
     if (status != napi_ok) {

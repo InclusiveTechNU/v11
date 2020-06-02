@@ -6,6 +6,7 @@
   "dependencies": {
     "@types/node": "^14.0.1",
     "electron": "^8.2.5",
+    "get-uv-event-loop-napi-h": "^1.0.6",
     "gts": "^2.0.2",
     "node-gyp": "^6.1.0",
     "tslint": "^6.1.2",

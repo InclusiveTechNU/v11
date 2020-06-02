@@ -15,9 +15,13 @@
  */
 
 #pragma once
+#include <functional>
 
 namespace utils {
 
+void call_from_main(const std::function<void()>& func);
+void create_main_app();
+void send_event();
 void run_main_loop();
 void pause_main_loop();
 

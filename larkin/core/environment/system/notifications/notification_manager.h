@@ -32,10 +32,17 @@ namespace notifications {
 // events instead of notifications so that we can have notifications
 // be for actual popup alert notifications.
 
+struct callback_container {
+    callback notif_callback;
+    Notification* notification;
+};
+
 class NotificationManager {
  private:
     // Identifies the type of manager system or custom
     manager_type type;
+
+    std::vector<callback_container> callbacks;
 
     // Counter for generating pids
     pid_t next_pid = 0;
@@ -74,7 +81,7 @@ class NotificationManager {
 
     // Allocates memory for a new NotificationManager(system) type.
     // Transfers ownership to the caller.
-    static NotificationManager *get_system_center();
+    static NotificationManager* get_system_center();
 
     // Frees the bridge from memory
     ~NotificationManager();

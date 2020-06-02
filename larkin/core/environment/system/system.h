@@ -41,6 +41,8 @@ class System {
     // Setups up system interaction and information interfaces
     System();
 
+    NotificationManager* get_notification_center();
+
     // Forwards the event listener to the proper system event
     // service after all notification systems have been instantiated.
     // Uses template `L` for the action that the listener is looking for

@@ -16,10 +16,12 @@
 
 #pragma once
 
+#include <uv.h>
 #include <node_api.h>
 
 namespace utils {
 
 char* string_from_value(napi_env env, napi_value value);
+void run_non_block_loop(uv_loop_t* node_loop);
 
 };  // namespace utils

@@ -116,7 +116,7 @@ void Text2SpeechSynthesizerBridge::resume_speaking() {
 }
 
 Text2SpeechSynthesizerBridge::~Text2SpeechSynthesizerBridge() {
-    __unused__ (__bridge_transfer NSSpeechSynthesizer*) synthesizer;
+    __lk_unused__ (__bridge_transfer NSSpeechSynthesizer*) synthesizer;
 }
 
 };  // namespace voice

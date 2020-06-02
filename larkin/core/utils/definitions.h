@@ -16,7 +16,9 @@
 
 #pragma once
 
-#define __unused__ (void)
+#ifndef __lk_unused__
+    #define __lk_unused__ (void)
+#endif
 
 #define new_space(obj) reinterpret_cast<obj*>(::operator new (sizeof(obj)))
 

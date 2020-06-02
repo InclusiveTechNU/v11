@@ -21,8 +21,34 @@
 
 namespace utils {
 
+void call_from_main(const std::function<void()>& func) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        func();
+    });
+}
+
+void create_main_app() {
+    [NSApplication sharedApplication];
+}
+
+void send_event() {
+    NSApplication* app = [NSApplication sharedApplication];
+    NSEvent* event = [app nextEventMatchingMask:NSAnyEventMask
+                          untilDate:[NSDate distantPast]
+                          inMode:NSEventTrackingRunLoopMode
+                          dequeue:YES];
+    [app sendEvent:event];
+}
+
 void run_main_loop() {
-    [[NSApplication sharedApplication] run];
+    NSApplication* app = [NSApplication sharedApplication];
+    while (true) {
+        NSEvent* event = [app nextEventMatchingMask:NSAnyEventMask
+                              untilDate:[NSDate distantFuture]
+                              inMode:NSDefaultRunLoopMode
+                              dequeue:YES];
+        [app sendEvent:event];
+    }
 }
 
 void pause_main_loop() {
