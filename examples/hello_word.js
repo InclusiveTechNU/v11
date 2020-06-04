@@ -17,10 +17,26 @@
 const v11 = require('../build/v11/core/v11');
 const word = 'com.microsoft.Word';
 
-v11.system.addEventListener('launch', (app) => {
+v11.system.addEventListener('unhide', (app) => {
   if (app === word) {
-    v11.speech.speak('Microsoft Word Launched');
+    v11.speech.speak('Microsoft Word Unhidden');
   }
 });
+
+v11.system.addEventListener('hide', (app) => {
+  if (app === word) {
+    v11.speech.speak('Microsoft Word Hidden');
+  }
+});
+
+v11.system.addEventListener('launch', (app) => {
+  if (app === word) {
+    v11.speech.speak('Microsoft Word Launched', v11.speech.getVoices()[3]);
+  }
+});
+
+console.log(v11.speech.getVoices().filter((voice) => {
+  return voice.locale === "en_US";
+}));
 
 v11.start();

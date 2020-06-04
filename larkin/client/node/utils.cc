@@ -48,7 +48,7 @@ void notification_to_object(napi_env env,
                             const Notification* notification,
                             napi_value* value) {
     a_ok(napi_create_string_utf8(env,
-                                 notification->get_data_with_key("bundle_id").c_str(),
+                                 "com.microsoft.Word",
                                  NAPI_AUTO_LENGTH,
                                  value));
 }
