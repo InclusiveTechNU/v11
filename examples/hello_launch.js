@@ -17,7 +17,7 @@
 const v11 = require('../build/v11/core/v11');
 
 v11.system.addEventListener('launch', (app) => {
-    v11.speech.speak('An application launched!', v11.speech.getVoices()[3]);
+    v11.speech.speak('An application launched!', v11.speech.getVoices()[0]);
 });
 
 v11.start();
