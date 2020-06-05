@@ -25,11 +25,12 @@ interface PrivateSpeechAPI {
 
 interface SpeechAPI {
   // Voice-related methods
-  getVoices(): Array<larkin.Voice>;
-  getDefaultVoice(): larkin.Voice;
-  getVoiceByName(name: string): Array<larkin.Voice>;
-  getVoiceById(id: string): Array<larkin.Voice>;
   filterVoices(filter: (voice: larkin.Voice) => boolean): Array<larkin.Voice>;
+  getDefaultVoice(): larkin.Voice;
+  getVoiceById(id: string): Array<larkin.Voice>;
+  getVoiceByLocale(name: string): Array<larkin.Voice>;
+  getVoiceByName(name: string): Array<larkin.Voice>;
+  getVoices(): Array<larkin.Voice>;
 
   // Speech Synthesis methods
   speak(text: string, voice?: larkin.Voice): void;
@@ -63,6 +64,12 @@ export const speech: SpeechAPI = {
   getVoiceById: (id: string) => {
     return speech.filterVoices((voice: larkin.Voice) => {
       return voice.id === id;
+    });
+  },
+
+  getVoiceByLocale: (name: string) => {
+    return speech.filterVoices((voice: larkin.Voice) => {
+      return voice.locale === name;
     });
   },
 
