@@ -15,16 +15,9 @@
  */
 
 const v11 = require('../build/v11/core/v11');
-const word = 'com.microsoft.Word';
 
 v11.system.addEventListener('launch', (app) => {
-  if (app === word) {
-    v11.speech.speak('Microsoft Word Launched', v11.speech.getVoices()[3]);
-  }
+    v11.speech.speak('An application launched!', v11.speech.getVoices()[3]);
 });
-
-console.log(v11.speech.getVoices().filter((voice) => {
-  return voice.locale === "en_US";
-}));
 
 v11.start();
