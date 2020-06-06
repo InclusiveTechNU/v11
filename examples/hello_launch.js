@@ -17,10 +17,6 @@
 const v11 = require('../build/v11/core/v11');
 
 v11.system.addEventListener('launch', (app) => {
-<<<<<<< HEAD
-    v11.speech.speak('An application launched!', v11.speech.getVoices()[0]);
-    console.log(v11.speech.getVoices())
-=======
     console.log(app);
     v11.speech.speak(`${app.name} launched!`, v11.speech.getVoiceByName("Ting-Ting")[0]);
 });
@@ -33,7 +29,6 @@ v11.system.addEventListener('hide', (app) => {
 v11.system.addEventListener('terminate', (app) => {
     console.log(app);
     v11.speech.speak(`${app.name} quit!`, v11.speech.getVoiceByName("Ting-Ting")[0]);
->>>>>>> added application object to notification observers
 });
 
 v11.start();
