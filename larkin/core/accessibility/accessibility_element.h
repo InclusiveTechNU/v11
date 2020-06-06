@@ -28,11 +28,15 @@ class AccessibilityElement {
  protected:
     ElementType _type;
     const void* _native_element;
+    const char* get_value(const char* name) const;
  public:
     explicit AccessibilityElement(ElementType type,
                                   const void* native_element);
     std::vector<AccessibilityElement*> get_children() const;
     const char* get_type() const;
+    const char* get_label() const;
+    const char* get_title() const;
+    const char* get_value() const;
 };
 
 };  // namespace a11y

@@ -117,12 +117,47 @@ void element_to_object(napi_env env,
                        napi_value* value) {
     a_ok(napi_create_object(env, value));
 
-    napi_value type_value;
-    a_ok(napi_create_string_utf8(env,
-                                 element->get_type(),
-                                 NAPI_AUTO_LENGTH,
-                                 &type_value));
-    a_ok(napi_set_named_property(env, *value, "type", type_value));
+    const char* type = element->get_type();
+    const char* label = element->get_label();
+    const char* value_str = element->get_value();
+    const char* title = element->get_title();
+
+    if (type) {
+        napi_value type_value;
+        a_ok(napi_create_string_utf8(env,
+                                    type,
+                                    NAPI_AUTO_LENGTH,
+                                    &type_value));
+        a_ok(napi_set_named_property(env, *value, "type", type_value));
+    }
+
+    if (label) {
+        napi_value label_value;
+        a_ok(napi_create_string_utf8(env,
+                                    label,
+                                    NAPI_AUTO_LENGTH,
+                                    &label_value));
+        a_ok(napi_set_named_property(env, *value, "label", label_value));
+    }
+
+    if (value_str) {
+        napi_value value_value;
+        a_ok(napi_create_string_utf8(env,
+                                    value_str,
+                                    NAPI_AUTO_LENGTH,
+                                    &value_value));
+        a_ok(napi_set_named_property(env, *value, "value", value_value));
+    }
+
+    if (title) {
+        napi_value title_value;
+        a_ok(napi_create_string_utf8(env,
+                                    title,
+                                    NAPI_AUTO_LENGTH,
+                                    &title_value));
+        a_ok(napi_set_named_property(env, *value, "title", title_value));
+    }
+
     napi_value native_wrap_object;
 
     a_ok(napi_create_object(env, &native_wrap_object));

@@ -57,6 +57,9 @@ declare module 'larkin-types' {
 
   interface Element {
     type: string;
+    title?: string;
+    value?: string;
+    label?: string;
     native: {};
   }
 
