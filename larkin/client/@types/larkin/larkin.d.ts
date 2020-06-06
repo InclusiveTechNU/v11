@@ -40,6 +40,15 @@ declare module 'larkin-types' {
     addEventListener(type: string, callback: (event?: Event) => void): void;
   }
 
+  interface Application {
+    id: string;
+    name: string;
+  }
+
+  interface ApplicationAPI {
+    getApplications(): Array<Application>;
+  }
+
   interface PlatformAPI {
     type: string;
     version: Version;

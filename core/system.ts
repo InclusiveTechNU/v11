@@ -35,11 +35,14 @@ interface Platform {
   version: Version;
 }
 
-interface SystemAPI extends EventTarget {
+interface SystemAPI extends larkin.ApplicationAPI {
   platform: Platform;
   isApple: boolean;
   isWindows: boolean;
   isLinux: boolean;
+
+  getApplicationByName(name: string): larkin.Application | undefined;
+  getApplicationById(id: string): larkin.Application | undefined;
 }
 
 const sysMajorVer = larkin.platform.version.major;
@@ -65,9 +68,33 @@ class System extends EventTarget implements SystemAPI {
   isApple = isPlatform(PLATFORM_APPLE);
   isWindows = isPlatform(PLATFORM_WINDOWS);
   isLinux = isPlatform(PLATFORM_LINUX);
+  getApplications = larkin.applications.getApplications;
 
   constructor() {
     super(larkin.notifications.addEventListener);
+  }
+
+  // TODO(tommymchugh): Asser that this is 0 later on
+  getApplicationByName(name: string): larkin.Application | undefined {
+    const qualifiedApps = this.getApplications().filter(application => {
+      return application.name === name;
+    });
+
+    if (qualifiedApps.length > 0) {
+      return qualifiedApps[0];
+    }
+    return undefined;
+  }
+
+  getApplicationById(id: string): larkin.Application | undefined {
+    const qualifiedApps = this.getApplications().filter(application => {
+      return application.id === id;
+    });
+
+    if (qualifiedApps.length > 0) {
+      return qualifiedApps[0];
+    }
+    return undefined;
   }
 }
 export const system: SystemAPI = new System();

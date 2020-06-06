@@ -15,8 +15,8 @@
  */
 
 #include <iostream>
-#include <thread>
 #include <string>
+#include <vector>
 #include "client/node/environment.h"
 #include "client/node/utils.h"
 #include "core/utils/run_main.h"
@@ -24,12 +24,14 @@
 #include "core/environment/system/platform/platform.h"
 #include "core/environment/system/notifications/notification.h"
 #include "core/environment/system/notifications/listener.h"
+#include "core/environment/application/application.h"
 
 #define PLATFORM_TEXT_MAC "apple"
 #define PLATFORM_TEXT_WINDOWS "windows"
 #define PLATFORM_TEXT_LINUX "linux"
 #define PLATFORM_TEXT_UNKNOWN "unknown"
 
+using utils::application_to_object;
 using utils::notification_to_object;
 using utils::string_from_value;
 using sys::System;
@@ -40,6 +42,7 @@ using sys::platform::platform;
 using sys::platform::version;
 using sys::platform::get_platform;
 using sys::platform::get_platform_version;
+using app::Application;
 
 namespace environment {
 
@@ -49,6 +52,38 @@ napi_status system(napi_env env, napi_value exports) {
     //     - platform: platform specific information
     //     - notifications: App and sys notification listening
     napi_status status;
+
+    // *****************************
+    // *  APPLICATION API Interface
+    // *****************************
+    napi_value applications;
+    a_ok(napi_create_object(env, &applications));
+
+    // * applications.getApplications() -> Array<Object>
+    napi_value get_applications;
+    napi_create_function(env, nullptr, 0,
+                                  [](napi_env env,
+                                     napi_callback_info info) -> napi_value {
+        napi_value application_array;
+        a_ok(napi_create_array(env, &application_array));
+        std::vector<Application*> applications = Application::
+                                                 get_active_applications();
+        for (int i = 0; i < applications.size(); i++) {
+            const Application* app = applications[i];
+            napi_value app_object;
+            application_to_object(env, app, &app_object);
+            a_ok(napi_set_element(env, application_array, i, app_object));
+        }
+        return application_array;
+    }, nullptr, &get_applications);
+    a_ok(napi_set_named_property(env,
+                                 applications,
+                                 "getApplications",
+                                 get_applications));
+    a_ok(napi_set_named_property(env,
+                                 exports,
+                                 "applications",
+                                 applications));
 
     // *****************************
     // *  PLATFORM API Interface

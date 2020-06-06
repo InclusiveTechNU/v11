@@ -20,6 +20,8 @@ v11.system.onlaunch = (event) => {
     console.log(event);
 }
 
+console.log(v11.system.getApplicationByName("Google Chrome"));
+
 /*v11.system.addEventListener('launch', (app) => {
     console.log(app);
     v11.speech.speak(`${app.name} launched!`, v11.speech.getVoiceByName("Ting-Ting")[0]);

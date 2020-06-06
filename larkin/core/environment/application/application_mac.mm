@@ -51,13 +51,13 @@ void Application::init_with_native(void* native_app) {
     }
 }
 
-std::vector<Application> Application::get_active_applications() {
-    std::vector<Application> active_apps_vec;
+std::vector<Application*> Application::get_active_applications() {
+    std::vector<Application*> active_apps_vec;
     NSArray<NSRunningApplication*>* active_apps = [[NSWorkspace
                                                     sharedWorkspace]
                                                     runningApplications];
     for (NSRunningApplication* running_app : active_apps) {
-        Application app = Application(running_app.processIdentifier);
+        Application* app = new Application(running_app.processIdentifier);
         active_apps_vec.push_back(app);
     }
     return active_apps_vec;

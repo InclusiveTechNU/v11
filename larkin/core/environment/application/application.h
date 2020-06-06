@@ -36,7 +36,7 @@ class Application {
     explicit Application(pid_t process_id);
     explicit Application(const char* bundle_id);
     ~Application();
-    static std::vector<Application> get_active_applications();
+    static std::vector<Application*> get_active_applications();
 
     const char* get_name() const;
     const char* get_bundle_id() const;

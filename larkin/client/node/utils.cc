@@ -68,6 +68,24 @@ void notification_to_object(napi_env env,
     }
 }
 
+void application_to_object(napi_env env,
+                           const Application* application,
+                           napi_value* value) {
+    a_ok(napi_create_object(env, value));
+
+    if (application->get_name()) {
+        napi_value name_value;
+        a_ok(napi_create_string_utf8(env, application->get_name(), NAPI_AUTO_LENGTH, &name_value));
+        a_ok(napi_set_named_property(env, *value, "name", name_value));
+    }
+
+    if (application->get_bundle_id()) {
+        napi_value bundle_value;
+        a_ok(napi_create_string_utf8(env, application->get_bundle_id(), NAPI_AUTO_LENGTH, &bundle_value));
+        a_ok(napi_set_named_property(env, *value, "id", bundle_value));
+    }
+}
+
 void run_non_block_loop(uv_loop_t* node_loop) {
     create_main_app();
     while (true) {

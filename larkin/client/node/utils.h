@@ -19,10 +19,12 @@
 #include <uv.h>
 #include <node_api.h>
 #include "core/environment/system/notifications/notification.h"
+#include "core/environment/application/application.h"
 
 #define a_ok(call) assert(call == napi_ok)
 
 using sys::notifications::Notification;
+using app::Application;
 
 namespace utils {
 
@@ -30,6 +32,10 @@ char* string_from_value(napi_env env, napi_value value);
 void notification_to_object(napi_env env,
                             const Notification* notification,
                             napi_value* value);
+
+void application_to_object(napi_env env,
+                           const Application* application,
+                           napi_value* value);
 
 void run_non_block_loop(uv_loop_t* node_loop);
 
