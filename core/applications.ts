@@ -16,16 +16,18 @@
 
 import * as larkin from '../larkin/client/larkin';
 
-export class Application implements larkin.Application {
+export class Application {
+  private _pid: number;
   id: string;
   name: string;
 
   constructor(instance: larkin.Application) {
     this.id = instance.id;
     this.name = instance.name;
+    this._pid = parseInt(instance.processId);
   }
 
   get windows(): Array<larkin.Window> {
-    return larkin.accessibility.getWindows(65755);
+    return larkin.accessibility.getWindows(this._pid);
   }
 }

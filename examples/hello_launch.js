@@ -20,5 +20,4 @@ v11.system.onlaunch = (event) => {
     console.log(event);
 }
 console.log(v11.system.getApplicationByName("Google Chrome").windows);
-
 v11.start();

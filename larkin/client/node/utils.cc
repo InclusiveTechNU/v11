@@ -79,6 +79,10 @@ void application_to_object(napi_env env,
         a_ok(napi_set_named_property(env, *value, "name", name_value));
     }
 
+    napi_value process_id;
+    a_ok(napi_create_string_utf8(env, std::to_string(application->get_process_id()).c_str(), NAPI_AUTO_LENGTH, &process_id));
+    a_ok(napi_set_named_property(env, *value, "processId", process_id));
+
     if (application->get_bundle_id()) {
         napi_value bundle_value;
         a_ok(napi_create_string_utf8(env, application->get_bundle_id(), NAPI_AUTO_LENGTH, &bundle_value));

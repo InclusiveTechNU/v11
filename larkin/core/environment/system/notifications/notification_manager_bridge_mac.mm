@@ -134,6 +134,7 @@ error NotificationManagerBridge::register_global_observer(const global_observer
                     NSRunningApplication* native_app = notification_data[@"NSWorkspaceApplicationKey"];
                     Application* app = new Application([native_app processIdentifier]);
                     // TODO(tommymchugh): Add all application instance objects to map
+                    sys_notification->put_data_with_key("processId", std::to_string(app->get_process_id()));
                     if (app->get_bundle_id() != nullptr) {
                         sys_notification->put_data_with_key("id", std::string(app->get_bundle_id()));
                     }

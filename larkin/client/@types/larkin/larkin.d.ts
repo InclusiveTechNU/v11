@@ -43,6 +43,7 @@ declare module 'larkin-types' {
   interface Application {
     id: string;
     name: string;
+    processId: string;
   }
 
   interface ApplicationAPI {
