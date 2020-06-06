@@ -16,6 +16,13 @@
 
 import * as larkin from '../larkin/client/larkin';
 
+export class Window implements larkin.Window {
+  title: string;
+  constructor(window: larkin.Window) {
+    this.title = window.title;
+  }
+}
+
 export class Application {
   private _pid: number;
   id: string;
@@ -27,7 +34,9 @@ export class Application {
     this._pid = parseInt(instance.processId);
   }
 
-  get windows(): Array<larkin.Window> {
-    return larkin.accessibility.getWindows(this._pid);
+  get windows(): Array<Window> {
+    return larkin.accessibility.getWindows(this._pid).map(window => {
+      return new Window(window);
+    });
   }
 }
