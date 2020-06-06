@@ -15,7 +15,7 @@
  */
 
 import * as larkin from '../larkin/client/larkin';
-import {Event, EventTarget} from './events';
+import {EventTarget} from './events';
 
 // * v11.system
 // v11.system implements objects and methods related to observing
@@ -60,56 +60,14 @@ const isPlatform = (platform: string) => {
   return systemPlatform.type === platform;
 };
 
-class System implements SystemAPI {
-  private _onlaunch?: () => void;
-  private _onhide?: () => void;
-  private _onunhide?: () => void;
-  private _onterminate?: () => void;
-
+class System extends EventTarget implements SystemAPI {
   platform = systemPlatform;
   isApple = isPlatform(PLATFORM_APPLE);
   isWindows = isPlatform(PLATFORM_WINDOWS);
   isLinux = isPlatform(PLATFORM_LINUX);
-  addEventListener = larkin.notifications.addEventListener;
 
-  get onlaunch(): ((event?: Event) => void) | undefined {
-    return this._onlaunch;
-  }
-  set onlaunch(callback: ((event?: Event) => void) | undefined) {
-    this._onlaunch = callback;
-    if (callback !== undefined) {
-      this.addEventListener('launch', callback);
-    }
-  }
-
-  get onhide(): ((event?: Event) => void) | undefined {
-    return this._onhide;
-  }
-  set onhide(callback: ((event?: Event) => void) | undefined) {
-    this._onhide = callback;
-    if (callback !== undefined) {
-      this.addEventListener('hide', callback);
-    }
-  }
-
-  get onunhide(): ((event?: Event) => void) | undefined {
-    return this._onunhide;
-  }
-  set onunhide(callback: ((event?: Event) => void) | undefined) {
-    this._onunhide = callback;
-    if (callback !== undefined) {
-      this.addEventListener('unhide', callback);
-    }
-  }
-
-  get onterminate(): ((event?: Event) => void) | undefined {
-    return this._onterminate;
-  }
-  set onterminate(callback: ((event?: Event) => void) | undefined) {
-    this._onterminate = callback;
-    if (callback !== undefined) {
-      this.addEventListener('terminate', callback);
-    }
+  constructor() {
+    super(larkin.notifications.addEventListener);
   }
 }
 export const system: SystemAPI = new System();
