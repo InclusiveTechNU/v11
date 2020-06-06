@@ -19,21 +19,6 @@ const v11 = require('../build/v11/core/v11');
 v11.system.onlaunch = (event) => {
     console.log(event);
 }
+console.log(v11.system.getApplicationByName("Google Chrome").windows);
 
-console.log(v11.system.getApplicationByName("Google Chrome"));
-
-/*v11.system.addEventListener('launch', (app) => {
-    console.log(app);
-    v11.speech.speak(`${app.name} launched!`, v11.speech.getVoiceByName("Ting-Ting")[0]);
-});
-
-v11.system.addEventListener('hide', (app) => {
-    console.log(app);
-    v11.speech.speak(`${app.name} hid!`, v11.speech.getVoiceByName("Ting-Ting")[0]);
-});
-
-v11.system.addEventListener('terminate', (app) => {
-    console.log(app);
-    v11.speech.speak(`${app.name} quit!`, v11.speech.getVoiceByName("Ting-Ting")[0]);
-});*/
 v11.start();

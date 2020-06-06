@@ -86,6 +86,16 @@ void application_to_object(napi_env env,
     }
 }
 
+void window_to_object(napi_env env,
+                      const AccessibilityWindow* window,
+                      napi_value* value) {
+    a_ok(napi_create_object(env, value));
+
+    napi_value title_value;
+    a_ok(napi_create_string_utf8(env, window->get_title(), NAPI_AUTO_LENGTH, &title_value));
+    a_ok(napi_set_named_property(env, *value, "title", title_value));
+}
+
 void run_non_block_loop(uv_loop_t* node_loop) {
     create_main_app();
     while (true) {

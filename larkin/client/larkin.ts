@@ -29,7 +29,9 @@ export type UtilsAPI = Types.UtilsAPI;
 export type KeyboardAPI = Types.KeyboardAPI;
 export type NotificationsAPI = Types.NotificationsAPI;
 export type ApplicationAPI = Types.ApplicationAPI;
+export type AccessibilityAPI = Types.AccessibilityAPI;
 
+export type Window = Types.Window;
 export type Application = Types.Application;
 export type Event = Types.Event;
 export type Voice = Types.Voice;
@@ -41,3 +43,4 @@ export const utils: UtilsAPI = larkin.utils;
 export const keyboard: KeyboardAPI = larkin.keyboard;
 export const notifications: NotificationsAPI = larkin.notifications;
 export const applications: ApplicationAPI = larkin.applications;
+export const accessibility: AccessibilityAPI = larkin.accessibility;

@@ -16,8 +16,18 @@
 
 #pragma once
 
-namespace a11y {
+#include "sys/types.h"
+#include <vector>
+#include "accessibility/accessibility_window.h"
 
-bool has_accessibility_permissions();
+namespace a11y {
+class AccessibilityTree {
+ private:
+    pid_t _process_id;
+
+ public:
+    explicit AccessibilityTree(pid_t process_id);
+    std::vector<AccessibilityWindow> get_windows();
+};
 
 };  // namespace a11y

@@ -49,6 +49,14 @@ declare module 'larkin-types' {
     getApplications(): Array<Application>;
   }
 
+  interface Window {
+    title: string;
+  }
+
+  interface AccessibilityAPI {
+    getWindows(pid: number): Array<Window>;
+  }
+
   interface PlatformAPI {
     type: string;
     version: Version;

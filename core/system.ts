@@ -16,6 +16,7 @@
 
 import * as larkin from '../larkin/client/larkin';
 import {EventTarget} from './events';
+import {Application} from './applications';
 
 // * v11.system
 // v11.system implements objects and methods related to observing
@@ -35,14 +36,15 @@ interface Platform {
   version: Version;
 }
 
-interface SystemAPI extends larkin.ApplicationAPI {
+interface SystemAPI {
   platform: Platform;
   isApple: boolean;
   isWindows: boolean;
   isLinux: boolean;
 
-  getApplicationByName(name: string): larkin.Application | undefined;
-  getApplicationById(id: string): larkin.Application | undefined;
+  getApplications(): Array<Application>;
+  getApplicationByName(name: string): Application | undefined;
+  getApplicationById(id: string): Application | undefined;
 }
 
 const sysMajorVer = larkin.platform.version.major;
@@ -68,15 +70,20 @@ class System extends EventTarget implements SystemAPI {
   isApple = isPlatform(PLATFORM_APPLE);
   isWindows = isPlatform(PLATFORM_WINDOWS);
   isLinux = isPlatform(PLATFORM_LINUX);
-  getApplications = larkin.applications.getApplications;
 
   constructor() {
     super(larkin.notifications.addEventListener);
   }
 
-  // TODO(tommymchugh): Asser that this is 0 later on
-  getApplicationByName(name: string): larkin.Application | undefined {
-    const qualifiedApps = this.getApplications().filter(application => {
+  getApplications(): Array<Application> {
+    return larkin.applications.getApplications().map(application => {
+      return new Application(application);
+    });
+  }
+
+  // TODO(tommymchugh): Assert that this is 0 later on
+  getApplicationByName(name: string): Application | undefined {
+    const qualifiedApps = this.getApplications()!.filter(application => {
       return application.name === name;
     });
 
@@ -86,8 +93,8 @@ class System extends EventTarget implements SystemAPI {
     return undefined;
   }
 
-  getApplicationById(id: string): larkin.Application | undefined {
-    const qualifiedApps = this.getApplications().filter(application => {
+  getApplicationById(id: string): Application | undefined {
+    const qualifiedApps = this.getApplications()!.filter(application => {
       return application.id === id;
     });
 

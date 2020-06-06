@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "accessibility/accessibility_window.h"
 
 namespace a11y {
 
-bool has_accessibility_permissions();
+AccessibilityWindow::AccessibilityWindow(const void* native_window) :
+                     AccessibilityElement(ElementType::WINDOW,
+                                          native_window) {}
 
 };  // namespace a11y

@@ -23,7 +23,11 @@
 
         # Environment
         "client/node/environment.h",
-        "client/node/environment.cc"
+        "client/node/environment.cc",
+
+        # Accessibility
+        "client/node/accessibility.h",
+        "client/node/accessibility.cc"
       ],
       "cflags": [
         "-std=c++17",
@@ -63,6 +67,18 @@
         "core/environment/application/application.h",
         "core/environment/application/application.cc",
         "core/environment/application/application_mac.mm",
+
+        ### CORE/ACCESSIBILITY ###
+        "core/accessibility/accessibility_tree.h",
+        "core/accessibility/accessibility_tree.cc",
+        "core/accessibility/accessibility_tree_mac.mm",
+        "core/accessibility/accessibility_element.h",
+        "core/accessibility/accessibility_element.cc",
+        "core/accessibility/accessibility.h",
+        "core/accessibility/accessibility_mac.mm",
+        "core/accessibility/accessibility_window.h",
+        "core/accessibility/accessibility_window.cc",
+        "core/accessibility/accessibility_window_mac.mm",
 
         ### CORE/UTILS ###
         "core/utils/string.cc",

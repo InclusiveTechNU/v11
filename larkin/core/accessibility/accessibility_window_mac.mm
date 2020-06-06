@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
-#pragma once
+#include <Foundation/Foundation.h>
+#include <Cocoa/Cocoa.h>
+#include "accessibility/accessibility_window.h"
 
 namespace a11y {
+const char* AccessibilityWindow::get_title() const {
+    AXUIElementRef app_ref = (AXUIElementRef) _native_element;
+    CFTypeRef window_title_raw = nullptr;
+    CFStringRef window_title_label = CFStringCreateWithCString(nullptr, "AXTitle", kCFStringEncodingUTF8);
+    AXUIElementCopyAttributeValue(app_ref, window_title_label, &window_title_raw);
+    assert(window_title_raw);
 
-bool has_accessibility_permissions();
-
+    NSString* window_title_str = (__bridge_transfer NSString*) window_title_raw;
+    return [window_title_str UTF8String];
+}
 };  // namespace a11y

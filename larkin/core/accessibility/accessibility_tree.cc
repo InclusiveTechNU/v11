@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "accessibility/accessibility_tree.h"
 
 namespace a11y {
 
-bool has_accessibility_permissions();
+AccessibilityTree::AccessibilityTree(pid_t process_id) {
+    _process_id = process_id;
+}
 
 };  // namespace a11y

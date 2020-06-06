@@ -16,8 +16,12 @@
 
 #pragma once
 
+#include "accessibility/accessibility_element.h"
+
 namespace a11y {
-
-bool has_accessibility_permissions();
-
+class AccessibilityWindow: AccessibilityElement  {
+ public:
+    explicit AccessibilityWindow(const void* native_window);
+    const char* get_title() const;
+};
 };  // namespace a11y

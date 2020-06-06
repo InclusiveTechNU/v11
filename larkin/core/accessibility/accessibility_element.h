@@ -15,3 +15,18 @@
  */
 
 #pragma once
+
+namespace a11y {
+enum ElementType {
+    WINDOW
+};
+
+class AccessibilityElement {
+ protected:
+    ElementType _type;
+    const void* _native_element;
+ public:
+    explicit AccessibilityElement(ElementType type,
+                                  const void* native_element);
+};
+};  // namespace a11y

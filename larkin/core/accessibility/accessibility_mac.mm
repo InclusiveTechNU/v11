@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-#pragma once
+#include <Foundation/Foundation.h>
+#include <Cocoa/Cocoa.h>
+#include "accessibility/accessibility.h"
 
 namespace a11y {
 
-bool has_accessibility_permissions();
+bool has_accessibility_permissions() {
+    return AXIsProcessTrusted() ? true : false;
+}
 
 };  // namespace a11y

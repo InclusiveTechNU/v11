@@ -16,8 +16,13 @@
 
 #pragma once
 
+#include <node_api.h>
+#include "core/environment/system/system.h"
+
+using sys::System;
+
 namespace a11y {
 
-bool has_accessibility_permissions();
+void init(napi_env env, napi_value exports, System* sys_ptr);
 
-};  // namespace a11y
+};  // namespace environment

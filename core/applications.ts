@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-#pragma once
+import * as larkin from '../larkin/client/larkin';
 
-namespace a11y {
+export class Application implements larkin.Application {
+  id: string;
+  name: string;
 
-bool has_accessibility_permissions();
+  constructor(instance: larkin.Application) {
+    this.id = instance.id;
+    this.name = instance.name;
+  }
 
-};  // namespace a11y
+  get windows(): Array<larkin.Window> {
+    return larkin.accessibility.getWindows(65755);
+  }
+}
