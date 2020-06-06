@@ -65,6 +65,7 @@ declare module 'larkin-types' {
 
   interface AccessibilityAPI {
     getWindows(pid: number): Array<Window>;
+    setValue(native: {}, text: string): void;
     getChildren(native: {}): Array<Element>;
   }
 

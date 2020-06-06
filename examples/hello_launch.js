@@ -16,7 +16,7 @@
 
 const v11 = require('../build/v11/core/v11');
 
-v11.system.onlaunch = (event) => {
-}
-console.log(v11.system.getApplicationByName("GarageBand").getElementsByType("slider"));
+const dictionary = v11.system.getApplicationByName("TextEdit");
+const mouseContainer = dictionary.getElementsByType("textarea");
+mouseContainer[0].value = "Goodbye";
 v11.start();

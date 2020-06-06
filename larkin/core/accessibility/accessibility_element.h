@@ -33,6 +33,7 @@ class AccessibilityElement {
     explicit AccessibilityElement(ElementType type,
                                   const void* native_element);
     std::vector<AccessibilityElement*> get_children() const;
+    void set_value(const char* value);
     const char* get_type() const;
     const char* get_label() const;
     const char* get_title() const;

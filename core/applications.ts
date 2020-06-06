@@ -27,15 +27,15 @@ const processType = (type: string): string => {
 
 export class Element implements ApplicationElement {
   private _native: {};
+  private _value?: string;
   type: string;
   title?: string;
-  value?: string;
   label?: string;
 
   constructor(element: larkin.Element) {
     this.type = processType(element.type);
     this.title = element.title;
-    this.value = element.value;
+    this._value = element.value;
     this.label = element.label;
     this._native = element.native;
   }
@@ -44,6 +44,17 @@ export class Element implements ApplicationElement {
     return larkin.accessibility.getChildren(this._native).map(child => {
       return new Element(child);
     });
+  }
+
+  get value(): string | undefined {
+    return this._value;
+  }
+
+  set value(text: string | undefined) {
+    if (text !== undefined) {
+      larkin.accessibility.setValue(this._native, text);
+    }
+    this._value = text;
   }
 
   getElementsByType(type: string): Array<Element> {
@@ -58,7 +69,7 @@ export class Element implements ApplicationElement {
         children.forEach(child => checkEachChild(child.children));
       }
     };
-    this.children.forEach(child => checkEachChild(child.children));
+    checkEachChild(this.children);
     return elements;
   }
 
@@ -67,14 +78,14 @@ export class Element implements ApplicationElement {
     const checkEachChild = (children: Array<Element>) => {
       elements = elements.concat(
         children.filter(element => {
-          return element.label ?? '' === label;
+          return (element.label ?? '') === label;
         })
       );
       if (children.length > 0) {
         children.forEach(child => checkEachChild(child.children));
       }
     };
-    this.children.forEach(child => checkEachChild(child.children));
+    checkEachChild(this.children);
     return elements;
   }
 }

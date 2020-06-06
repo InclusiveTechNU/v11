@@ -23,4 +23,19 @@ AccessibilityElement::AccessibilityElement(ElementType type,
                                            _type(type),
                                            _native_element(native_element) {}
 
+const char* AccessibilityElement::get_type() const {
+    return get_value("AXRole");
+}
+
+const char* AccessibilityElement::get_label() const {
+    return get_value("AXDescription");
+}
+
+const char* AccessibilityElement::get_title() const {
+    return get_value("AXTitle");
+}
+const char* AccessibilityElement::get_value() const {
+    return get_value("AXValue");
+}
+
 };  // namespace a11y

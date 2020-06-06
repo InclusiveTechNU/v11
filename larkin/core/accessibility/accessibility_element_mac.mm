@@ -57,19 +57,11 @@ const char* AccessibilityElement::get_value(const char* name) const {
     return nullptr;
 }
 
-const char* AccessibilityElement::get_type() const {
-    return get_value("AXRole");
-}
-
-const char* AccessibilityElement::get_label() const {
-    return get_value("AXDescription");
-}
-
-const char* AccessibilityElement::get_title() const {
-    return get_value("AXTitle");
-}
-const char* AccessibilityElement::get_value() const {
-    return get_value("AXValue");
+void AccessibilityElement::set_value(const char* value) {
+    AXUIElementRef app_ref = (AXUIElementRef) _native_element;
+    CFStringRef value_label = CFStringCreateWithCString(nullptr, "AXValue", kCFStringEncodingUTF8);
+    CFStringRef value_entry = CFStringCreateWithCString(nullptr, value, kCFStringEncodingUTF8);
+    AXUIElementSetAttributeValue(app_ref, value_label, value_entry);
 }
 
 };  // namespace a11y

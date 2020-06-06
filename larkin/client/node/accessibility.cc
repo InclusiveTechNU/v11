@@ -21,6 +21,7 @@
 #include "core/accessibility/accessibility_tree.h"
 #include "core/accessibility/accessibility_element.h"
 
+using utils::string_from_value;
 using utils::element_to_object;
 using utils::window_to_object;
 using a11y::AccessibilityWindow;
@@ -97,6 +98,33 @@ void children(napi_env env, napi_value exports) {
                                  get_children));
 }
 
+void values(napi_env env, napi_value exports) {
+    napi_value set_value;
+    a_ok(napi_create_function(env, nullptr, 0,
+                                  [](napi_env env,
+                                     napi_callback_info info) -> napi_value {
+        size_t args_count = 2;
+        napi_value args[2];
+        a_ok(napi_get_cb_info(env, info, &args_count, args, nullptr, 0));
+
+        napi_value native_wrapper = args[0];
+        void* native_wrapper_ptr = nullptr;
+        a_ok(napi_unwrap(env, native_wrapper, &native_wrapper_ptr));
+        AccessibilityElement* native_window =
+            reinterpret_cast<AccessibilityElement*>(native_wrapper_ptr);
+
+        napi_value text_value = args[1];
+        char* text = string_from_value(env, text_value);
+        native_window->set_value(text);
+        delete text;
+        return nullptr;
+    }, nullptr, &set_value));
+    a_ok(napi_set_named_property(env,
+                                 exports,
+                                 "setValue",
+                                 set_value));
+}
+
 // Initialize all variables and functions
 void init(napi_env env, napi_value exports, System* sys_ptr) {
     napi_value accessibility_object;
@@ -104,6 +132,7 @@ void init(napi_env env, napi_value exports, System* sys_ptr) {
 
     windows(env, accessibility_object);
     children(env, accessibility_object);
+    values(env, accessibility_object);
 
     a_ok(napi_set_named_property(env,
                                 exports,
@@ -111,4 +140,4 @@ void init(napi_env env, napi_value exports, System* sys_ptr) {
                                 accessibility_object));
 }
 
-};  // namespace environment
+};  // namespace a11y
