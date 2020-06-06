@@ -34,5 +34,4 @@ v11.system.addEventListener('terminate', (app) => {
     console.log(app);
     v11.speech.speak(`${app.name} quit!`, v11.speech.getVoiceByName("Ting-Ting")[0]);
 });*/
-
 v11.start();
