@@ -16,7 +16,15 @@
 
 const v11 = require('../build/v11/core/v11');
 
-const dictionary = v11.system.getApplicationByName("TextEdit");
-const mouseContainer = dictionary.getElementsByType("textarea");
-mouseContainer[0].value = "Goodbye";
+const dictionary = v11.system.getApplicationByName("GarageBand");
+const mouseContainer = dictionary.getElementsByType("button");
+
+mouseContainer.forEach(button => {
+    if (button.title === 'Stop') {
+        button.actions.get('press')();
+    }
+});
+
+console.log(mouseContainer);
+
 v11.start();

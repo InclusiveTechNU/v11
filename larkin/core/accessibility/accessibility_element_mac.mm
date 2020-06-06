@@ -43,6 +43,10 @@ std::vector<AccessibilityElement*> AccessibilityElement::get_children() const {
 
 const char* AccessibilityElement::get_value(const char* name) const {
     AXUIElementRef app_ref = (AXUIElementRef) _native_element;
+    /*CFArrayRef children_array_raw = nullptr;
+    AXUIElementCopyAttributeNames(app_ref, &children_array_raw);
+    NSLog(@"%@", children_array_raw);*/
+
     CFTypeRef value_raw = nullptr;
     CFStringRef value_label = CFStringCreateWithCString(nullptr, name, kCFStringEncodingUTF8);
     AXUIElementCopyAttributeValue(app_ref, value_label, &value_raw);
@@ -62,6 +66,30 @@ void AccessibilityElement::set_value(const char* value) {
     CFStringRef value_label = CFStringCreateWithCString(nullptr, "AXValue", kCFStringEncodingUTF8);
     CFStringRef value_entry = CFStringCreateWithCString(nullptr, value, kCFStringEncodingUTF8);
     AXUIElementSetAttributeValue(app_ref, value_label, value_entry);
+}
+
+std::vector<std::string> AccessibilityElement::get_actions() const {
+    std::vector<std::string> actions;
+    AXUIElementRef app_ref = (AXUIElementRef) _native_element;
+
+    CFArrayRef action_array_raw = nullptr;
+    AXUIElementCopyActionNames(app_ref, &action_array_raw);
+    if (!action_array_raw) {
+        return actions;
+    }
+
+    NSArray* action_array = (__bridge_transfer NSArray*) action_array_raw;
+    for (int i = 0; i < [action_array count]; i++) {
+        NSString* action_name = (NSString*) action_array[i];
+        actions.push_back(std::string([action_name UTF8String]));
+    }
+    return actions;
+}
+
+void AccessibilityElement::perform_action(const char* name) {
+    AXUIElementRef app_ref = (AXUIElementRef) _native_element;
+    CFStringRef action_name = CFStringCreateWithCString(nullptr, name, kCFStringEncodingUTF8);
+    AXUIElementPerformAction(app_ref, action_name);
 }
 
 };  // namespace a11y

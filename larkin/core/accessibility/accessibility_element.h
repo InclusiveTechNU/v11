@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <string>
 #include <vector>
 
 namespace a11y {
@@ -33,11 +34,14 @@ class AccessibilityElement {
     explicit AccessibilityElement(ElementType type,
                                   const void* native_element);
     std::vector<AccessibilityElement*> get_children() const;
+    std::vector<std::string> get_actions() const;
+    void perform_action(const char* name);
     void set_value(const char* value);
     const char* get_type() const;
     const char* get_label() const;
     const char* get_title() const;
     const char* get_value() const;
+    const char* get_description() const;
 };
 
 };  // namespace a11y

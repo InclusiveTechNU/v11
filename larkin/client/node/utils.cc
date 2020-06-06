@@ -119,6 +119,7 @@ void element_to_object(napi_env env,
 
     const char* type = element->get_type();
     const char* label = element->get_label();
+    const char* description = element->get_description();
     const char* value_str = element->get_value();
     const char* title = element->get_title();
 

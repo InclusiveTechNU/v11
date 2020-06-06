@@ -28,9 +28,11 @@ const processType = (type: string): string => {
 export class Element implements ApplicationElement {
   private _native: {};
   private _value?: string;
+
   type: string;
   title?: string;
   label?: string;
+  actions: Map<string, () => void>;
 
   constructor(element: larkin.Element) {
     this.type = processType(element.type);
@@ -38,6 +40,14 @@ export class Element implements ApplicationElement {
     this._value = element.value;
     this.label = element.label;
     this._native = element.native;
+
+    // Instantiate element actions
+    this.actions = new Map();
+    larkin.accessibility.getActions(this._native).forEach(action => {
+      this.actions.set(processType(action), () => {
+        larkin.accessibility.performAction(this._native, action);
+      });
+    });
   }
 
   get children(): Array<Element> {

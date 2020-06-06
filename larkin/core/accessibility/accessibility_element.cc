@@ -38,4 +38,8 @@ const char* AccessibilityElement::get_value() const {
     return get_value("AXValue");
 }
 
+const char* AccessibilityElement::get_description() const {
+    return get_value("AXRoleDescription");
+}
+
 };  // namespace a11y

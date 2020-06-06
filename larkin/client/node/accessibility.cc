@@ -125,6 +125,66 @@ void values(napi_env env, napi_value exports) {
                                  set_value));
 }
 
+void actions(napi_env env, napi_value exports) {
+    napi_value get_actions;
+    a_ok(napi_create_function(env, nullptr, 0,
+                                  [](napi_env env,
+                                     napi_callback_info info) -> napi_value {
+        napi_value windows_array;
+        a_ok(napi_create_array(env, &windows_array));
+
+        size_t args_count = 1;
+        napi_value args[1];
+        a_ok(napi_get_cb_info(env, info, &args_count, args, nullptr, 0));
+
+        napi_value native_wrapper = args[0];
+        void* native_wrapper_ptr = nullptr;
+        a_ok(napi_unwrap(env, native_wrapper, &native_wrapper_ptr));
+        AccessibilityElement* element = reinterpret_cast<AccessibilityElement*>(native_wrapper_ptr);
+        std::vector<std::string> actions = element->get_actions();
+
+        for (int i = 0; i < actions.size(); i++) {
+            std::string& action = actions[i];
+            napi_value action_object;
+            a_ok(napi_create_string_utf8(env,
+                                     action.c_str(),
+                                     NAPI_AUTO_LENGTH,
+                                     &action_object));
+            a_ok(napi_set_element(env, windows_array, i, action_object));
+        }
+        return windows_array;
+    }, nullptr, &get_actions));
+
+    a_ok(napi_set_named_property(env,
+                                 exports,
+                                 "getActions",
+                                 get_actions));
+
+    napi_value perform_action;
+    a_ok(napi_create_function(env, nullptr, 0,
+                                  [](napi_env env,
+                                     napi_callback_info info) -> napi_value {
+        size_t args_count = 2;
+        napi_value args[2];
+        a_ok(napi_get_cb_info(env, info, &args_count, args, nullptr, 0));
+
+        napi_value native_wrapper = args[0];
+        void* native_wrapper_ptr = nullptr;
+        a_ok(napi_unwrap(env, native_wrapper, &native_wrapper_ptr));
+        AccessibilityElement* element = reinterpret_cast<AccessibilityElement*>(native_wrapper_ptr);
+
+        napi_value text_value = args[1];
+        char* text = string_from_value(env, text_value);
+        element->perform_action(text);
+        delete text;
+        return nullptr;
+    }, nullptr, &perform_action));
+    a_ok(napi_set_named_property(env,
+                                 exports,
+                                 "performAction",
+                                 perform_action));
+}
+
 // Initialize all variables and functions
 void init(napi_env env, napi_value exports, System* sys_ptr) {
     napi_value accessibility_object;
@@ -133,6 +193,7 @@ void init(napi_env env, napi_value exports, System* sys_ptr) {
     windows(env, accessibility_object);
     children(env, accessibility_object);
     values(env, accessibility_object);
+    actions(env, accessibility_object);
 
     a_ok(napi_set_named_property(env,
                                 exports,
