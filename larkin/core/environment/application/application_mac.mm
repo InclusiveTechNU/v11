@@ -63,4 +63,11 @@ std::vector<Application*> Application::get_active_applications() {
     return active_apps_vec;
 }
 
+void Application::activate() {
+    NSRunningApplication* app = 
+        [NSRunningApplication runningApplicationWithProcessIdentifier:
+                              _process_id];
+    [app activateWithOptions:NSApplicationActivateIgnoringOtherApps];
+}
+
 };  // namespace app

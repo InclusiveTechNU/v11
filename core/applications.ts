@@ -145,6 +145,10 @@ export class Application {
     this._pid = parseInt(instance.processId);
   }
 
+  activate() {
+    larkin.applications.activate(this._pid);
+  }
+
   get windows(): Array<Window> {
     return larkin.accessibility.getWindows(this._pid).map(window => {
       return new Window(window);

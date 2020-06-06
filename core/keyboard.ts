@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-import * as larkin from '../larkin/client/larkin';
+import * as robot from 'robotjs';
 
 // * v11.keyboard
 // v11.keyboard provides resources and methods for simulating and listening
 // for system keyboard events
 interface KeyboardAPI {
-  pressKey(): void;
+  pressKey(key: string, modifier?: string): void;
 }
 
 // Public Speech API
 export const keyboard: KeyboardAPI = {
-  pressKey: () => {
-    larkin.keyboard.simulation.holdKey();
-    larkin.keyboard.simulation.releaseKey();
+  pressKey: (key: string, modifier?: string) => {
+    robot.keyToggle(key, 'down', modifier);
+    robot.keyToggle(key, 'up', modifier);
   },
 };

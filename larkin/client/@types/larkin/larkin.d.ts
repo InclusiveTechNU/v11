@@ -47,6 +47,7 @@ declare module 'larkin-types' {
   }
 
   interface ApplicationAPI {
+    activate(processId: number): void;
     getApplications(): Array<Application>;
   }
 

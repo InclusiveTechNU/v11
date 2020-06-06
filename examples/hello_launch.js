@@ -17,14 +17,8 @@
 const v11 = require('../build/v11/core/v11');
 
 const dictionary = v11.system.getApplicationByName("GarageBand");
-const mouseContainer = dictionary.getElementsByType("button");
-
-mouseContainer.forEach(button => {
-    if (button.title === 'Stop') {
-        button.actions.get('press')();
-    }
-});
-
-console.log(mouseContainer);
+//const mouseContainer = dictionary.getElementsByType("button");
+//console.log(mouseContainer);
+dictionary.activate();
 
 v11.start();

@@ -59,6 +59,25 @@ napi_status system(napi_env env, napi_value exports) {
     napi_value applications;
     a_ok(napi_create_object(env, &applications));
 
+    napi_value activate;
+    napi_create_function(env, nullptr, 0,
+                                  [](napi_env env,
+                                     napi_callback_info info) -> napi_value {
+        size_t args_count = 1;
+        napi_value args[1];
+        a_ok(napi_get_cb_info(env, info, &args_count, args, nullptr, 0));
+
+        napi_value process_id_val = args[0];
+        pid_t process_id;
+        a_ok(napi_get_value_int32(env, process_id_val, &process_id));
+        Application(process_id).activate();
+        return nullptr;
+    }, nullptr, &activate);
+    a_ok(napi_set_named_property(env,
+                                 applications,
+                                 "activate",
+                                 activate));
+
     // * applications.getApplications() -> Array<Object>
     napi_value get_applications;
     napi_create_function(env, nullptr, 0,

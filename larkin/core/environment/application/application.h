@@ -38,6 +38,7 @@ class Application {
     ~Application();
     static std::vector<Application*> get_active_applications();
 
+    void activate();
     const char* get_name() const;
     const char* get_bundle_id() const;
     pid_t get_process_id() const;
