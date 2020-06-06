@@ -26,9 +26,7 @@
 #include <vector>
 #include "utils/error.h"
 #include "environment/system/notifications/listener.h"
-#include "environment/application/events.h"
 #include "environment/application/application_info.h"
-#include "environment/application/application.h"
 
 using utils::error;
 using sys::notifications::callback;
@@ -41,20 +39,21 @@ namespace app {
 // A structure of data to update a
 // running application instance.
 struct running_app_update {
-    const char* local_name;
-    bool fully_launched;
-    visibility visibility;
-    bool terminated;
+    const std::string local_name;
+    const std::string bundle_id;
+    const int architecture;
+    const bool fully_launched;
+    const visibility visibility;
+    const bool terminated;
 };
 
 class ApplicationInstance {
  private:
-    // Pointer to the application this running app instance belong to.
-    // Application is owned by the system manager and not this instance.
-    Application* application = nullptr;
-
     // The localized name of the application
     std::string* local_name = nullptr;
+
+    // The bundle identifier of the application
+    std::string* bundle_id = nullptr;
 
     // The process id of the running app instance.
     // Process id cannot be updated but will be null when instance
@@ -86,10 +85,10 @@ class ApplicationInstance {
  public:
     // Adds all current system instances of the application to
     // the instances vector reference
-    static void get_system_instances(std::string bundle_id,
-                                     Application* application,
-                                     std::vector<ApplicationInstance *>&
-                                                 instances);
+    //static void get_system_instances(std::string bundle_id,
+    //                                 Application* application,
+    //                                 std::vector<ApplicationInstance *>&
+    //                                             instances);
 
     // Transfers ownership of a running application process
     // using its process identifier. When `data` is not null
@@ -97,11 +96,16 @@ class ApplicationInstance {
     // manager copies data and sets up update handlers.
     ApplicationInstance(pid_t pid, const running_app_update* data);
 
+    explicit ApplicationInstance(void* native_app);
+
     // Deallocates all owned data about the application instance
     ~ApplicationInstance();
 
     // Get the localized name of the application transiently
     const char* get_local_name();
+
+    // Get the bundle_id of the application transiently
+    const char* get_bundle_id();
 
     // Returns a pointer to the process id (or null if not running).
     pid_t* get_process_id();
@@ -116,17 +120,11 @@ class ApplicationInstance {
     // Terminated applications will also have null process_id pointers.
     bool is_terminated();
 
-    // Returns the linked application to this app instance
-    Application* get_application();
-
-    // Tries to link the application pointer as the parent of this instance
-    error link_application(Application* app);
-
     // Applies a callback function `callback` whenever
     // an event `event` is called by the application
     // manager for this specific instance
-    bool add_event_listener(instance_event event,
-                            callback callback);
+    // bool add_event_listener(instance_event event,
+    //                        callback callback);
 };
 
 };  // namespace app

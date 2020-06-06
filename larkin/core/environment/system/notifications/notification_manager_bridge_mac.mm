@@ -17,9 +17,12 @@
 #include <Foundation/Foundation.h>
 #include <Cocoa/Cocoa.h>
 #include <map>
+#include <iostream>
 #include <string>
 #include "utils/definitions.h"
+#include "utils/string.h"
 #include "environment/system/notifications/notification.h"
+#include "environment/application/application_instance.h"
 #include "environment/system/notifications/notification_manager_bridge.h"
 
 #define A11Y_CHANGE NSWorkspaceAccessibilityDisplayOptionsDidChangeNotification
@@ -36,8 +39,10 @@
                        NSWorkspaceWillSleepNotification, \
                        A11Y_CHANGE]
 
+using app::ApplicationInstance;
 using utils::error;
 using utils::error_code;
+using utils::string_copy;
 
 namespace sys {
 namespace notifications {
@@ -120,12 +125,18 @@ error NotificationManagerBridge::register_global_observer(const global_observer
                                 new Notification(native_name_raw,
                                                  nn_value);
 
-                if (nn_value == APPLICATION_DID_LAUNCH) {
+                if (nn_value == APPLICATION_DID_LAUNCH ||
+                    nn_value == APPLICATION_DID_TERMINATE ||
+                    nn_value == APPLICATION_DID_HIDE ||
+                    nn_value == APPLICATION_DID_UNHIDE) {
                     NSDictionary* notification_data = [native_notification userInfo];
-                    NSString* bundle_id_raw = notification_data[@"NSApplicationBundleIdentifier"];
-                    std::string bundle_id = std::string([bundle_id_raw UTF8String]);
+                    // TODO(tommymchugh): Turn this application into larkin app instance
+                    NSRunningApplication* application = notification_data[@"NSWorkspaceApplicationKey"];
+                    ApplicationInstance app_instance = ApplicationInstance((__bridge_retained void*) application);
 
-                    sys_notification->put_data_with_key("bundle_id", bundle_id);
+                    // TODO(tommymchugh): Add all application instance objects to map 
+                    sys_notification->put_data_with_key("id", app_instance.get_bundle_id());
+                    sys_notification->put_data_with_key("name", app_instance.get_local_name());
                 }
 
                 // Push the notification to the global observer

@@ -31,7 +31,7 @@ Application::Application(app_id id) {
     }
 
     // Retrieve current running applications
-    ApplicationInstance::get_system_instances(bundle_id, this, instances);
+    //ApplicationInstance::get_system_instances(bundle_id, this, instances);
 
     if (instances.size() > 0) {
         launched = true;
@@ -51,8 +51,6 @@ Application::~Application() {
     for (int i = 0; i < instances.size(); i++) {
         delete instances[i];
     }
-
-    delete instances;
 }
 
 };  // namespace app

@@ -14,29 +14,33 @@
  * limitations under the License.
  */
 
-#include <stdexcept>
 #include "environment/application/application_instance.h"
 
 using utils::error;
+using utils::error_code;
 
 namespace app {
 
 ApplicationInstance::ApplicationInstance(pid_t pid,
-                                       const running_app_update* data) {
+                                         const running_app_update* data) {
     // TODO(tommymchugh): Support instantiating app using just pid
-    if (!data)
-        throw std::runtime_error("App instances cannot be instantiated.");
-
     process_id = new pid_t;
     *process_id = pid;
-
-    update_instance(*data);
+    if (data) {
+        update_instance(*data);
+    }
 }
 
 const char* ApplicationInstance::get_local_name() {
     if (!local_name)
         return nullptr;
     return local_name->c_str();
+}
+
+const char* ApplicationInstance::get_bundle_id() {
+    if (!bundle_id)
+        return nullptr;
+    return bundle_id->c_str();
 }
 
 pid_t* ApplicationInstance::get_process_id() {
@@ -55,45 +59,27 @@ bool ApplicationInstance::is_terminated() {
     return terminated;
 }
 
-Application* ApplicationInstance::get_application() {
-    return application;
-}
-
 error ApplicationInstance::update_instance(const running_app_update& update) {
     if (terminated) {
-        const char error_msg[] = "Terminated instances cannot be linked.";
-        return {true, error_msg};
+        return {true, error_code::ERROR_FAILED_LINKING_MANAGER_BRIDGE};
     }
 
     delete local_name;
-    if (!update.local_name) {
-        local_name = nullptr;
-    } else {
-        local_name = new std::string;
-        *local_name = std::string(update.local_name);
-    }
+    local_name = new std::string(update.local_name);
+
+    delete bundle_id;
+    bundle_id = new std::string(update.bundle_id);
 
     delete fully_launched;
-    if (!fully_launched) {
-        fully_launched = nullptr;
-    } else {
-        fully_launched = new bool;
-        *fully_launched = update.fully_launched;
-    }
+    fully_launched = new bool;
+    *fully_launched = update.fully_launched;
 
     delete visibility;
-    if (!visibility) {
-        visibility = nullptr;
-    } else {
-        visibility = new app::visibility;
-        *visibility = update.visibility;
-    }
+    visibility = new app::visibility;
+    *visibility = update.visibility;
 
-    if (!terminated && update.terminated) {
-        terminate_instance();
-    }
-
-    return {false, nullptr};
+    terminated = update.terminated;
+    return {false, error_code::ERROR_CODE_NONE};
 }
 
 void ApplicationInstance::terminate_instance() {
@@ -101,6 +87,9 @@ void ApplicationInstance::terminate_instance() {
 
     delete local_name;
     local_name = nullptr;
+
+    delete bundle_id;
+    bundle_id = nullptr;
 
     delete process_id;
     process_id = nullptr;
@@ -113,29 +102,6 @@ void ApplicationInstance::terminate_instance() {
 
     delete linked_to_app;
     linked_to_app = nullptr;
-}
-
-error ApplicationInstance::link_application(Application* app) {
-    if (terminated) {
-        const char error_msg[] = "Terminated instances cannot be linked.";
-        return {true, error_msg};
-    }
-
-    if (linked_to_app && *linked_to_app) {
-        const char error_msg[] = "Existing application has already been linked";
-        return {true, error_msg};
-    }
-
-    if (!app) {
-        const char error_msg[] = "Linked application cannot be null";
-        return {true, error_msg};
-    }
-
-    application = app;
-    linked_to_app = new bool;
-    *linked_to_app = true;
-
-    return {false, nullptr};
 }
 
 ApplicationInstance::~ApplicationInstance() {

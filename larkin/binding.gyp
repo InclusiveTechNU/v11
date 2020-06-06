@@ -60,6 +60,12 @@
         "core/environment/system/system_bridge_mac.mm",
         "core/environment/system/system_delegate_mac.h",
         "core/environment/system/system.cc",
+        #"core/environment/application/application.h",
+        "core/environment/application/application_info.h",
+        "core/environment/application/application_instance.h",
+        #"core/environment/application/application.cc",
+        "core/environment/application/application_instance.cc",
+        "core/environment/application/application_instance_mac.mm",
 
         ### CORE/UTILS ###
         "core/utils/string.cc",

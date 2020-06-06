@@ -28,19 +28,25 @@ NotificationManager::NotificationManager(manager_type type) : type(type) {
     register_global_event_observer();
 }
 
-global_observer NotificationManager::get_global_event_observer() {
-    global_observer event_observer = [&] (Notification* observed_event) {
+global_observer* NotificationManager::get_global_event_observer() {
+    global_observer* event_observer = new global_observer([&]
+                                          (Notification* observed_event) {
         // * To print notification name
         // * print(observed_event->get_native_name());
+        bool used = false;
         for (int i = 0; i < event_listeners.size(); i++) {
             listener& event_listener = event_listeners[i];
             if (event_listener.name == observed_event->get_name()) {
                 event_listener.callback(observed_event);
-                observed_event->release();
+                used = true;
             }
         }
-    };
-
+        if (!used) {
+            delete observed_event;
+        } else {
+            notifications.push_back(observed_event);
+        }
+    });
     return event_observer;
 }
 
@@ -58,7 +64,7 @@ utils::error NotificationManager::register_global_event_observer() {
         };
     }
 
-    return bridge->register_global_observer(global_event_observer);
+    return bridge->register_global_observer(*global_event_observer);
 }
 
 void NotificationManager::add_event_listener(const listener& event_listener) {
@@ -70,8 +76,13 @@ NotificationManager::~NotificationManager() {
     if (bridge) {
         bridge->remove_global_observer();
     }*/
+    // TODO(tommymchugh): Improve memory allocation
+    for (Notification* notification : notifications) {
+        delete notification;
+    }
 
     delete bridge;
+    delete global_event_observer;
 }
 
 };  // namespace notifications

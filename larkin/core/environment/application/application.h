@@ -20,15 +20,14 @@
 #include <functional>
 #include <string>
 #include "environment/system/notifications/listener.h"
-#include "environment/application/events.h"
 #include "environment/application/application_info.h"
 #include "environment/application/application_instance.h"
 #include "environment/system/system.h"
 
 using sys::notifications::callback;
+using app::ApplicationInstance;
 
 namespace app {
-
 class Application {
  private:
     // The bundle identifier of the application
@@ -41,7 +40,7 @@ class Application {
     bool launched = false;
 
     // A collection of all current instances of the application
-    std::vector<ApplicationInstance *> instances;
+    std::vector<ApplicationInstance*> instances;
 
     // Pointer to the main system manager
     sys::System* system = nullptr;
@@ -68,8 +67,8 @@ class Application {
     // Applies a callback function `callback` whenever
     // an event `event` is called by the application
     // manager.
-    bool add_event_listener(app_event event,
-                            callback callback);
+    // bool add_event_listener(app_event event,
+    //                        callback callback);
 };
 
 };  // namespace app

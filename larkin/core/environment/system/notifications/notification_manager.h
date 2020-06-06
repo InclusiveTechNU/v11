@@ -51,9 +51,11 @@ class NotificationManager {
     // the global event observer is called
     std::vector<listener> event_listeners;
 
+    std::vector<Notification*> notifications;
+
     // Function run on every event observed that checks for
     // notifications from `event_listeners`.
-    global_observer global_event_observer;
+    global_observer* global_event_observer;
 
     // A connection to retrieve notification data from the
     // native platform's notification manager
@@ -66,7 +68,7 @@ class NotificationManager {
     // Returns a pointer for the global event observer
     // to manage all existing event listener actions. Transfers
     // ownership to the caller.
-    global_observer get_global_event_observer();
+    global_observer* get_global_event_observer();
 
  public:
     // Creates a notification manager for the specific system

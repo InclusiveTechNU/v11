@@ -60,10 +60,12 @@ class Notification {
     std::map<std::string, std::string> notification_data;
  public:
     Notification(const char* name, notification_type type);
+    ~Notification();
 
     const notification_type& get_name();
     const char* get_native_name();
 
+    std::map<std::string, std::string> get_notification_data() const;
     std::string get_data_with_key(const std::string& key) const;
     void put_data_with_key(const std::string& key, const std::string& data);
 

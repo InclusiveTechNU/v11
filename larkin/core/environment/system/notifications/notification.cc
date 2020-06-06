@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include <iostream>
 #include <string.h>
 #include <utility>
 #include "environment/system/notifications/notification.h"
@@ -37,6 +38,11 @@ const char* Notification::get_native_name() {
     return native_name;
 }
 
+std::map<std::string, std::string> Notification::
+                                   get_notification_data() const {
+    return notification_data;
+}
+
 std::string Notification::get_data_with_key(const std::string& key) const {
     return notification_data.at(key);
 }
@@ -48,7 +54,11 @@ void Notification::put_data_with_key(const std::string& key,
 
 void Notification::release() {
     delete native_name;
-    delete this;
+    native_name = nullptr;
+}
+
+Notification::~Notification() {
+    release();
 }
 
 };  // namespace notifications

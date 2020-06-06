@@ -16,6 +16,8 @@
 
 #include <iostream>
 #include <string>
+#include <map>
+#include <utility>
 #include "client/node/utils.h"
 #include "core/utils/run_main.h"
 
@@ -47,10 +49,23 @@ char* string_from_value(napi_env env, napi_value value) {
 void notification_to_object(napi_env env,
                             const Notification* notification,
                             napi_value* value) {
-    a_ok(napi_create_string_utf8(env,
-                                 "com.microsoft.Word",
-                                 NAPI_AUTO_LENGTH,
-                                 value));
+    typedef std::map<std::string, std::string> notification_data;
+    typedef std::pair<std::string, std::string> notification_pair;
+    notification_data data = notification->get_notification_data();
+
+    a_ok(napi_create_object(env, value));
+    for (notification_pair object : data) {
+        napi_value key_prop, value_prop;
+        a_ok(napi_create_string_utf8(env,
+                                     object.first.c_str(),
+                                     NAPI_AUTO_LENGTH,
+                                     &key_prop));
+        a_ok(napi_create_string_utf8(env,
+                                     object.second.c_str(),
+                                     NAPI_AUTO_LENGTH,
+                                     &value_prop));
+        a_ok(napi_set_property(env, *value, key_prop, value_prop));
+    }
 }
 
 void run_non_block_loop(uv_loop_t* node_loop) {
