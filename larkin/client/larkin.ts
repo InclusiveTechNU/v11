@@ -29,6 +29,7 @@ export type UtilsAPI = Types.UtilsAPI;
 export type KeyboardAPI = Types.KeyboardAPI;
 export type NotificationsAPI = Types.NotificationsAPI;
 
+export type Event = Types.Event;
 export type Voice = Types.Voice;
 export type Version = Types.Version;
 

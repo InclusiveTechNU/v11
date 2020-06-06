@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-const v11 = require('../build/v11/core/v11');
+import * as larkin from '../larkin/client/larkin';
 
-v11.system.onlaunch = (event) => {
-    console.log(event);
+export type Event = larkin.Event;
+
+// * EventTarget
+// @type: interface
+// Event Target objects are able to receive and be notified of events
+// that occur specifically to the object. The main event targets
+// are Applications and the System. System can be notified of all
+// events while Applications can be notified of only relevant events.
+export interface EventTarget extends larkin.NotificationsAPI {
+  onlaunch?: (event?: Event) => void;
+  onhide?: (event?: Event) => void;
+  onunhide?: (event?: Event) => void;
+  onterminate?: (event?: Event) => void;
 }
-
-/*v11.system.addEventListener('launch', (app) => {
-    console.log(app);
-    v11.speech.speak(`${app.name} launched!`, v11.speech.getVoiceByName("Ting-Ting")[0]);
-});
-
-v11.system.addEventListener('hide', (app) => {
-    console.log(app);
-    v11.speech.speak(`${app.name} hid!`, v11.speech.getVoiceByName("Ting-Ting")[0]);
-});
-
-v11.system.addEventListener('terminate', (app) => {
-    console.log(app);
-    v11.speech.speak(`${app.name} quit!`, v11.speech.getVoiceByName("Ting-Ting")[0]);
-});*/
-
-v11.start();
