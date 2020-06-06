@@ -22,7 +22,7 @@
 #include "utils/definitions.h"
 #include "utils/string.h"
 #include "environment/system/notifications/notification.h"
-#include "environment/application/application_instance.h"
+#include "environment/application/application.h"
 #include "environment/system/notifications/notification_manager_bridge.h"
 
 #define A11Y_CHANGE NSWorkspaceAccessibilityDisplayOptionsDidChangeNotification
@@ -39,7 +39,7 @@
                        NSWorkspaceWillSleepNotification, \
                        A11Y_CHANGE]
 
-using app::ApplicationInstance;
+using app::Application;
 using utils::error;
 using utils::error_code;
 using utils::string_copy;
@@ -131,12 +131,16 @@ error NotificationManagerBridge::register_global_observer(const global_observer
                     nn_value == APPLICATION_DID_UNHIDE) {
                     NSDictionary* notification_data = [native_notification userInfo];
                     // TODO(tommymchugh): Turn this application into larkin app instance
-                    NSRunningApplication* application = notification_data[@"NSWorkspaceApplicationKey"];
-                    ApplicationInstance app_instance = ApplicationInstance((__bridge_retained void*) application);
-
-                    // TODO(tommymchugh): Add all application instance objects to map 
-                    sys_notification->put_data_with_key("id", app_instance.get_bundle_id());
-                    sys_notification->put_data_with_key("name", app_instance.get_local_name());
+                    NSRunningApplication* native_app = notification_data[@"NSWorkspaceApplicationKey"];
+                    Application* app = new Application([native_app processIdentifier]);
+                    // TODO(tommymchugh): Add all application instance objects to map
+                    if (app->get_bundle_id() != nullptr) {
+                        sys_notification->put_data_with_key("id", std::string(app->get_bundle_id()));
+                    }
+                    if (app->get_name() != nullptr) {
+                        sys_notification->put_data_with_key("name", std::string(app->get_name()));
+                    }
+                    delete app;
                 }
 
                 // Push the notification to the global observer
