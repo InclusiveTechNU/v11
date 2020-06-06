@@ -21,20 +21,22 @@
 
 namespace a11y {
 
-std::vector<AccessibilityWindow> AccessibilityTree::get_windows() {
-    std::vector<AccessibilityWindow> windows;
+std::vector<AccessibilityWindow*> AccessibilityTree::get_windows() {
+    std::vector<AccessibilityWindow*> windows;
     AXUIElementRef app_ref = AXUIElementCreateApplication(_process_id);
 
     CFArrayRef window_array_raw = nullptr;
     CFStringRef window_label = CFStringCreateWithCString(nullptr, "AXWindows", kCFStringEncodingUTF8);
     AXUIElementCopyAttributeValues(app_ref, window_label, 0, INT_MAX, &window_array_raw);
-    assert(window_array_raw);
+    if (!window_array_raw) {
+        return windows;
+    }
 
     NSArray* window_array = (__bridge_transfer NSArray*) window_array_raw;
     (__bridge_transfer NSString*) window_label;
     for (int i = 0; i < [window_array count]; i++) {
         AXUIElementRef window = (AXUIElementRef) window_array[i];
-        windows.push_back(AccessibilityWindow((const void*) window));
+        windows.push_back(new AccessibilityWindow((const void*) window));
     }
     return windows;
 }

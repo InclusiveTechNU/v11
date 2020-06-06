@@ -31,6 +31,7 @@ export type NotificationsAPI = Types.NotificationsAPI;
 export type ApplicationAPI = Types.ApplicationAPI;
 export type AccessibilityAPI = Types.AccessibilityAPI;
 
+export type Element = Types.Element;
 export type Window = Types.Window;
 export type Application = Types.Application;
 export type Event = Types.Event;

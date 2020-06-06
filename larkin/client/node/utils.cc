@@ -91,13 +91,50 @@ void application_to_object(napi_env env,
 }
 
 void window_to_object(napi_env env,
-                      const AccessibilityWindow* window,
+                      AccessibilityWindow* window,
                       napi_value* value) {
     a_ok(napi_create_object(env, value));
 
     napi_value title_value;
     a_ok(napi_create_string_utf8(env, window->get_title(), NAPI_AUTO_LENGTH, &title_value));
     a_ok(napi_set_named_property(env, *value, "title", title_value));
+
+    napi_value native_wrap_object;
+    a_ok(napi_create_object(env, &native_wrap_object));
+    a_ok(napi_wrap(env,
+                   native_wrap_object,
+                   (void*) window,
+                   [](napi_env env, void* finalize_data, void* finalize_hint) {
+                       delete (AccessibilityWindow*) finalize_data;
+                   },
+                   nullptr,
+                   nullptr));
+    a_ok(napi_set_named_property(env, *value, "native", native_wrap_object));
+}
+
+void element_to_object(napi_env env,
+                       AccessibilityElement* element,
+                       napi_value* value) {
+    a_ok(napi_create_object(env, value));
+
+    napi_value type_value;
+    a_ok(napi_create_string_utf8(env,
+                                 element->get_type(),
+                                 NAPI_AUTO_LENGTH,
+                                 &type_value));
+    a_ok(napi_set_named_property(env, *value, "type", type_value));
+    napi_value native_wrap_object;
+
+    a_ok(napi_create_object(env, &native_wrap_object));
+    a_ok(napi_wrap(env,
+                   native_wrap_object,
+                   (void*) element,
+                   [](napi_env env, void* finalize_data, void* finalize_hint) {
+                       delete (AccessibilityElement*) finalize_data;
+                   },
+                   nullptr,
+                   nullptr));
+    a_ok(napi_set_named_property(env, *value, "native", native_wrap_object));
 }
 
 void run_non_block_loop(uv_loop_t* node_loop) {

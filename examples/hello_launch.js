@@ -19,5 +19,5 @@ const v11 = require('../build/v11/core/v11');
 v11.system.onlaunch = (event) => {
     console.log(event);
 }
-console.log(v11.system.getApplicationByName("Google Chrome").windows);
+console.log(v11.system.getApplicationByName("Google Chrome").windows[0].children[0].children);
 v11.start();

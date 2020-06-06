@@ -52,10 +52,17 @@ declare module 'larkin-types' {
 
   interface Window {
     title: string;
+    native: {};
+  }
+
+  interface Element {
+    type: string;
+    native: {};
   }
 
   interface AccessibilityAPI {
     getWindows(pid: number): Array<Window>;
+    getChildren(native: {}): Array<Element>;
   }
 
   interface PlatformAPI {

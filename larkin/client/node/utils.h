@@ -21,12 +21,14 @@
 #include "core/environment/system/notifications/notification.h"
 #include "core/environment/application/application.h"
 #include "core/accessibility/accessibility_window.h"
+#include "core/accessibility/accessibility_element.h"
 
 #define a_ok(call) assert(call == napi_ok)
 
 using sys::notifications::Notification;
 using app::Application;
 using a11y::AccessibilityWindow;
+using a11y::AccessibilityElement;
 
 namespace utils {
 
@@ -40,8 +42,12 @@ void application_to_object(napi_env env,
                            napi_value* value);
 
 void window_to_object(napi_env env,
-                      const AccessibilityWindow* window,
+                      AccessibilityWindow* window,
                       napi_value* value);
+
+void element_to_object(napi_env env,
+                       AccessibilityElement* element,
+                       napi_value* value);
 
 void run_non_block_loop(uv_loop_t* node_loop);
 

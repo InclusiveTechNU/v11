@@ -74,6 +74,7 @@
         "core/accessibility/accessibility_tree_mac.mm",
         "core/accessibility/accessibility_element.h",
         "core/accessibility/accessibility_element.cc",
+        "core/accessibility/accessibility_element_mac.mm",
         "core/accessibility/accessibility.h",
         "core/accessibility/accessibility_mac.mm",
         "core/accessibility/accessibility_window.h",

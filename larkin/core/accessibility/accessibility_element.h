@@ -15,10 +15,13 @@
  */
 
 #pragma once
+#include <vector>
 
 namespace a11y {
+
 enum ElementType {
-    WINDOW
+    WINDOW,
+    UNKNOWN
 };
 
 class AccessibilityElement {
@@ -28,5 +31,8 @@ class AccessibilityElement {
  public:
     explicit AccessibilityElement(ElementType type,
                                   const void* native_element);
+    std::vector<AccessibilityElement*> get_children() const;
+    const char* get_type() const;
 };
+
 };  // namespace a11y

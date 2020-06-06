@@ -19,7 +19,7 @@
 #include "accessibility/accessibility_element.h"
 
 namespace a11y {
-class AccessibilityWindow: AccessibilityElement  {
+class AccessibilityWindow: public AccessibilityElement  {
  public:
     explicit AccessibilityWindow(const void* native_window);
     const char* get_title() const;

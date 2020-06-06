@@ -27,7 +27,7 @@ class AccessibilityTree {
 
  public:
     explicit AccessibilityTree(pid_t process_id);
-    std::vector<AccessibilityWindow> get_windows();
+    std::vector<AccessibilityWindow*> get_windows();
 };
 
 };  // namespace a11y

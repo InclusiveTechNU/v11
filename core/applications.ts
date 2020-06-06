@@ -16,10 +16,46 @@
 
 import * as larkin from '../larkin/client/larkin';
 
-export class Window implements larkin.Window {
+interface ApplicationElement {
+  type: string;
+}
+
+// TODO(tommymchugh): make this OS independent
+const processType = (type: string): string => {
+  return type.substring(2).toLowerCase();
+};
+
+export class Element implements ApplicationElement {
+  private _native: {};
+  type: string;
+
+  constructor(element: larkin.Element) {
+    this.type = processType(element.type);
+    this._native = element.native;
+  }
+
+  get children(): Array<Element> {
+    return larkin.accessibility.getChildren(this._native).map(child => {
+      return new Element(child);
+    });
+  }
+}
+
+export class Window implements ApplicationElement {
+  private _native: {};
   title: string;
+  type: string;
+
   constructor(window: larkin.Window) {
     this.title = window.title;
+    this.type = 'window';
+    this._native = window.native;
+  }
+
+  get children(): Array<Element> {
+    return larkin.accessibility.getChildren(this._native).map(child => {
+      return new Element(child);
+    });
   }
 }
 
