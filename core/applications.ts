@@ -42,7 +42,7 @@ export class Element implements ApplicationElement {
     this._native = element.native;
 
     // Instantiate element actions
-    this.actions = new Map();
+    this.actions = new Map<string, () => void>();
     larkin.accessibility.getActions(this._native).forEach(action => {
       this.actions.set(processType(action), () => {
         larkin.accessibility.performAction(this._native, action);

@@ -16,9 +16,9 @@
 
 const v11 = require('../build/v11/core/v11');
 
-const dictionary = v11.system.getApplicationByName("GarageBand");
-//const mouseContainer = dictionary.getElementsByType("button");
-//console.log(mouseContainer);
-dictionary.activate();
+const gb = v11.system.getApplicationByName("GarageBand");
+const mute = gb.getElementsByLabel("Mute")[0];
+mute.actions.get('press')();
+console.log(mute.value);
 
 v11.start();

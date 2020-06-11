@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+#include <iostream>
 #include <Foundation/Foundation.h>
 #include <Cocoa/Cocoa.h>
 #include "accessibility/accessibility_element.h"
@@ -57,6 +58,9 @@ const char* AccessibilityElement::get_value(const char* name) const {
     if (CFGetTypeID(value_raw) == CFStringGetTypeID()) {
         NSString* value = (__bridge_transfer NSString*) value_raw;
         return [value UTF8String];
+    } else if (CFGetTypeID(value_raw) == CFNumberGetTypeID()) {
+        NSNumber* value = (__bridge_transfer NSNumber*) value_raw;
+        return [[value stringValue] UTF8String];
     }
     return nullptr;
 }
