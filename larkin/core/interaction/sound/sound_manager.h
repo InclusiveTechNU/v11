@@ -20,8 +20,9 @@
 #include <list>
 #include "interaction/sound/text2speech/text2speech_synthesizer.h"
 
+using sound::voice::Text2SpeechSynthesizer;
+
 namespace sound {
-namespace voice {
 
 enum sound_type {
     TEXT2SPEECH
@@ -48,5 +49,4 @@ class SoundManager {
     ~SoundManager();
 };
 
-};  // namespace voice
 };  // namespace sound

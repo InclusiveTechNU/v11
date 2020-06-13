@@ -17,7 +17,6 @@
 #include "interaction/sound/sound_manager.h"
 
 namespace sound {
-namespace voice {
 
 SoundManager::SoundManager(const std::set<sound_type>& init_synth_types) :
                            activated_types(init_synth_types) {
@@ -66,5 +65,4 @@ SoundManager::~SoundManager() {
     delete t2s_synthesizer;
 }
 
-};  // namespace voice
 };  // namespace sound

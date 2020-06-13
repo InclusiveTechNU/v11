@@ -22,19 +22,24 @@
 #include "environment/system/platform/platform.h"
 #include "environment/system/notifications/notification_manager.h"
 #include "environment/system/system_bridge.h"
+#include "interaction/sound/sound_manager.h"
 #include "interaction/keyboard/keyboard_listener.h"
 
 using sys::platform::platform_info;
 using sys::notifications::NotificationManager;
 using keyboard::KeyboardListener;
+using sound::SoundManager;
 
 namespace sys {
 
 class System {
     SystemBridge* bridge = nullptr;
     const platform_info platform;
+
     NotificationManager* notification_center = nullptr;
     KeyboardListener* keyboard_listener = nullptr;
+    SoundManager* _sound_manager = nullptr;
+
     std::vector<std::function<void(void*)>*>* pending_actions = nullptr;
 
  public:
@@ -42,6 +47,7 @@ class System {
     System();
 
     NotificationManager* get_notification_center();
+    SoundManager* get_sound_manager();
 
     // Forwards the event listener to the proper system event
     // service after all notification systems have been instantiated.

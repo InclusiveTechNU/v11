@@ -16,6 +16,8 @@
 
 #include "environment/system/system.h"
 
+using sound::sound_type;
+
 namespace sys {
 
 System::System(): platform(platform::get_platform_info()),
@@ -24,10 +26,15 @@ System::System(): platform(platform::get_platform_info()),
     bridge = new SystemBridge;
     pending_actions = bridge->get_pending_actions();
     keyboard_listener = bridge->get_keyboard_listener();
+    _sound_manager = new SoundManager({sound_type::TEXT2SPEECH});
 }
 
 NotificationManager* System::get_notification_center() {
     return notification_center;
+}
+
+SoundManager* System::get_sound_manager() {
+    return _sound_manager;
 }
 
 void System::add_event_listener(const keyboard::event::
@@ -59,6 +66,7 @@ System::~System() {
         bridge->remove_all_pending_actions();
     }
     delete notification_center;
+    delete _sound_manager;
     delete bridge;
 }
 
