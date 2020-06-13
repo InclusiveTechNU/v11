@@ -17,9 +17,12 @@
 #pragma once
 
 #include <node_api.h>
+#include "core/environment/system/system.h"
+
+using sys::System;
 
 namespace interaction {
 
-void init(napi_env env, napi_value exports);
+void init(napi_env env, napi_value exports, System* sys_ptr);
 
 };  // namespace interaction

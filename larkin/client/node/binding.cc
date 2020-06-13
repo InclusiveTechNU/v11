@@ -30,15 +30,7 @@ using sys::System;
 
 namespace larkin {
 
-napi_value init(napi_env env, napi_value exports) {
-    System* main_sys = new System();
-
-    // Add sub platform APIs
-    interaction::init(env, exports);
-    environment::init(env, exports, main_sys);
-    a11y::init(env, exports, main_sys);
-
-    // Core utility V11 features
+void setup_event_loop(napi_env env, napi_value exports) {
     napi_status status;
     napi_value utils;
     status = napi_create_object(env, &utils);
@@ -66,7 +58,17 @@ napi_value init(napi_env env, napi_value exports) {
     if (status != napi_ok) {
         napi_throw_error(env, nullptr, "Failed to set utils object");
     }
+}
 
+napi_value init(napi_env env, napi_value exports) {
+    System* main_sys = new System();
+
+    // Add sub platform APIs
+    interaction::init(env, exports, main_sys);
+    environment::init(env, exports, main_sys);
+    a11y::init(env, exports, main_sys);
+
+    setup_event_loop(env, exports);
     return exports;
 }
 NAPI_MODULE(NODE_GYP_MODULE_NAME, init)

@@ -227,7 +227,7 @@ napi_status keyboard(napi_env env, napi_value exports) {
 
 
 // Initialize all variables and functions
-void init(napi_env env, napi_value exports) {
+void init(napi_env env, napi_value exports, System* sys_ptr) {
     napi_status sound_status = sound(env, exports);
     if (sound_status != napi_ok) {
         napi_throw_error(env,
