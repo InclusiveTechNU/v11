@@ -142,7 +142,7 @@ export class Application {
   constructor(instance: larkin.Application) {
     this.id = instance.id;
     this.name = instance.name;
-    this._pid = parseInt(instance.processId);
+    this._pid = parseInt(instance.processId, 10);
   }
 
   activate() {
