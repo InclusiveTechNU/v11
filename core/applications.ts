@@ -67,31 +67,31 @@ export class Element implements ApplicationElement {
     this._value = text;
   }
 
-  getElementsByType(type: string): Array<Element> {
+  getElementsByType(type: string, maxDepth: number = Infinity): Array<Element> {
     let elements: Array<Element> = [];
-    const checkEachChild = (children: Array<Element>) => {
+    const checkEachChild = (children: Array<Element>, depth: number = 0) => {
       elements = elements.concat(
         children.filter(element => {
           return element.type === type;
         })
       );
-      if (children.length > 0) {
-        children.forEach(child => checkEachChild(child.children));
+      if (children.length > 0 && depth < maxDepth) {
+        children.forEach(child => checkEachChild(child.children, depth+1));
       }
     };
     checkEachChild(this.children);
     return elements;
   }
 
-  getElementsByLabel(label: string): Array<Element> {
+  getElementsByLabel(label: string, maxDepth: number = Infinity): Array<Element> {
     let elements: Array<Element> = [];
-    const checkEachChild = (children: Array<Element>) => {
+    const checkEachChild = (children: Array<Element>, depth: number = 0) => {
       elements = elements.concat(
         children.filter(element => {
           return (element.label ?? '') === label;
         })
       );
-      if (children.length > 0) {
+      if (children.length > 0 && depth < maxDepth) {
         children.forEach(child => checkEachChild(child.children));
       }
     };
