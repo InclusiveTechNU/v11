@@ -32,7 +32,7 @@ export class Element implements ApplicationElement {
   type: string;
   title?: string;
   label?: string;
-  actions: Map<string, () => void>;
+  actions: {[k: string]: () => void};
 
   constructor(element: larkin.Element) {
     this.type = processType(element.type);
@@ -42,11 +42,11 @@ export class Element implements ApplicationElement {
     this._native = element.native;
 
     // Instantiate element actions
-    this.actions = new Map<string, () => void>();
+    this.actions = {};
     larkin.accessibility.getActions(this._native).forEach(action => {
-      this.actions.set(processType(action), () => {
+      this.actions[processType(action)] = () => {
         larkin.accessibility.performAction(this._native, action);
-      });
+      };
     });
   }
 
