@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import * as robot from 'robotjs';
-
 // * v11.keyboard
 // v11.keyboard provides resources and methods for simulating and listening
 // for system keyboard events
@@ -26,7 +24,7 @@ interface KeyboardAPI {
 // Public Speech API
 export const keyboard: KeyboardAPI = {
   pressKey: (key: string, modifier?: string) => {
-    robot.keyToggle(key, 'down', modifier);
-    robot.keyToggle(key, 'up', modifier);
+    // robot.keyToggle(key, 'down', modifier);
+    // robot.keyToggle(key, 'up', modifier);
   },
 };
