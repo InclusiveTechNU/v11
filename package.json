@@ -17,7 +17,7 @@
     "clean:js": "./third_party/node/node_modules/gts/build/src/cli.js clean",
     "fix": "./third_party/node/node_modules/gts/build/src/cli.js fix",
     "build": "yarn install && ./tools/build_larkin_client && yarn run clean:js && yarn run check && ./third_party/node/node_modules/typescript/bin/tsc",
-    "preinstall": "$npm_execpath --silent run checkyarn",
+    "postinstall": "ln -s third_party/node/node_modules ./node_modules",
     "checkyarn": "echo \"$npm_execpath\" | grep -q \"yarn\\.js$\" || (echo '⚠️  Use yarn not npm! ⚠️ ' && echo && exit 1)"
   }
 }
