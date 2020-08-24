@@ -17,7 +17,7 @@
 // A listener that will alert you to changes in a value
 const v11 = require('../build/v11/core/v11');
 const notes = v11.system.getApplicationByName("TextEdit");
-notes.windows[0].children[0].children[0].addEventListener('value', () => {
+notes.getElementsByType("textarea")[0].addEventListener('value', () => {
     console.log("hey");
 })
 v11.start();
