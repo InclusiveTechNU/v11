@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
+// A simple example that uses the Speech API to say "Hello World"
 const v11 = require('../build/v11/core/v11');
-
-const notes = v11.system.getApplicationByName("TextEdit");
-notes.windows[0].children[0].children[0].addEventListener('value', () => {
-    console.log("hey");
-})
-
+v11.speech.speak("Hello World!");
 v11.start();

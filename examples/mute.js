@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
+// A script that will mute the first track in a GarageBand application
 const v11 = require('../build/v11/core/v11');
-
-const gb = v11.system.getApplicationByName("Logic Pro X");
+const gb = v11.system.getApplicationByName("GarageBand");
 const mute = gb.getElementsByLabel("Mute")[0];
 mute.actions.press();
 console.log(mute.value);
-
 v11.start();
