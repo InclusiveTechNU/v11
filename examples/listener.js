@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-// A listener that will long 'hey' to the console every time something
+// A listener that will log 'hey' to the console every time something
 // is added to the main textarea box in the TextEdit application.
 const v11 = require('../build/v11/core/v11');
 const notes = v11.system.getApplicationByName("TextEdit");
