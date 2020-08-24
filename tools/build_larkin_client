@@ -9,6 +9,6 @@ rm -rf build/larkin
 
 # Build larkin client
 cd larkin
-../../../third_party/node/node_modules/node-gyp/bin/node-gyp.js configure build
+../node_modules/node-gyp/bin/node-gyp.js configure build
 mkdir -p ../build
 cp -R build ../build/larkin
