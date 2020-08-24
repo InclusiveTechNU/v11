@@ -11,6 +11,8 @@
 
 V11 is a JavaScript library and code editor for building accessibility plugins, workflows, and applications. It is built on top of [V8](https://v8.dev/) and Node.JS to provide a lightweight and easy to learn interface for manipulating applications and accessibility APIs using the features you love from JavaScript, while also relieving you of cross-platform nightmares.
 
+*This is currently a developer preview of V11. We are planning a full launch in Fall 2020.*
+
 **Installing V11**
 
 To add V11 to an existing Node.JS project install using
