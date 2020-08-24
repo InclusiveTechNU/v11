@@ -13,6 +13,20 @@ V11 is a JavaScript library and code editor for building accessibility plugins, 
 
 *This is currently a developer preview of V11. We are planning a full launch in Fall 2020.*
 
+**Example**
+
+V11 is inspired by the DOM to make modifying the accessibility tree easy. Here's a simple example to mute a track in GarageBand.
+
+```js
+const v11 = require('v11');
+const gb = v11.system.getApplicationByName("GarageBane");
+const mute = gb.getElementsByLabel("Mute")[0];
+mute.actions.press();
+v11.start();
+```
+
+You can learn about the current stable API [here](https://northwestern.box.com/s/zvw875xtu7x1iip3alwt7ontelql5ag9). We are continually adding features to improve accessibility modification and querying so check back often!
+
 **Installing V11**
 
 To add V11 to an existing Node.JS project install using
