@@ -25,6 +25,17 @@ mute.actions.press();
 v11.start();
 ```
 
+V11 supports more than just performing accessibility actions. In fact, you can even listen for them too. Here's an example of how to listen for textbox entry in TextEdit.
+
+```js
+const v11 = require('v11');
+const notes = v11.system.getApplicationByName("TextEdit");
+notes.getElementsByType("textarea")[0].addEventListener('value', () => {
+    console.log("hey");
+})
+v11.start();
+```
+
 You can learn about the current stable API [here](https://northwestern.box.com/s/zvw875xtu7x1iip3alwt7ontelql5ag9). We are continually adding features to improve accessibility modification and querying so check back often! You can also see some simple examples of V11 scripts [here](https://github.com/InclusiveTechNU/v11/tree/master/examples).
 
 **Installing V11**
