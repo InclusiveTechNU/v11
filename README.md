@@ -9,7 +9,7 @@
 
 **Made with :purple_heart: in Evanston, IL at the [Northwestern Inclusive Technology Lab](http://inclusive.northwestern.edu/)**
 
-V11 is a JavaScript runtime and code editor for building accessibility plugins, workflows, and applications. It is built on top of [V8](https://v8.dev/) and Node.JS to provide a lightweight and easy to learn interface for manipulating applications and accessibility APIs using the features you love from JavaScript, while also relieving you of cross-platform nightmares.
+V11 is a JavaScript library and code editor for building accessibility plugins, workflows, and applications. It is built on top of [V8](https://v8.dev/) and Node.JS to provide a lightweight and easy to learn interface for manipulating applications and accessibility APIs using the features you love from JavaScript, while also relieving you of cross-platform nightmares.
 
 **Installing V11**
 
