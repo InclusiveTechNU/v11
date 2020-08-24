@@ -70,6 +70,9 @@ declare module 'larkin-types' {
     performAction(native: {}, name: string): void;
     getActions(native: {}): Array<string>;
     getChildren(native: {}): Array<Element>;
+    addEventListener(native: {},
+                     type:string,
+                     callback: () => void): void;
   }
 
   interface PlatformAPI {

@@ -16,21 +16,20 @@
 
 #pragma once
 
-#include "sys/types.h"
-#include <vector>
-#include "accessibility/accessibility_window.h"
-#include "environment/application/application.h"
+#include <sys/types.h>
+#include "environment/system/notifications/notification.h"
 
-using app::Application;
+using sys::notifications::notification_type;
 
-namespace a11y {
-class AccessibilityTree {
+namespace app {
+
+class ApplicationObserverBridge {
  private:
-    Application* _app;
-
+    void* _native_object = nullptr;
+    
  public:
-    explicit AccessibilityTree(Application* app);
-    std::vector<AccessibilityWindow*> get_windows();
+    explicit ApplicationObserverBridge(pid_t identifier);
+    void* get_native_observer();
 };
 
-};  // namespace a11y
+};  // namespace app

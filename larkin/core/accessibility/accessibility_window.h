@@ -17,11 +17,14 @@
 #pragma once
 
 #include "accessibility/accessibility_element.h"
+#include "environment/application/application.h"
+
+using app::Application;
 
 namespace a11y {
 class AccessibilityWindow: public AccessibilityElement  {
  public:
-    explicit AccessibilityWindow(const void* native_window);
+    AccessibilityWindow(Application* app, const void* native_window);
     const char* get_title() const;
 };
 };  // namespace a11y

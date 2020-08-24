@@ -67,6 +67,10 @@ export class Element implements ApplicationElement {
     this._value = text;
   }
 
+  addEventListener(type: string, callback: () => void): void {
+    return larkin.accessibility.addEventListener(this._native, type, callback);
+  }
+
   getElementsByType(type: string, maxDepth = Infinity): Array<Element> {
     let elements: Array<Element> = [];
     const checkEachChild = (children: Array<Element>, depth = 0) => {
@@ -115,6 +119,11 @@ export class Window implements ApplicationElement {
     return larkin.accessibility.getChildren(this._native).map(child => {
       return new Element(child);
     });
+  }
+
+  // TODO(tommymchugh): Just make this move inherently from ApplicationElement
+  addEventListener(type: string, callback: () => void): void {
+    return larkin.accessibility.addEventListener(this._native, type, callback);
   }
 
   getElementsByType(type: string): Array<Element> {

@@ -15,3 +15,10 @@
  */
 
 const v11 = require('../build/v11/core/v11');
+
+const notes = v11.system.getApplicationByName("TextEdit");
+notes.windows[0].children[0].children[0].addEventListener('value', () => {
+    console.log("hey");
+})
+
+v11.start();

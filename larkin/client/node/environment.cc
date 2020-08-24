@@ -44,7 +44,46 @@ using sys::platform::get_platform;
 using sys::platform::get_platform_version;
 using app::Application;
 
+// TODO(tommymchugh): This should be moved somewhere else
+#define NOTIF_TYPE_UNKNOWN "unknown"
+#define NOTIF_TYPE_APPLICATION_DID_LAUNCH "launch"
+#define NOTIF_TYPE_APPLICATION_DID_TERMINATE "terminate"
+#define NOTIF_TYPE_APPLICATION_DID_HIDE "hide"
+#define NOTIF_TYPE_APPLICATION_DID_UNHIDE "unhide"
+#define NOTIF_TYPE_DEVICE_DID_MOUNT "mount"
+#define NOTIF_TYPE_DEVICE_DID_UNMOUNT "unmount"
+#define NOTIF_TYPE_SYSTEM_DID_WAKE "wake"
+#define NOTIF_TYPE_SYSTEM_DID_SLEEP "sleep"
+#define NOTIF_TYPE_SYSTEM_WILL_POWER_OFF "poweroff"
+#define NOTIF_TYPE_ACCESSIBILITY_DID_CHANGE "accessibility"
+
 namespace environment {
+
+notification_type convert_string_to_notification_type(std::string type_str) {
+    if (type_str == NOTIF_TYPE_APPLICATION_DID_HIDE) {
+        return notification_type::APPLICATION_DID_HIDE;
+    } else if (type_str == NOTIF_TYPE_APPLICATION_DID_LAUNCH) {
+        return notification_type::APPLICATION_DID_LAUNCH;
+    } else if (type_str == NOTIF_TYPE_APPLICATION_DID_TERMINATE) {
+        return notification_type::APPLICATION_DID_TERMINATE;
+    } else if (type_str == NOTIF_TYPE_APPLICATION_DID_UNHIDE) {
+        return notification_type::APPLICATION_DID_UNHIDE;
+    } else if (type_str == NOTIF_TYPE_DEVICE_DID_MOUNT) {
+        return notification_type::DEVICE_DID_MOUNT;
+    } else if (type_str == NOTIF_TYPE_DEVICE_DID_UNMOUNT) {
+        return notification_type::DEVICE_DID_UNMOUNT;
+    } else if (type_str == NOTIF_TYPE_SYSTEM_DID_WAKE) {
+        return notification_type::SYSTEM_DID_WAKE;
+    } else if (type_str == NOTIF_TYPE_SYSTEM_DID_SLEEP) {
+        return notification_type::SYSTEM_DID_SLEEP;
+    } else if (type_str == NOTIF_TYPE_SYSTEM_WILL_POWER_OFF) {
+        return notification_type::SYSTEM_WILL_POWER_OFF;
+    } else if (type_str == NOTIF_TYPE_ACCESSIBILITY_DID_CHANGE) {
+        return notification_type::ACCESSIBILITY_DID_CHANGE;
+    } else {
+        return notification_type::UNKNOWN;
+    }
+}
 
 napi_status system(napi_env env, napi_value exports) {
     // Create system APIS for larkin
@@ -208,7 +247,7 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
         if (status != napi_ok) return nullptr;
 
         napi_value listener_type_object = args[0];
-        char* listener_type_ptr = string_from_value(env, listener_type_object);
+        const char* listener_type_ptr = string_from_value(env, listener_type_object);
 
         // TODO(tommymchugh): Figure out how to check for null for callback
         // Create async thread-safe callback function
@@ -253,27 +292,7 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
         } else {
             notification_type listener_type = notification_type::UNKNOWN;
             std::string type_str = std::string(listener_type_ptr);
-            if (type_str == NOTIF_TYPE_APPLICATION_DID_HIDE) {
-                listener_type = notification_type::APPLICATION_DID_HIDE;
-            } else if (type_str == NOTIF_TYPE_APPLICATION_DID_LAUNCH) {
-                listener_type = notification_type::APPLICATION_DID_LAUNCH;
-            } else if (type_str == NOTIF_TYPE_APPLICATION_DID_TERMINATE) {
-                listener_type = notification_type::APPLICATION_DID_TERMINATE;
-            } else if (type_str == NOTIF_TYPE_APPLICATION_DID_UNHIDE) {
-                listener_type = notification_type::APPLICATION_DID_UNHIDE;
-            } else if (type_str == NOTIF_TYPE_DEVICE_DID_MOUNT) {
-                listener_type = notification_type::DEVICE_DID_MOUNT;
-            } else if (type_str == NOTIF_TYPE_DEVICE_DID_UNMOUNT) {
-                listener_type = notification_type::DEVICE_DID_UNMOUNT;
-            } else if (type_str == NOTIF_TYPE_SYSTEM_DID_WAKE) {
-                listener_type = notification_type::SYSTEM_DID_WAKE;
-            } else if (type_str == NOTIF_TYPE_SYSTEM_DID_SLEEP) {
-                listener_type = notification_type::SYSTEM_DID_SLEEP;
-            } else if (type_str == NOTIF_TYPE_SYSTEM_WILL_POWER_OFF) {
-                listener_type = notification_type::SYSTEM_WILL_POWER_OFF;
-            } else if (type_str == NOTIF_TYPE_ACCESSIBILITY_DID_CHANGE) {
-                listener_type = notification_type::ACCESSIBILITY_DID_CHANGE;
-            }
+            listener_type = convert_string_to_notification_type(type_str);
 
             // TODO(tommymchugh): callback func should delete at some point
             // Create the callback function from callback_object

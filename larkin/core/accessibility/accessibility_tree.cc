@@ -18,8 +18,8 @@
 
 namespace a11y {
 
-AccessibilityTree::AccessibilityTree(pid_t process_id) {
-    _process_id = process_id;
+AccessibilityTree::AccessibilityTree(Application* app) {
+    _app = app;
 }
 
 };  // namespace a11y

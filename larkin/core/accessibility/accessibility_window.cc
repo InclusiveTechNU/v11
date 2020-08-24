@@ -18,8 +18,11 @@
 
 namespace a11y {
 
-AccessibilityWindow::AccessibilityWindow(const void* native_window) :
-                     AccessibilityElement(ElementType::WINDOW,
-                                          native_window) {}
+AccessibilityWindow::AccessibilityWindow(Application* app,
+                                         const void* native_window) :
+                     AccessibilityElement(app,
+                                          ElementType::WINDOW,
+                                          native_window) {
+}
 
 };  // namespace a11y

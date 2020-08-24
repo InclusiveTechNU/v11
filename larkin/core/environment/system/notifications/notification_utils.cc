@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "environment/system/notifications/notification_utils.h"
+#include "environment/system/notifications/notification_utils_bridge.h"
 
-#include "sys/types.h"
-#include <vector>
-#include "accessibility/accessibility_window.h"
-#include "environment/application/application.h"
+namespace sys {
+namespace notifications {
+namespace utils {
 
-using app::Application;
+void* convert_notification_type_to_native(notification_type type) {
+    return __convert_notification_type_to_native(type);
+}
 
-namespace a11y {
-class AccessibilityTree {
- private:
-    Application* _app;
-
- public:
-    explicit AccessibilityTree(Application* app);
-    std::vector<AccessibilityWindow*> get_windows();
-};
-
-};  // namespace a11y
+};  // namespace utils
+};  // namespace notifications
+};  // namespace sys

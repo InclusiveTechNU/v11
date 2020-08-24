@@ -18,6 +18,7 @@
 
 #include <string>
 #include <vector>
+#include "environment/application/application_observer.h"
 
 namespace app {
 
@@ -30,6 +31,7 @@ class Application {
     // The process identifier of the application
     pid_t _process_id = -1;
 
+    ApplicationObserver* _observer = nullptr;
     void init_with_native(void* native_app);
 
  public:
@@ -37,8 +39,12 @@ class Application {
     explicit Application(const char* bundle_id);
     ~Application();
     static std::vector<Application*> get_active_applications();
-
     void activate();
+
+    // Returns the application observer for the given application
+    // or creates an observer for the given application and passes
+    // ownership of the observer to the application.
+    ApplicationObserver* get_observer();
     const char* get_name() const;
     const char* get_bundle_id() const;
     pid_t get_process_id() const;

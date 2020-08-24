@@ -18,8 +18,10 @@
 
 namespace a11y {
 
-AccessibilityElement::AccessibilityElement(ElementType type,
+AccessibilityElement::AccessibilityElement(Application* app,
+                                           ElementType type,
                                            const void* native_element) :
+                                           _app(app),
                                            _type(type),
                                            _native_element(native_element) {}
 
@@ -40,6 +42,10 @@ const char* AccessibilityElement::get_value() const {
 
 const char* AccessibilityElement::get_description() const {
     return get_value("AXRoleDescription");
+}
+
+const void* AccessibilityElement::get_native_element() const {
+    return _native_element;
 }
 
 };  // namespace a11y

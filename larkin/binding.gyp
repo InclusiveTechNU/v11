@@ -7,6 +7,7 @@
           "<!@(node -p \"require('get-uv-event-loop-napi-h').include\")",
       ],
       'dependencies': [
+        'libcore-a11y',
         'libcore',
       ],
       "sources": [
@@ -37,37 +38,15 @@
     },
 
     {
-      "target_name": "libcore",
+      "target_name": "libcore-a11y",
       'type': 'static_library',
       'include_dirs': [
-          'core/',
+          'core/accessibility',
       ],
-      "sources": [
-        ### CORE/ENVIRONMENT ###
-        "core/environment/system/system.h",
-        "core/environment/system/system_bridge.h",
-        "core/environment/system/system_initializer.h",
-        "core/environment/system/notifications/listener.h",
-        "core/environment/system/notifications/notification.h",
-        "core/environment/system/notifications/manager_type.h",
-        "core/environment/system/platform/platform_info.h",
-        "core/environment/system/platform/get_platform.h",
-        "core/environment/system/notifications/notification_manager.h",
-        "core/environment/system/platform/platform.h",
-        "core/environment/system/notifications/notification_manager_bridge.h",
-        "core/environment/system/notifications/notification.cc",
-        "core/environment/system/notifications/notification_manager.cc",
-        "core/environment/system/platform/platform.cc",
-        "core/environment/system/platform/get_platform_mac.mm",
-        "core/environment/system/notifications/notification_manager_bridge_mac.mm",
-        "core/environment/system/system_delegate_mac.mm",
-        "core/environment/system/system_bridge_mac.mm",
-        "core/environment/system/system_delegate_mac.h",
-        "core/environment/system/system.cc",
-        "core/environment/application/application.h",
-        "core/environment/application/application.cc",
-        "core/environment/application/application_mac.mm",
-
+      'dependencies': [
+        'libcore',
+      ],
+       "sources": [
         ### CORE/ACCESSIBILITY ###
         "core/accessibility/accessibility_tree.h",
         "core/accessibility/accessibility_tree.cc",
@@ -80,6 +59,64 @@
         "core/accessibility/accessibility_window.h",
         "core/accessibility/accessibility_window.cc",
         "core/accessibility/accessibility_window_mac.mm",
+      ],
+      'direct_dependent_settings': {
+        'include_dirs': [
+          'core/accessibility',
+        ],
+      },
+      'link_settings': {
+        'libraries': [
+          '$(SDKROOT)/System/Library/Frameworks/Foundation.framework',
+          '$(SDKROOT)/System/Library/Frameworks/AppKit.framework',
+        ],
+      },
+      "cflags": [
+        "-std=c++17",
+        "-stdlib=libc++",
+        "-ObjC++"
+      ]
+    },
+
+    {
+      "target_name": "libcore",
+      'type': 'static_library',
+      'include_dirs': [
+          'core/',
+      ],
+      "sources": [
+        ### CORE/ENVIRONMENT ###
+        "core/environment/system/system.h",
+        "core/environment/system/system_bridge.h",
+        "core/environment/system/system_initializer.h",
+        "core/environment/system/notifications/listener.h",
+        "core/environment/system/notifications/notification.h",
+        "core/environment/system/notifications/notification_utils.h",
+        "core/environment/system/notifications/notification_utils_bridge.h",
+        "core/environment/system/notifications/manager_type.h",
+        "core/environment/system/platform/platform_info.h",
+        "core/environment/system/platform/get_platform.h",
+        "core/environment/system/notifications/notification_manager.h",
+        "core/environment/system/platform/platform.h",
+        "core/environment/system/notifications/notification_manager_bridge.h",
+        "core/environment/system/notifications/notification.cc",
+        "core/environment/system/notifications/notification_utils.cc",
+        "core/environment/system/notifications/notification_utils_bridge_mac.mm",
+        "core/environment/system/notifications/notification_manager.cc",
+        "core/environment/system/platform/platform.cc",
+        "core/environment/system/platform/get_platform_mac.mm",
+        "core/environment/system/notifications/notification_manager_bridge_mac.mm",
+        "core/environment/system/system_delegate_mac.mm",
+        "core/environment/system/system_bridge_mac.mm",
+        "core/environment/system/system_delegate_mac.h",
+        "core/environment/system/system.cc",
+        "core/environment/application/application.h",
+        "core/environment/application/application.cc",
+        "core/environment/application/application_mac.mm",
+        "core/environment/application/application_observer_bridge.h",
+        "core/environment/application/application_observer_bridge_mac.mm",
+        "core/environment/application/application_observer.h",
+        "core/environment/application/application_observer.cc",
 
         ### CORE/UTILS ###
         "core/utils/string.cc",

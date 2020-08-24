@@ -1,8 +1,0 @@
-language: cpp
-os: osx
-notifications:
-  email:
-  - mchugh@u.northwestern.edu
-script:
-  - npm install -g yarn
-  - yarn build

@@ -19,13 +19,19 @@
 #include <Foundation/Foundation.h>
 #include <Cocoa/Cocoa.h>
 #include "accessibility/accessibility_element.h"
+#include "environment/application/application_observer.h"
+#include "environment/application/application_observer_bridge.h"
+#include "environment/system/notifications/notification_utils.h"
+
+using app::ApplicationObserver;
+using app::ApplicationObserverBridge;
+using sys::notifications::utils::convert_notification_type_to_native;
 
 namespace a11y {
 
 std::vector<AccessibilityElement*> AccessibilityElement::get_children() const {
     std::vector<AccessibilityElement*> children;
     AXUIElementRef app_ref = (AXUIElementRef) _native_element;
-
     CFArrayRef children_array_raw = nullptr;
     CFStringRef children_label = CFStringCreateWithCString(nullptr, "AXChildren", kCFStringEncodingUTF8);
     AXUIElementCopyAttributeValues(app_ref, children_label, 0, INT_MAX, &children_array_raw);
@@ -37,7 +43,7 @@ std::vector<AccessibilityElement*> AccessibilityElement::get_children() const {
     (__bridge_transfer NSString*) children_label;
     for (int i = 0; i < [children_array count]; i++) {
         AXUIElementRef child = (AXUIElementRef) children_array[i];
-        children.push_back(new AccessibilityElement(ElementType::UNKNOWN, (void*) child));
+        children.push_back(new AccessibilityElement(_app, ElementType::UNKNOWN, (void*) child));
     }
     return children;
 }
@@ -94,6 +100,27 @@ void AccessibilityElement::perform_action(const char* name) {
     AXUIElementRef app_ref = (AXUIElementRef) _native_element;
     CFStringRef action_name = CFStringCreateWithCString(nullptr, name, kCFStringEncodingUTF8);
     AXUIElementPerformAction(app_ref, action_name);
+}
+
+void AccessibilityElement::add_notification_listener(notification_type type, std::function<void()>* callback) {
+    if (type == notification_type::UNKNOWN) {
+        return;
+    }
+    // Create an observer for the element
+    CFStringRef native_notif_type = (CFStringRef) convert_notification_type_to_native(type);
+    ApplicationObserver* app_observer = _app->get_observer();
+    ApplicationObserverBridge* observer_bridge = app_observer->get_native_bridge();
+    AXObserverRef observer_ref = (AXObserverRef) observer_bridge->get_native_observer();
+    AXUIElementRef element_ref = (AXUIElementRef) _native_element;
+    AXError notif_error = AXObserverAddNotification(observer_ref, element_ref, native_notif_type, callback);
+    // TODO(tommymchugh): Handle failed observer
+    if (notif_error != kAXErrorSuccess) {
+        std::cout << notif_error;
+        delete callback;
+        return;
+    }
+    // Add observer to the Node.JS Run Loop
+    app_observer->add_observer_callback(type, callback);
 }
 
 };  // namespace a11y

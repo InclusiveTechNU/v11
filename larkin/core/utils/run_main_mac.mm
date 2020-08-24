@@ -32,6 +32,7 @@ void create_main_app() {
 }
 
 void send_event() {
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false);
     NSApplication* app = [NSApplication sharedApplication];
     NSEvent* event = [app nextEventMatchingMask:NSAnyEventMask
                           untilDate:[NSDate distantPast]

@@ -21,34 +21,49 @@
 #include <functional>
 #include <map>
 
-#define NOTIF_TYPE_UNKNOWN "unknown"
-#define NOTIF_TYPE_APPLICATION_DID_LAUNCH "launch"
-#define NOTIF_TYPE_APPLICATION_DID_TERMINATE "terminate"
-#define NOTIF_TYPE_APPLICATION_DID_HIDE "hide"
-#define NOTIF_TYPE_APPLICATION_DID_UNHIDE "unhide"
-#define NOTIF_TYPE_DEVICE_DID_MOUNT "mount"
-#define NOTIF_TYPE_DEVICE_DID_UNMOUNT "unmount"
-#define NOTIF_TYPE_SYSTEM_DID_WAKE "wake"
-#define NOTIF_TYPE_SYSTEM_DID_SLEEP "sleep"
-#define NOTIF_TYPE_SYSTEM_WILL_POWER_OFF "poweroff"
-#define NOTIF_TYPE_ACCESSIBILITY_DID_CHANGE "accessibility"
-
 namespace sys {
 namespace notifications {
 
 // Platform indepdent notification identifier names
 enum notification_type {
     UNKNOWN,
+
+    // Hardware Notifications    
+    DEVICE_DID_MOUNT,
+    DEVICE_DID_UNMOUNT,
+
+    // System Notifications
+    SYSTEM_DID_WAKE,
+    SYSTEM_DID_SLEEP,
+    SYSTEM_WILL_POWER_OFF,
+
+    // Accessibility Notifications
+    ACCESSIBILITY_DID_CHANGE,
+
+    // Application Lifecycle Notifications
     APPLICATION_DID_LAUNCH,
     APPLICATION_DID_TERMINATE,
     APPLICATION_DID_HIDE,
     APPLICATION_DID_UNHIDE,
-    DEVICE_DID_MOUNT,
-    DEVICE_DID_UNMOUNT,
-    SYSTEM_DID_WAKE,
-    SYSTEM_DID_SLEEP,
-    SYSTEM_WILL_POWER_OFF,
-    ACCESSIBILITY_DID_CHANGE
+    APPLICATION_DID_CHANGE_MAIN_WINDOW,
+    APPLICATION_DID_CHANGE_FOCUSED_WINDOW,
+    APPLICATION_DID_CHANGE_FOCUSED_UI_ELEMENT,
+    APPLICATION_DID_CREATE_UI_ELEMENT,
+    APPLICATION_DID_CREATE_WINDOW,
+    APPLICATION_DID_REMOVE_ELEMENT,
+
+    // Window Element Notifications
+    WINDOW_ELEMENT_DID_FINISH_MOVE,
+    WINDOW_ELEMENT_DID_FINISH_RESIZE,
+    WINDOW_ELEMENT_DID_MINIMIZE,
+    WINDOW_ELEMENT_DID_DEMINIMIZE,
+
+    // Application UI Element Notifications
+    UI_ELEMENT_DID_RESIZE,
+    UI_ELEMENT_DID_MOVE,
+    UI_ELEMENT_DID_CHANGE_TITLE,
+    UI_ELEMENT_DID_CHANGE_VALUE,
+    UI_ELEMENT_REMOVED
 };
 
 // A platform indepdent structure containining the

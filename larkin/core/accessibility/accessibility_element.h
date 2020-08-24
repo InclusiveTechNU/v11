@@ -15,8 +15,15 @@
  */
 
 #pragma once
+
 #include <string>
 #include <vector>
+#include <functional>
+#include "environment/application/application.h"
+#include "environment/system/notifications/notification.h"
+
+using app::Application;
+using sys::notifications::notification_type;
 
 namespace a11y {
 
@@ -29,19 +36,26 @@ class AccessibilityElement {
  protected:
     ElementType _type;
     const void* _native_element;
+    Application* _app;
     const char* get_value(const char* name) const;
  public:
-    explicit AccessibilityElement(ElementType type,
-                                  const void* native_element);
+    AccessibilityElement(Application* app,
+                         ElementType type,
+                         const void* native_element);
     std::vector<AccessibilityElement*> get_children() const;
+
     std::vector<std::string> get_actions() const;
     void perform_action(const char* name);
+
     void set_value(const char* value);
     const char* get_type() const;
     const char* get_label() const;
     const char* get_title() const;
     const char* get_value() const;
     const char* get_description() const;
+    const void* get_native_element() const;
+    void add_notification_listener(notification_type type,
+                                   std::function<void()>* callback);
 };
 
 };  // namespace a11y

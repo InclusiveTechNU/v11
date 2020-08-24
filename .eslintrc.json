@@ -1,7 +1,0 @@
-{
-  "extends": "./third_party/node/node_modules/gts/",
-  "rules": {
-    "node/no-unpublished-require": 1,
-    "node/no-unpublished-import": 1
-  }
-}

@@ -18,6 +18,13 @@
 
 namespace app {
 
+ApplicationObserver* Application::get_observer() {
+    if (!_observer) {
+        _observer = ApplicationObserver::create_observer(get_process_id());
+    }
+    return _observer;
+}
+
 const char* Application::get_name() const {
     if (_local_name) {
         return _local_name->c_str();
@@ -37,6 +44,7 @@ pid_t Application::get_process_id() const {
 }
 
 Application::~Application() {
+    delete _observer;
     delete _local_name;
     delete _bundle_id;
 }

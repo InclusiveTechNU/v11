@@ -18,13 +18,16 @@
 #include <Foundation/Foundation.h>
 #include <Cocoa/Cocoa.h>
 #include "accessibility/accessibility_tree.h"
+#include "accessibility/accessibility_element.h"
+#include "environment/system/notifications/notification.h"
+
+using sys::notifications::notification_type;
 
 namespace a11y {
 
 std::vector<AccessibilityWindow*> AccessibilityTree::get_windows() {
     std::vector<AccessibilityWindow*> windows;
-    AXUIElementRef app_ref = AXUIElementCreateApplication(_process_id);
-
+    AXUIElementRef app_ref = AXUIElementCreateApplication(_app->get_process_id());
     CFArrayRef window_array_raw = nullptr;
     CFStringRef window_label = CFStringCreateWithCString(nullptr, "AXWindows", kCFStringEncodingUTF8);
     AXUIElementCopyAttributeValues(app_ref, window_label, 0, INT_MAX, &window_array_raw);
@@ -36,7 +39,7 @@ std::vector<AccessibilityWindow*> AccessibilityTree::get_windows() {
     (__bridge_transfer NSString*) window_label;
     for (int i = 0; i < [window_array count]; i++) {
         AXUIElementRef window = (AXUIElementRef) window_array[i];
-        windows.push_back(new AccessibilityWindow((const void*) window));
+        windows.push_back(new AccessibilityWindow(_app, (const void*) window));
     }
     return windows;
 }

@@ -12,12 +12,8 @@
     "typescript": "^3.9.2"
   },
   "scripts": {
-    "check": "./third_party/node/node_modules/gts/build/src/cli.js check",
-    "clean": "rm -rf ./larkin/build && rm -rf ./build && yarn run clean:js",
-    "clean:js": "./third_party/node/node_modules/gts/build/src/cli.js clean",
-    "fix": "./third_party/node/node_modules/gts/build/src/cli.js fix",
-    "build": "yarn install && ./tools/build_larkin_client && yarn run clean:js && yarn run check && ./third_party/node/node_modules/typescript/bin/tsc",
-    "postinstall": "ln -s third_party/node/node_modules ./node_modules",
+    "clean": "rm -rf ./larkin/build && rm -rf ./build",
+    "build": "yarn install && yarn clean && ./tools/build_larkin_client && tsc",
     "checkyarn": "echo \"$npm_execpath\" | grep -q \"yarn\\.js$\" || (echo '⚠️  Use yarn not npm! ⚠️ ' && echo && exit 1)"
   }
 }
