@@ -25,7 +25,7 @@ mute.actions.press();
 v11.start();
 ```
 
-You can learn about the current stable API [here](https://northwestern.box.com/s/zvw875xtu7x1iip3alwt7ontelql5ag9). We are continually adding features to improve accessibility modification and querying so check back often!
+You can learn about the current stable API [here](https://northwestern.box.com/s/zvw875xtu7x1iip3alwt7ontelql5ag9). We are continually adding features to improve accessibility modification and querying so check back often! You can also see some simple examples of V11 scripts [here](https://github.com/InclusiveTechNU/v11/tree/master/examples).
 
 **Installing V11**
 
