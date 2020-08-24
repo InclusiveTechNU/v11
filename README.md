@@ -21,6 +21,15 @@ yarn add v11
 
 Good luck and happy coding!
 
+**Building V11**
+
+While we are currently transitioning to the Bazel build system, most of the project relies on Yarn for building. These instructions will build V11 from source.
+
+```shell
+yarn install
+yarn build
+```
+
 ## Contributing
 
 We welcome contributions of all kinds from filing issues and bug or typo fixes to large feature implementations. 
