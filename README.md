@@ -19,7 +19,7 @@ V11 is inspired by the DOM to make modifying the accessibility tree easy. Here's
 
 ```js
 const v11 = require('v11');
-const gb = v11.system.getApplicationByName("GarageBane");
+const gb = v11.system.getApplicationByName("GarageBand");
 const mute = gb.getElementsByLabel("Mute")[0];
 mute.actions.press();
 v11.start();
