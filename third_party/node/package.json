@@ -1,0 +1,9 @@
+{
+    "name": "node-modules",
+    "version": "1.0.0",
+    "devDependencies": {
+        "@bazel/typescript": "^2.0.2",
+        "typescript": "^3.9.7",
+        "gts": "^2.0.2"
+    }
+}

@@ -1,0 +1,5 @@
+alias(
+    name = "tsconfig.json",
+    actual = "//third_party/node:tsconfig.json",
+    visibility = ["//visibility:public"]
+)

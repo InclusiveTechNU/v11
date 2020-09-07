@@ -1,0 +1,9 @@
+# Remove all bazel directories
+/bazel-*
+
+# Remove extraneous node.js files
+/package.json
+/yarn.lock
+/tsconfig.json
+yarn-error.log
+node_modules

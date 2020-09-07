@@ -1,0 +1,5 @@
+# Enable watchmode for the node_modules directory
+# common --experimental_allow_incremental_repository_updates
+
+# Enable more helpful query outputs
+query --output=label_kind
