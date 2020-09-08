@@ -16,13 +16,13 @@
 
 #include <functional>
 #include <vector>
-#include "client/node/interaction.h"
-#include "client/node/sound_utils.h"
-#include "client/node/utils.h"
-#include "core/interaction/sound/text2speech/voice.h"
-#include "core/interaction/sound/text2speech/text2speech_synthesizer.h"
-#include "core/interaction/keyboard/keyboard_simulator.h"
-#include "core/interaction/keyboard/keycode.h"
+#include "larkin/runtime/node/interaction.h"
+#include "larkin/runtime/node/sound_utils.h"
+#include "larkin/runtime/node/utils.h"
+#include "larkin/interaction/sound/text2speech/voice.h"
+#include "larkin/interaction/sound/text2speech/text2speech_synthesizer.h"
+#include "larkin/interaction/keyboard/keyboard_simulator.h"
+#include "larkin/interaction/keyboard/keycode.h"
 
 using utils::string_from_value;
 using keyboard::keycode;

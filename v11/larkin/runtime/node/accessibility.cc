@@ -16,12 +16,12 @@
 
 #include <iostream>
 #include <vector>
-#include "client/node/accessibility.h"
-#include "client/node/utils.h"
-#include "core/accessibility/accessibility_tree.h"
-#include "core/accessibility/accessibility_element.h"
-#include "core/environment/application/application.h"
-#include "core/environment/system/notifications/notification.h"
+#include "larkin/runtime/node/accessibility.h"
+#include "larkin/runtime/node/utils.h"
+#include "larkin/accessibility/accessibility_tree.h"
+#include "larkin/accessibility/accessibility_element.h"
+#include "larkin/environment/application/application.h"
+#include "larkin/environment/system/notifications/notification.h"
 
 using app::Application;
 using utils::string_from_value;
@@ -115,7 +115,7 @@ void windows(napi_env env, napi_value exports) {
         AccessibilityTree* app_tree = new AccessibilityTree(app);
         std::vector<AccessibilityWindow*> windows = app_tree->get_windows();
 
-        for (int i = 0; i < windows.size(); i++) {
+        for (std::size_t i = 0; i < windows.size(); i++) {
             AccessibilityWindow* window = windows[i];
             napi_value window_object;
             window_to_object(env, window, &window_object);
@@ -202,7 +202,7 @@ void children(napi_env env, napi_value exports) {
         std::vector<AccessibilityElement*> children = native_window->
                                                       get_children();
 
-        for (int i = 0; i < children.size(); i++) {
+        for (std::size_t i = 0; i < children.size(); i++) {
             AccessibilityElement* child = children[i];
             napi_value child_object;
             element_to_object(env, child, &child_object);
@@ -261,7 +261,7 @@ void actions(napi_env env, napi_value exports) {
         AccessibilityElement* element = reinterpret_cast<AccessibilityElement*>(native_wrapper_ptr);
         std::vector<std::string> actions = element->get_actions();
 
-        for (int i = 0; i < actions.size(); i++) {
+        for (std::size_t i = 0; i < actions.size(); i++) {
             std::string& action = actions[i];
             napi_value action_object;
             a_ok(napi_create_string_utf8(env,

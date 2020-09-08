@@ -16,14 +16,14 @@
 
 #include <iostream>
 #include <functional>
-#include <uv.h>
-#include <get-uv-event-loop-napi.h>
-#include <node_api.h>
-#include "client/node/interaction.h"
-#include "client/node/accessibility.h"
-#include "client/node/utils.h"
-#include "client/node/environment.h"
-#include "core/environment/system/system.h"
+#include <node/uv.h>
+#include <node/node_api.h>
+#include "third_party/node/get_uv_event_loop/include/get-uv-event-loop-napi.h"
+#include "larkin/runtime/node/interaction.h"
+#include "larkin/runtime/node/accessibility.h"
+#include "larkin/runtime/node/utils.h"
+#include "larkin/runtime/node/environment.h"
+#include "larkin/environment/system/system.h"
 
 using utils::run_non_block_loop;
 using sys::System;

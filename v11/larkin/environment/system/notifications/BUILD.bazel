@@ -39,6 +39,7 @@ cc_objc_library(
         "//tools/bazel/platforms:windows": [
             ":sys_notifications_lib_windows_srcs",
         ],
+        "//conditions:default": [],
     }),
     deps = [
         "//v11/utils:v11_utils_lib",

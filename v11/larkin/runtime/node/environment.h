@@ -16,8 +16,8 @@
 
 #pragma once
 
-#include <node_api.h>
-#include "core/environment/system/system.h"
+#include <node/node_api.h>
+#include "larkin/environment/system/system.h"
 
 using sys::System;
 

@@ -16,12 +16,13 @@
 
 #pragma once
 
-#include <uv.h>
-#include <node_api.h>
-#include "core/environment/system/notifications/notification.h"
-#include "core/environment/application/application.h"
-#include "core/accessibility/accessibility_window.h"
-#include "core/accessibility/accessibility_element.h"
+#include <assert.h>
+#include <node/uv.h>
+#include <node/node_api.h>
+#include "larkin/environment/system/notifications/notification.h"
+#include "larkin/environment/application/application.h"
+#include "larkin/accessibility/accessibility_window.h"
+#include "larkin/accessibility/accessibility_element.h"
 
 #define a_ok(call) assert(call == napi_ok)
 

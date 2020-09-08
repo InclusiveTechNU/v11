@@ -34,6 +34,7 @@ cc_objc_library(
         "//tools/bazel/platforms:windows": [
             ":application_lib_windows_srcs",
         ],
+        "//conditions:default": [],
     }),
     deps = [
         "//v11/larkin/environment/system/notifications:sys_notifications_lib",

@@ -17,14 +17,14 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "client/node/environment.h"
-#include "client/node/utils.h"
-#include "core/utils/run_main.h"
-#include "core/environment/system/system.h"
-#include "core/environment/system/platform/platform.h"
-#include "core/environment/system/notifications/notification.h"
-#include "core/environment/system/notifications/listener.h"
-#include "core/environment/application/application.h"
+#include "larkin/runtime/node/environment.h"
+#include "larkin/runtime/node/utils.h"
+#include "utils/run_main.h"
+#include "larkin/environment/system/system.h"
+#include "larkin/environment/system/platform/platform.h"
+#include "larkin/environment/system/notifications/notification.h"
+#include "larkin/environment/system/notifications/listener.h"
+#include "larkin/environment/application/application.h"
 
 #define PLATFORM_TEXT_MAC "apple"
 #define PLATFORM_TEXT_WINDOWS "windows"
@@ -126,7 +126,7 @@ napi_status system(napi_env env, napi_value exports) {
         a_ok(napi_create_array(env, &application_array));
         std::vector<Application*> applications = Application::
                                                  get_active_applications();
-        for (int i = 0; i < applications.size(); i++) {
+        for (std::size_t i = 0; i < applications.size(); i++) {
             const Application* app = applications[i];
             napi_value app_object;
             application_to_object(env, app, &app_object);

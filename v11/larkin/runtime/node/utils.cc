@@ -18,8 +18,8 @@
 #include <string>
 #include <map>
 #include <utility>
-#include "client/node/utils.h"
-#include "core/utils/run_main.h"
+#include "larkin/runtime/node/utils.h"
+#include "utils/run_main.h"
 
 using utils::create_main_app;
 using utils::send_event;
@@ -27,12 +27,12 @@ using utils::send_event;
 namespace utils {
 
 char* string_from_value(napi_env env, napi_value value) {
-    size_t value_len = -1;
-    size_t value_len_read = -1;
+    size_t value_len = 0;
+    size_t value_len_read = 0;
     char* text_buffer = nullptr;
     napi_get_value_string_utf8(env, value, nullptr, 0, &value_len);
 
-    if (value_len != -1) {
+    if (value_len != 0) {
         text_buffer = new char[value_len+1];
         napi_status status;
         status = napi_get_value_string_utf8(env,
@@ -43,7 +43,9 @@ char* string_from_value(napi_env env, napi_value value) {
         if (status != napi_ok) return nullptr;
         return text_buffer;
     }
-    return nullptr;
+    text_buffer = new char[1];
+    text_buffer[0] = '\0';
+    return text_buffer;
 }
 
 void notification_to_object(napi_env env,
@@ -119,7 +121,8 @@ void element_to_object(napi_env env,
 
     const char* type = element->get_type();
     const char* label = element->get_label();
-    const char* description = element->get_description();
+    // TODO(tommymchugh): Initialize description value
+    //const char* description = element->get_description();
     const char* value_str = element->get_value();
     const char* title = element->get_title();
 

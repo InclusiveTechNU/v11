@@ -32,12 +32,14 @@ cc_objc_library(
         ],
         "//tools/bazel/platforms:macos": [
             ":accessibility_lib_macos_srcs",
-        ]
+        ],
+        "//conditions:default": [],
     }),
     deps = [
         "//v11/larkin/environment/application:larkin_application_lib",
     ],
     strip_include_prefix = "//v11",
+    visibility = ["//visibility:public"],
 )
 
 # Core Accessibility Lib Linux Platform Resources

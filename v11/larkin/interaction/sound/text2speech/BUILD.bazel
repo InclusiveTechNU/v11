@@ -37,6 +37,7 @@ cc_objc_library(
         "//tools/bazel/platforms:windows": [
             ":sound_text2speech_lib_windows_srcs",
         ],
+        "//conditions:default": [],
     }),
     deps = [
         "//v11/utils:v11_utils_lib",

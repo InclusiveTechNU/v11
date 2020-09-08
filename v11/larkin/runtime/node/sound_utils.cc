@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "client/node/sound_utils.h"
+#include "larkin/runtime/node/sound_utils.h"
 
 namespace interaction {
 namespace utils {

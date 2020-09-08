@@ -16,8 +16,8 @@
 
 #pragma once
 
-#include <node_api.h>
-#include "core/interaction/sound/text2speech/voice.h"
+#include <node/node_api.h>
+#include "larkin/interaction/sound/text2speech/voice.h"
 
 using sound::voice::Voice;
 

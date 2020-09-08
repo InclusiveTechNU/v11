@@ -12,7 +12,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-load("@rules_cc//cc:defs.bzl", "objc_library", "cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_library")
+load("//tools/bazel/rules:objcc.bzl", "cc_objc_library")
 
 cc_library(
     name = "v11_utils_lib",
@@ -28,18 +29,55 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
-objc_library(
-    name = "run_main",
-    srcs = [
-        "run_main_mac.mm",
-    ],
+cc_objc_library(
+    name = "v11_utils_main_loop_lib",
     hdrs = [
         "run_main.h",
     ],
-    copts = ["-Ilarkin/core/"],
-    visibility = ["//:__subpackages__"],
-    sdk_frameworks = [
-        "Foundation",
-        "AppKit"
-    ]
+    srcs = [
+
+    ] + select({
+        "//tools/bazel/platforms:linux": [
+            ":utils_main_loop_lib_linux_srcs",
+        ],
+        "//tools/bazel/platforms:macos": [
+            ":utils_main_loop_lib_macos_srcs",
+        ],
+        "//tools/bazel/platforms:windows": [
+            ":utils_main_loop_lib_windows_srcs",
+        ],
+        "//conditions:default": [],
+    }),
+    strip_include_prefix = "//v11",
+    visibility = ["//visibility:public"],
+)
+
+# Core Main Loop Lib Linux Platform Resources
+
+filegroup(
+    name = "utils_main_loop_lib_linux_srcs",
+    srcs = [
+        "run_main_linux.cc",
+    ],
+    visibility = ["//visibility:private"],
+)
+
+# Core Main Loop Lib MacOS Platform Resources
+
+filegroup(
+    name = "utils_main_loop_lib_macos_srcs",
+    srcs = [
+        "run_main_mac.mm",
+    ],
+    visibility = ["//visibility:private"],
+)
+
+# Core Main Loop Lib Windows Platform Resources
+
+filegroup(
+    name = "utils_main_loop_lib_windows_srcs",
+    srcs = [
+        "run_main_windows.cc",
+    ],
+    visibility = ["//visibility:private"],
 )
