@@ -21,10 +21,10 @@ namespace platform {
 
 // Operating system related platforms that Larkin supports.
 enum platform {
-    mac,
-    windows,
-    linux,
-    unknown
+    MAC,
+    WINDOWS,
+    LINUX,
+    UNKNOWN,
 };
 
 // Platform version numbers following a major, minor,

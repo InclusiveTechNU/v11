@@ -32,7 +32,7 @@ const sys::platform::version get_platform_version() {
 }
 
 const sys::platform::platform get_platform() {
-    return sys::platform::mac;
+    return sys::platform::MAC;
 }
 
 };  // namespace implementation

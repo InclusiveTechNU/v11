@@ -12,6 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+load(":base.bzl", "get_cc_library_headers",
+                  "get_cc_library_includes",
+                  "get_rel_path")
+
 # Supported Node Addon Extensions
 _cpp_header_extensions = [".h", ".hh", ".hpp", ".hxx", ".h++"]
 _cpp_source_extensions = [".cc", ".cpp", ".cxx", ".c++"]
@@ -63,13 +67,28 @@ def _gen_gyp_build_subs(name,
     }
 
 def _node_native_library_impl(ctx):
-    # Generate binding.gyp file from build sources
     gyp_build_file = ctx.actions.declare_file(_node_addon_build_file_name)
+    # TODO(tommymchugh): source files which don't have a stripped prefix break
+    # Capture dependency headers and include dirs
+    deps_hdrs = []
+    deps_includes = []
+    for dep in ctx.attr.deps:
+        deps_hdrs.append(get_cc_library_headers(dep))
+        deps_includes.append(get_cc_library_includes(dep))
+
+    # Generate relative include directories
+    deps_includes_rel = []
+    for dep_includes_comp in deps_includes:
+        for dep in dep_includes_comp.to_list():
+            rel_path = get_rel_path(dep, gyp_build_file.dirname)
+            deps_includes_rel.append(rel_path)
+
+    # Generate binding.gyp file from build sources
     gyp_build_subs = _gen_gyp_build_subs(ctx.label.name,
                                          ctx.files.srcs,
                                          gyp_build_file.dirname,
                                          [],
-                                         ctx.attr.includes,   
+                                         ctx.attr.includes + deps_includes_rel,   
                                          ctx.attr.copts)
     ctx.actions.expand_template(
         output = gyp_build_file,
@@ -97,11 +116,14 @@ def _node_native_library_impl(ctx):
         return []
 
     # Run Node Gyp Build on generated bindings.gyp
+    addon_inputs = [gyp_build_file] + src_symlinks
+    for dep in deps_hdrs:
+        addon_inputs += dep.to_list()
     addon_output_bin_path = _gen_addon_bin_path(ctx.label.name)
     addon_output_bin = ctx.actions.declare_file(addon_output_bin_path)
     ctx.actions.run(
         executable = node_gyp_bin_file,
-        inputs = [gyp_build_file] + src_symlinks,
+        inputs = addon_inputs,
         arguments = ["-C", gyp_build_file.dirname, "configure", "build"],
         mnemonic = _node_gyp_description,
         outputs = [addon_output_bin],
@@ -128,7 +150,7 @@ node_native_module = rule(
             default = "//tools/bazel/templates:binding.gyp.tpl",
         ),
         "_node_gyp": attr.label(
-            default = "@npm//node-gyp"
+            default = "@npm//node-gyp",
         )
     }
 )

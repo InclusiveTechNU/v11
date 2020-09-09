@@ -27,6 +27,8 @@ node_native_module(
     strip_include_prefix = "//v11",
     copts = [
         "-std=c++17",
+        "-ansi",
+        #"-pedantic",
     ] + select({
         "//tools/bazel/platforms:macos": [
             "-ObjC++",

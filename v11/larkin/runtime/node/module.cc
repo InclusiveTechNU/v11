@@ -18,7 +18,7 @@
 #include <functional>
 #include <node/uv.h>
 #include <node/node_api.h>
-#include "third_party/node/get_uv_event_loop/include/get-uv-event-loop-napi.h"
+#include "get_uv_event_loop/include/get-uv-event-loop-napi.h"
 #include "larkin/runtime/node/interaction.h"
 #include "larkin/runtime/node/accessibility.h"
 #include "larkin/runtime/node/utils.h"
