@@ -12,3 +12,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+load("@npm//@bazel/typescript:index.bzl", "ts_library")
+
+ts_library(
+    name = "larkin_lib_node",
+    srcs = [
+        "larkin.ts",
+        "larkin.d.ts",
+    ],
+)
