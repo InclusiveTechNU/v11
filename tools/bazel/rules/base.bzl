@@ -12,6 +12,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+_virtual_library_dirname = "_virtual_libraries"
+
+def get_virtual_library_dirname():
+    return _virtual_library_dirname
+
 def get_cc_library_headers(cc_lib):
     return cc_lib[CcInfo].compilation_context.headers
 

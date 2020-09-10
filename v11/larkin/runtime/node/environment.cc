@@ -158,7 +158,7 @@ napi_status system(napi_env env, napi_value exports) {
     std::string platform_str;
     if (sys_platform == platform::MAC) {
         platform_str = PLATFORM_TEXT_MAC;
-    } else if (sys_platform == platform::windows) {
+    } else if (sys_platform == platform::WINDOWS) {
         platform_str = PLATFORM_TEXT_WINDOWS;
     } else if (sys_platform == platform::LINUX) {
         platform_str = PLATFORM_TEXT_LINUX;

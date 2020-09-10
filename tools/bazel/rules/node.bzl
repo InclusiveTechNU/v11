@@ -14,7 +14,8 @@
 
 load(":base.bzl", "get_cc_library_headers",
                   "get_cc_library_includes",
-                  "get_rel_path")
+                  "get_rel_path",
+                  "get_virtual_library_dirname")
 
 # Supported Node Addon Extensions
 _cpp_header_extensions = [".h", ".hh", ".hpp", ".hxx", ".h++"]
@@ -40,8 +41,14 @@ def _get_gyp_src_path(dir_path, gyp_dir_path):
             relative_path_comps.append(dir_comp)
     return '/'.join(relative_path_comps)
 
-def _gen_addon_bin_path(name):
-    return "build/" + name + "/Release/" + name
+def _gen_addon_build_files(name):
+    # TODO(tommymchugh): Generate debug and release files
+    starting_path = "build/Release/"
+    return [
+        starting_path + "obj.target/" + name + "/module.o",
+        starting_path + "obj.target/" + name + ".node",
+        starting_path + name + ".node",
+    ]
 
 def _gen_gyp_build_subs(name,
                         srcs,
@@ -67,6 +74,8 @@ def _gen_gyp_build_subs(name,
     }
 
 def _node_native_library_impl(ctx):
+    # TODO(tommymchugh): Platform dependent seperator
+    seperator = "/"
     gyp_build_file = ctx.actions.declare_file(_node_addon_build_file_name)
     # TODO(tommymchugh): source files which don't have a stripped prefix break
     # Capture dependency headers and include dirs
@@ -83,11 +92,25 @@ def _node_native_library_impl(ctx):
             rel_path = get_rel_path(dep, gyp_build_file.dirname)
             deps_includes_rel.append(rel_path)
 
+    # Generate virtual libraries from deps
+    vlib_dirname = get_virtual_library_dirname()
+    linked_deps = []
+    link_dep_paths = []
+    for dep_lib in ctx.files.deps:
+        dep_lib_path = vlib_dirname + seperator + dep_lib.basename
+        dep_lib_file = ctx.actions.declare_file(dep_lib_path)
+        ctx.actions.symlink(
+            output = dep_lib_file,
+            target_file = dep_lib
+        )
+        link_dep_paths.append("<(module_root_dir)/" + dep_lib_path)
+        linked_deps.append(dep_lib_file)
+
     # Generate binding.gyp file from build sources
     gyp_build_subs = _gen_gyp_build_subs(ctx.label.name,
                                          ctx.files.srcs,
                                          gyp_build_file.dirname,
-                                         [],
+                                         link_dep_paths,
                                          ctx.attr.includes + deps_includes_rel,   
                                          ctx.attr.copts)
     ctx.actions.expand_template(
@@ -116,23 +139,23 @@ def _node_native_library_impl(ctx):
         return []
 
     # Run Node Gyp Build on generated bindings.gyp
-    addon_inputs = [gyp_build_file] + src_symlinks
+    addon_inputs = [gyp_build_file] + src_symlinks + linked_deps
     for dep in deps_hdrs:
         addon_inputs += dep.to_list()
-    addon_output_bin_path = _gen_addon_bin_path(ctx.label.name)
-    addon_output_bin = ctx.actions.declare_file(addon_output_bin_path)
+    addon_output_file_paths = _gen_addon_build_files(ctx.label.name)
+    addon_output_files = []
+    for addon_output_file_path in addon_output_file_paths:
+        addon_output_file = ctx.actions.declare_file(addon_output_file_path)
+        addon_output_files.append(addon_output_file)
     ctx.actions.run(
         executable = node_gyp_bin_file,
         inputs = addon_inputs,
         arguments = ["-C", gyp_build_file.dirname, "configure", "build"],
         mnemonic = _node_gyp_description,
-        outputs = [addon_output_bin],
+        outputs = addon_output_files,
         use_default_shell_env = True,
     )
-    
-    return [DefaultInfo(files = depset([
-        addon_output_bin
-    ]))]
+    return [DefaultInfo(files = depset(addon_output_files))]
 
 node_native_module = rule(
     implementation = _node_native_library_impl,
