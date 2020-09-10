@@ -22,7 +22,7 @@ node_native_module(
     ],
     deps = [
         ":larkin_node_addon_lib",
-        "//third_party/node/get_uv_event_loop:uv_event_loop_node_lib",
+        "//third_party/get_uv_event_loop:uv_event_loop_node_lib",
     ],
     strip_include_prefix = "//v11",
     copts = [
