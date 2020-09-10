@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
-load("//tools/bazel/rules:objcc.bzl", "cc_objc_library")
+load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
 
 cc_library(
     name = "v11_utils_lib",
@@ -29,25 +29,21 @@ cc_library(
     visibility = ["//visibility:public"],
 )
 
-cc_objc_library(
+cross_cc_library(
     name = "v11_utils_main_loop_lib",
     hdrs = [
         "run_main.h",
     ],
-    srcs = [
-
-    ] + select({
-        "//tools/bazel/platforms:linux": [
-            ":utils_main_loop_lib_linux_srcs",
-        ],
-        "//tools/bazel/platforms:macos": [
-            ":utils_main_loop_lib_macos_srcs",
-        ],
-        "//tools/bazel/platforms:windows": [
-            ":utils_main_loop_lib_windows_srcs",
-        ],
-        "//conditions:default": [],
-    }),
+    srcs = [],
+    macos_srcs = [
+        ":utils_main_loop_lib_macos_srcs",
+    ],
+    linux_srcs = [
+        ":utils_main_loop_lib_linux_srcs",
+    ],
+    windows_srcs = [
+        ":utils_main_loop_lib_windows_srcs",
+    ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:public"],
 )

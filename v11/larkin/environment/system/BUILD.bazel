@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-load("//tools/bazel/rules:objcc.bzl", "cc_objc_library")
+load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
 
-cc_objc_library(
+cross_cc_library(
     name = "larkin_sys_lib",
     hdrs = [
         "system.h",
@@ -23,18 +23,16 @@ cc_objc_library(
     ],
     srcs = [
         "system.cc",
-    ] + select({
-        "//tools/bazel/platforms:linux": [
-            ":sys_lib_linux_srcs",
-        ],
-        "//tools/bazel/platforms:macos": [
-            ":sys_lib_macos_srcs",
-        ],
-        "//tools/bazel/platforms:windows": [
-            ":sys_lib_windows_srcs",
-        ],
-        "//conditions:default": [],
-    }),
+    ],
+    linux_srcs = [
+        ":sys_lib_linux_srcs",
+    ],
+    windows_srcs = [
+        ":sys_lib_windows_srcs",
+    ],
+    macos_srcs = [
+        ":sys_lib_macos_srcs",
+    ],
     deps = [
         "//v11/utils:v11_utils_lib",
         "//v11/larkin/environment/system/platform:sys_platform_lib",

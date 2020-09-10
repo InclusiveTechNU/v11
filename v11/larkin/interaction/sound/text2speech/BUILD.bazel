@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-load("//tools/bazel/rules:objcc.bzl", "cc_objc_library")
+load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
 
-cc_objc_library(
+cross_cc_library(
     name = "sound_text2speech_lib",
     hdrs = [
         "text2speech_synthesizer.h",
@@ -27,18 +27,16 @@ cc_objc_library(
     srcs = [
         "text2speech_synthesizer.cc",
         "voice.cc"
-    ] + select({
-        "//tools/bazel/platforms:linux": [
-            ":sound_text2speech_lib_linux_srcs",
-        ],
-        "//tools/bazel/platforms:macos": [
-            ":sound_text2speech_lib_macos_srcs",
-        ],
-        "//tools/bazel/platforms:windows": [
-            ":sound_text2speech_lib_windows_srcs",
-        ],
-        "//conditions:default": [],
-    }),
+    ],
+    macos_srcs = [
+        ":sound_text2speech_lib_macos_srcs",
+    ],
+    linux_srcs = [
+        ":sound_text2speech_lib_linux_srcs",
+    ],
+    windows_srcs = [
+        ":sound_text2speech_lib_windows_srcs",
+    ],
     deps = [
         "//v11/utils:v11_utils_lib",
     ],

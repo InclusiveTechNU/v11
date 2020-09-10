@@ -12,9 +12,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-load("//tools/bazel/rules:objcc.bzl", "cc_objc_library")
+load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
 
-cc_objc_library(
+cross_cc_library(
     name = "larkin_accessibility_lib",
     hdrs = [
         "accessibility.h",
@@ -26,15 +26,16 @@ cc_objc_library(
         "accessibility_tree.cc",
         "accessibility_window.cc",
         "accessibility_element.cc",
-    ] + select({
-        "//tools/bazel/platforms:linux": [
-            ":accessibility_lib_linux_srcs",
-        ],
-        "//tools/bazel/platforms:macos": [
-            ":accessibility_lib_macos_srcs",
-        ],
-        "//conditions:default": [],
-    }),
+    ],
+    macos_srcs = [
+        ":accessibility_lib_macos_srcs",
+    ],
+    linux_srcs = [
+        ":accessibility_lib_linux_srcs",
+    ],
+    windows_srcs = [
+
+    ],
     deps = [
         "//v11/larkin/environment/application:larkin_application_lib",
     ],

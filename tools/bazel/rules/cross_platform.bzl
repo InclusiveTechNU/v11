@@ -19,11 +19,14 @@ Specifically, these macros enable cohesion between Non-MacOS libraries and
 MacOS libaries that depend on Objective-C native code.
 """
 
-load("@rules_cc//cc:defs.bzl", "cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_library", "objc_library")
 
-def cc_objc_library(name,
+def cross_cc_library(name,
                     hdrs = [],
                     srcs = [],
+                    macos_srcs = [],
+                    linux_srcs = [],
+                    windows_srcs = [],
                     deps = [],
                     visibility = ["//visibility:private"],
                     strip_include_prefix = None):
@@ -46,11 +49,45 @@ def cc_objc_library(name,
         A build rule of either cc_library type or objc_library type depending
         on the platform build target.
     """
+    # Define main wrapper library
     cc_library(
         name = name,
-        hdrs = hdrs,
-        srcs = srcs,
-        deps = deps,
+        srcs = srcs + select({
+            "//tools/bazel/platforms:linux": linux_srcs,
+            "//tools/bazel/platforms:windows": windows_srcs,
+            "//conditions:default": [],
+        }),
+        deps = select({
+            "//tools/bazel/platforms:linux": [
+                ":" + name + "__foundation__",
+            ],
+            "//tools/bazel/platforms:macos": [
+                ":" + name + "__foundation_objc__",
+            ],
+            "//tools/bazel/platforms:windows": [
+                ":" + name + "__foundation__",
+            ],
+            "//conditions:default": [],
+        }),
         visibility = visibility,
         strip_include_prefix = strip_include_prefix,
+    )
+
+    # Define MacOS support Objective-C library
+    objc_library(
+        name = name + "__foundation_objc__",
+        srcs = macos_srcs,
+        deps = [
+            ":" + name + "__foundation__",
+        ],
+        visibility = ["//visibility:private"],
+    )
+
+    # Define foundation components C++ library
+    cc_library(
+        name = name + "__foundation__",
+        hdrs = hdrs,
+        deps = deps,
+        strip_include_prefix = strip_include_prefix,
+        visibility = ["//visibility:private"],
     )
