@@ -17,12 +17,29 @@ load("//tools/bazel/rules:node.bzl", "node_native_module")
 
 node_native_module(
     name = "larkin_node_addon",
+    hdrs = [
+        "accessibility.h",
+        "environment.h",
+        "interaction.h",
+        "sound_utils.h",
+        "utils.h",
+    ],
     srcs = [
-        "module.cc"
+        "module.cc",
+        "accessibility.cc",
+        "environment.cc",
+        "interaction.cc",
+        "sound_utils.cc",
+        "utils.cc",
     ],
     deps = [
-        ":larkin_node_addon_lib",
         "//third_party/get_uv_event_loop:uv_event_loop_node_lib",
+        "//v11/utils:v11_utils_main_loop_lib",
+        "//v11/larkin/accessibility:larkin_accessibility_lib",
+        "//v11/larkin/environment/system:larkin_sys_lib",
+        "//v11/larkin/environment/application:larkin_application_lib",
+        "//v11/larkin/interaction/sound:larkin_sound_lib",
+        "//v11/larkin/interaction/keyboard:larkin_keyboard_lib",
     ],
     strip_include_prefix = "//v11",
     copts = [
@@ -37,36 +54,4 @@ node_native_module(
         "//conditions:default": [],
     }),
     visibility = ["//visibility:public"],
-)
-
-cc_library(
-    name = "larkin_node_addon_lib",
-    hdrs = [
-        "accessibility.h",
-        "environment.h",
-        "interaction.h",
-        "sound_utils.h",
-        "utils.h",
-    ],
-    srcs = [
-        "accessibility.cc",
-        "environment.cc",
-        "interaction.cc",
-        "sound_utils.cc",
-        "utils.cc",
-    ],
-    deps = [
-        "//v11/utils:v11_utils_main_loop_lib",
-        "//v11/larkin/accessibility:larkin_accessibility_lib",
-        "//v11/larkin/environment/system:larkin_sys_lib",
-        "//v11/larkin/environment/application:larkin_application_lib",
-        "//v11/larkin/interaction/sound:larkin_sound_lib",
-        "//v11/larkin/interaction/keyboard:larkin_keyboard_lib",
-    ],
-    includes = [
-        # TODO(tommymchugh): See if /usr/include is needed
-        # "/usr/include"
-    ],
-    strip_include_prefix = "//v11",
-    visibility = ["//visibility:private"],
 )

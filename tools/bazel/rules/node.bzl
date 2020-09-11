@@ -27,6 +27,7 @@ _node_addon_build_file_name = "binding.gyp"
 _gyp_exec_script_name = "build.sh"
 _node_gyp_bin_path = "node-gyp/bin/node-gyp.js"
 _node_gyp_description = "NodeAddonBuild"
+_hdr_include_dirname = "_virtual_includes"
 
 def _get_gyp_src_path(dir_path, gyp_dir_path):
     dir_comps = dir_path.split("/")
@@ -77,6 +78,32 @@ def _gen_gyp_build_subs(name,
         "{{CFLAGS}}": str(cflags)
     }
 
+def _gen_virtual_includes(ctx):
+    virtual_hdrs = []
+    declared_hdrs = ctx.files.hdrs
+    for declared_hdr in declared_hdrs:
+        # Strip header include prefix
+        # TODO(tommymchugh): Follow bazel default for stripping
+        full_incl_path = declared_hdr.short_path
+        strip_prefix = ctx.attr.strip_include_prefix
+        if len(strip_prefix) >= 2 and strip_prefix[:2] == "//":
+            strip_prefix = strip_prefix[2:]
+        if len(strip_prefix) > 0:
+            rel_incl_path = full_incl_path.replace(strip_prefix, "")
+        else:
+            rel_incl_path = full_incl_path
+
+        # Symlink generated virtual header
+        virtual_hdr_container = _hdr_include_dirname + "/" + ctx.label.name
+        virtual_hdr_path = virtual_hdr_container + rel_incl_path
+        virtual_hdr = ctx.actions.declare_file(virtual_hdr_path)
+        ctx.actions.symlink(
+            output = virtual_hdr,
+            target_file = declared_hdr,
+        )
+        virtual_hdrs.append(virtual_hdr)
+    return virtual_hdrs
+
 def _node_native_library_impl(ctx):
     # TODO(tommymchugh): Platform dependent seperator
     seperator = "/"
@@ -95,6 +122,11 @@ def _node_native_library_impl(ctx):
         for dep in dep_includes_comp.to_list():
             rel_path = get_rel_path(dep, gyp_build_file.dirname)
             deps_includes_rel.append(rel_path)
+
+    # Generate and add header include directories
+    virtual_include_files = _gen_virtual_includes(ctx)
+    virtual_include_path = ["./" + _hdr_include_dirname + "/" + ctx.label.name]
+    gyp_includes = ctx.attr.includes + deps_includes_rel + virtual_include_path
 
     # Generate virtual libraries from deps
     vlib_dirname = get_virtual_library_dirname()
@@ -115,7 +147,7 @@ def _node_native_library_impl(ctx):
                                          ctx.files.srcs,
                                          gyp_build_file.dirname,
                                          link_dep_paths,
-                                         ctx.attr.includes + deps_includes_rel,   
+                                         gyp_includes,
                                          ctx.attr.copts)
     ctx.actions.expand_template(
         output = gyp_build_file,
@@ -143,7 +175,10 @@ def _node_native_library_impl(ctx):
         return []
 
     # Run Node Gyp Build on generated bindings.gyp
-    addon_inputs = [gyp_build_file] + src_symlinks + linked_deps
+    addon_inputs = ([gyp_build_file] +
+                    src_symlinks +
+                    linked_deps +
+                    virtual_include_files)
     for dep in deps_hdrs:
         addon_inputs += dep.to_list()
     addon_output_file_paths = _gen_addon_build_files(ctx.label.name)
@@ -165,11 +200,14 @@ node_native_module = rule(
     implementation = _node_native_library_impl,
     attrs = {
         # Public User-Facing Attributes
-        "srcs": attr.label_list(allow_files = _cpp_extensions),
+        "srcs": attr.label_list(allow_files = _cpp_source_extensions),
+        "hdrs": attr.label_list(allow_files = _cpp_header_extensions),
         "deps": attr.label_list(),
         "includes": attr.string_list(),
         "copts": attr.string_list(),
-        "strip_include_prefix": attr.string(),
+        "strip_include_prefix": attr.string(
+            default = "",
+        ),
 
         # Private Attributes
         "_build_file_template": attr.label(
