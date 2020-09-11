@@ -42,11 +42,18 @@ def _get_gyp_src_path(dir_path, gyp_dir_path):
             relative_path_comps.append(dir_comp)
     return '/'.join(relative_path_comps)
 
-def _gen_addon_build_files(name):
+def _gen_addon_build_files(ctx, name):
     # TODO(tommymchugh): Generate debug and release files
     starting_path = "build/Release/"
-    return [
-        starting_path + "obj.target/" + name + "/module.o",
+    src_objects = []
+    src_name_start = starting_path + "obj.target/" + name + "/"
+    for file in ctx.files.srcs:
+        file_name = file.basename
+        file_ext = file.extension
+        file_name = file_name.replace("." + file_ext, "")
+        output_path = src_name_start + file_name + ".o"
+        src_objects.append(output_path)
+    return src_objects + [
         starting_path + "obj.target/" + name + ".node",
         starting_path + name + ".node",
     ]
@@ -181,7 +188,7 @@ def _node_native_library_impl(ctx):
                     virtual_include_files)
     for dep in deps_hdrs:
         addon_inputs += dep.to_list()
-    addon_output_file_paths = _gen_addon_build_files(ctx.label.name)
+    addon_output_file_paths = _gen_addon_build_files(ctx, ctx.label.name)
     addon_output_files = []
     for addon_output_file_path in addon_output_file_paths:
         addon_output_file = ctx.actions.declare_file(addon_output_file_path)
