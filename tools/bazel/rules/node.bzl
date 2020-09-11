@@ -54,7 +54,6 @@ def _gen_addon_build_files(ctx, name):
         output_path = src_name_start + file_name + ".o"
         src_objects.append(output_path)
     return src_objects + [
-        starting_path + "obj.target/" + name + ".node",
         starting_path + name + ".node",
     ]
 
