@@ -23,7 +23,6 @@ cc_library(
     hdrs = [
         "include/get-uv-event-loop-napi.h",
     ],
-    linkstatic = True,
     strip_include_prefix = "//third_party",
     visibility = ["//visibility:public"],
 )
