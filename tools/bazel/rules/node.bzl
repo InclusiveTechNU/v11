@@ -57,7 +57,11 @@ def _gen_gyp_build_subs(name,
                         includes = [],
                         cflags = []):
     # Generate include directories
-    include_dirs = ["."] + includes
+    default_includes = [
+        ".",
+        '<!(NODE_PATH=$(which node); echo "$NODE_PATH" | sed "s/bin\/node/include/")',
+    ]
+    include_dirs = default_includes + includes
 
     # Generate source file paths
     src_paths = []
