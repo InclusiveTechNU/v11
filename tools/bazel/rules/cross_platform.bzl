@@ -52,11 +52,6 @@ def cross_cc_library(name,
     # Define main wrapper library
     cc_library(
         name = name,
-        srcs = select({
-            "//tools/bazel/platforms:linux": linux_srcs,
-            "//tools/bazel/platforms:windows": windows_srcs,
-            "//conditions:default": [],
-        }),
         deps = select({
             "//tools/bazel/platforms:linux": [
                 ":" + name + "__foundation__",
@@ -76,10 +71,9 @@ def cross_cc_library(name,
     # Define MacOS support Objective-C library
     objc_library(
         name = name + "__foundation_objc__",
-        srcs = macos_srcs,
-        deps = [
-            ":" + name + "__foundation__",
-        ],
+        hdrs = hdrs,
+        srcs = macos_srcs + srcs,
+        deps = deps,
         visibility = ["//visibility:private"],
     )
 
@@ -87,7 +81,11 @@ def cross_cc_library(name,
     cc_library(
         name = name + "__foundation__",
         hdrs = hdrs,
-        srcs = srcs,
+        srcs = srcs + select({
+            "//tools/bazel/platforms:linux": linux_srcs,
+            "//tools/bazel/platforms:windows": windows_srcs,
+            "//conditions:default": [],
+        }),
         deps = deps,
         strip_include_prefix = strip_include_prefix,
         visibility = ["//visibility:private"],
