@@ -15,7 +15,8 @@
 load(":base.bzl", "get_cc_library_headers",
                   "get_cc_library_includes",
                   "get_rel_path",
-                  "get_virtual_library_dirname")
+                  "get_virtual_library_dirname",
+                  "get_cc_library_linked_libs")
 
 # Supported Node Addon Extensions
 _cpp_header_extensions = [".h", ".hh", ".hpp", ".hxx", ".h++"]
@@ -138,15 +139,18 @@ def _node_native_library_impl(ctx):
     vlib_dirname = get_virtual_library_dirname()
     linked_deps = []
     link_dep_paths = []
-    for dep_lib in ctx.files.deps:
-        dep_lib_path = vlib_dirname + seperator + dep_lib.basename
-        dep_lib_file = ctx.actions.declare_file(dep_lib_path)
-        ctx.actions.symlink(
-            output = dep_lib_file,
-            target_file = dep_lib
-        )
-        link_dep_paths.append("<(module_root_dir)/" + dep_lib_path)
-        linked_deps.append(dep_lib_file)
+    for dep_lib in ctx.attr.deps:
+        libs = get_cc_library_linked_libs(dep_lib)
+        #TODO(tommymchugh): Support debug mode
+        for lib in libs:
+            dep_lib_path = "build/Release/" + vlib_dirname + seperator + lib.short_path
+            dep_lib_file = ctx.actions.declare_file(dep_lib_path)
+            ctx.actions.symlink(
+                output = dep_lib_file,
+                target_file = lib
+            )
+            link_dep_paths.append("<(PRODUCT_DIR)/" + vlib_dirname + seperator + lib.short_path)
+            linked_deps.append(dep_lib_file)
 
     # Generate binding.gyp file from build sources
     gyp_build_subs = _gen_gyp_build_subs(ctx.label.name,

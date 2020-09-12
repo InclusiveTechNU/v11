@@ -52,7 +52,7 @@ def cross_cc_library(name,
     # Define main wrapper library
     cc_library(
         name = name,
-        srcs = srcs + select({
+        srcs = select({
             "//tools/bazel/platforms:linux": linux_srcs,
             "//tools/bazel/platforms:windows": windows_srcs,
             "//conditions:default": [],
@@ -87,6 +87,7 @@ def cross_cc_library(name,
     cc_library(
         name = name + "__foundation__",
         hdrs = hdrs,
+        srcs = srcs,
         deps = deps,
         strip_include_prefix = strip_include_prefix,
         visibility = ["//visibility:private"],

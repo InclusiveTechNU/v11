@@ -20,6 +20,17 @@ def get_virtual_library_dirname():
 def get_cc_library_headers(cc_lib):
     return cc_lib[CcInfo].compilation_context.headers
 
+def get_cc_library_linked_libs(cc_lib):
+    linked_libs = []
+    inputs = cc_lib[CcInfo].linking_context.linker_inputs.to_list()
+    for input in inputs:
+        libs = input.libraries
+        for lib in libs:
+            dyn_lib = lib.resolved_symlink_dynamic_library
+            if dyn_lib != None:
+                linked_libs.append(dyn_lib)
+    return linked_libs
+
 def get_cc_library_includes(cc_lib):
     return cc_lib[CcInfo].compilation_context.includes
 

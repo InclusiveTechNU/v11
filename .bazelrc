@@ -3,3 +3,6 @@
 
 # Enable more helpful query outputs
 query --output=label_kind
+
+# Disable deprecated feature flags
+---incompatible_require_linker_input_cc_api
