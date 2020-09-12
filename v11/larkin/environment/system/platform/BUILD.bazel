@@ -55,7 +55,7 @@ filegroup(
 filegroup(
     name = "sys_platform_lib_macos_srcs",
     srcs = [
-        "get_platform_macos.mm",
+        "get_platform_mac.mm",
     ],
     visibility = ["//visibility:private"],
 )

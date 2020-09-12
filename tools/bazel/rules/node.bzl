@@ -135,22 +135,39 @@ def _node_native_library_impl(ctx):
     virtual_include_path = ["./" + _hdr_include_dirname + "/" + ctx.label.name]
     gyp_includes = ctx.attr.includes + deps_includes_rel + virtual_include_path
 
+    # Generate libraries from linked dependencies
+    linked_paths = []
+    full_linked_deps = depset([], order="default")
+    for dep_lib in ctx.attr.deps:
+        cc_info = dep_lib[CcInfo]
+        linker_inputs = cc_info.linking_context.linker_inputs.to_list()
+        for linker_input in linker_inputs:
+            libraries = linker_input.libraries
+            for library in libraries:
+                dynamic_lib = library.resolved_symlink_dynamic_library
+                static_lib = library.static_library
+                if static_lib != None:
+                    if static_lib.short_path not in linked_paths:
+                        full_linked_deps = depset([static_lib], transitive=[full_linked_deps])
+                        linked_paths.append(static_lib.short_path)
+                elif dynamic_lib != None:
+                    if dynamic_lib.short_path not in linked_paths:
+                        full_linked_deps = depset([dynamic_lib], transitive=[full_linked_deps])
+                        linked_paths.append(dynamic_lib.short_path)
+
     # Generate virtual libraries from deps
     vlib_dirname = get_virtual_library_dirname()
     linked_deps = []
     link_dep_paths = []
-    for dep_lib in ctx.attr.deps:
-        libs = get_cc_library_linked_libs(dep_lib)
-        #TODO(tommymchugh): Support debug mode
-        for lib in libs:
-            dep_lib_path = "build/Release/" + vlib_dirname + seperator + lib.short_path
-            dep_lib_file = ctx.actions.declare_file(dep_lib_path)
-            ctx.actions.symlink(
-                output = dep_lib_file,
-                target_file = lib
-            )
-            link_dep_paths.append("<(PRODUCT_DIR)/" + vlib_dirname + seperator + lib.short_path)
-            linked_deps.append(dep_lib_file)
+    for dep_lib in full_linked_deps.to_list():
+        dep_lib_path = "build/Release/" + vlib_dirname + seperator + dep_lib.short_path
+        dep_lib_file = ctx.actions.declare_file(dep_lib_path)
+        ctx.actions.symlink(
+            output = dep_lib_file,
+            target_file = dep_lib
+        )
+        link_dep_paths.append("<(PRODUCT_DIR)/" + vlib_dirname + seperator + dep_lib.short_path)
+        linked_deps.append(dep_lib_file)
 
     # Generate binding.gyp file from build sources
     gyp_build_subs = _gen_gyp_build_subs(ctx.label.name,
