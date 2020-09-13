@@ -19,7 +19,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 // eslint-disable-next-line node/no-unpublished-import
-import * as larkin from '../../../larkin/Release/larkin';
+import * as larkin from './runtime/node/build/Release/larkin_node_addon';
 // ! END-IGNORE-ERROR
 
 import * as Types from 'larkin-types';

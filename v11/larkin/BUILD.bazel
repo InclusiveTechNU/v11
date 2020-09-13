@@ -20,4 +20,7 @@ ts_library(
         "larkin.ts",
         "larkin.d.ts",
     ],
+    data = [
+        "//v11/larkin/runtime/node:larkin_node_addon",
+    ],
 )

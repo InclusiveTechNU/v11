@@ -229,7 +229,12 @@ def _node_native_library_impl(ctx):
         outputs = addon_output_files,
         use_default_shell_env = True,
     )
-    return [DefaultInfo(files = depset(addon_output_files))]
+    return [DefaultInfo(
+        runfiles = ctx.runfiles(
+            files = addon_output_files,
+        ),
+        files = depset(addon_output_files),
+    )]
 
 node_native_module = rule(
     implementation = _node_native_library_impl,
