@@ -50,8 +50,14 @@ node_native_module(
         "//tools/bazel/platforms:macos": [
             "-ObjC++",
             "-stdlib=libc++",
-        ],
-        "//conditions:default": [],
+        ], "//conditions:default": [],
+    }),
+    # TODO(tommymchugh): Make this OS sensitive
+    apple_sdks = select({
+        "//tools/bazel/platforms:macos": [
+            "AppKit",
+            "Foundation",
+        ], "//conditions:default": [],
     }),
     visibility = ["//visibility:public"],
 )

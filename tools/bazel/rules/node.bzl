@@ -63,7 +63,13 @@ def _gen_gyp_build_subs(name,
                         gyp_dirname,
                         deps = [],
                         includes = [],
-                        cflags = []):
+                        cflags = [],
+                        mac_sdks = []):
+    # Generate Apple SDK dependencies
+    mac_sdks_full = []
+    for sdk in mac_sdks:
+        mac_sdks_full.append("$(SDKROOT)/System/Library/Frameworks/" + sdk + ".framework")
+
     # Generate include directories
     default_includes = [
         ".",
@@ -82,7 +88,8 @@ def _gen_gyp_build_subs(name,
         "{{SOURCES}}": str(src_paths),
         "{{DEPENDENCIES}}": str(deps),
         "{{INCLUDE_DIRS}}": str(include_dirs),
-        "{{CFLAGS}}": str(cflags)
+        "{{CFLAGS}}": str(cflags),
+        "{{MACOS_SDKS}}": str(mac_sdks_full),
     }
 
 def _gen_virtual_includes(ctx):
@@ -175,7 +182,8 @@ def _node_native_library_impl(ctx):
                                          gyp_build_file.dirname,
                                          link_dep_paths,
                                          gyp_includes,
-                                         ctx.attr.copts)
+                                         ctx.attr.copts,
+                                         ctx.attr.apple_sdks)
     ctx.actions.expand_template(
         output = gyp_build_file,
         template = ctx.file._build_file_template,
@@ -234,6 +242,9 @@ node_native_module = rule(
         "copts": attr.string_list(),
         "strip_include_prefix": attr.string(
             default = "",
+        ),
+        "apple_sdks": attr.string_list(
+            default = [],
         ),
 
         # Private Attributes

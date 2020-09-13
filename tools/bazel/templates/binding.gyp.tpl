@@ -6,6 +6,9 @@
       "libraries": {{DEPENDENCIES}},
       "sources": {{SOURCES}},
       "cflags": {{CFLAGS}},
+      'link_settings': {
+        'libraries': {{MACOS_SDKS}},
+      },
     },
   ]
 }

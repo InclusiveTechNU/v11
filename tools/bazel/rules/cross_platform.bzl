@@ -79,6 +79,10 @@ def cross_cc_library(name,
             ":" + name + "__foundation__",
         ],
         alwayslink = True,
+        sdk_frameworks = [
+            "Foundation",
+            "AppKit",
+        ],
         visibility = ["//visibility:private"],
     )
 
