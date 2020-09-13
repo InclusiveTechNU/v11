@@ -31,7 +31,7 @@ namespace a11y {
 
 std::vector<AccessibilityElement*> AccessibilityElement::get_children() const {
     std::vector<AccessibilityElement*> children;
-    AXUIElementRef app_ref = (AXUIElementRef) _native_element;
+    AXUIElementRef app_ref = reinterpret_cast<AXUIElementRef>(_native_element);
     CFArrayRef children_array_raw = nullptr;
     CFStringRef children_label = CFStringCreateWithCString(nullptr, "AXChildren", kCFStringEncodingUTF8);
     AXUIElementCopyAttributeValues(app_ref, children_label, 0, INT_MAX, &children_array_raw);
@@ -39,17 +39,20 @@ std::vector<AccessibilityElement*> AccessibilityElement::get_children() const {
         return children;
     }
 
-    NSArray* children_array = (__bridge_transfer NSArray*) children_array_raw;
+    NSArray* children_array = (__bridge NSArray*) children_array_raw;
     (__bridge_transfer NSString*) children_label;
     for (int i = 0; i < [children_array count]; i++) {
-        AXUIElementRef child = (AXUIElementRef) children_array[i];
-        children.push_back(new AccessibilityElement(_app, ElementType::UNKNOWN, (void*) child));
+        void* child = (__bridge void*) children_array[i];
+        AccessibilityElement* child_el = new AccessibilityElement(_app,
+                                                                  ElementType::UNKNOWN,
+                                                                  child);
+        children.push_back(child_el);
     }
     return children;
 }
 
 const char* AccessibilityElement::get_value(const char* name) const {
-    AXUIElementRef app_ref = (AXUIElementRef) _native_element;
+    AXUIElementRef app_ref = reinterpret_cast<AXUIElementRef>(_native_element);
     /*CFArrayRef children_array_raw = nullptr;
     AXUIElementCopyAttributeNames(app_ref, &children_array_raw);
     NSLog(@"%@", children_array_raw);*/

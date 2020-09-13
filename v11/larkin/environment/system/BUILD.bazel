@@ -30,6 +30,9 @@ cross_cc_library(
     windows_srcs = [
         ":sys_lib_windows_srcs",
     ],
+    macos_hdrs = [
+        ":sys_lib_macos_hdrs",
+    ],
     macos_srcs = [
         ":sys_lib_macos_srcs",
     ],
@@ -57,9 +60,18 @@ filegroup(
 # Core System Lib MacOS Platform Resources
 
 filegroup(
+    name = "sys_lib_macos_hdrs",
+    srcs = [
+        "system_delegate_mac.h",
+    ],
+    visibility = ["//visibility:private"],
+)
+
+filegroup(
     name = "sys_lib_macos_srcs",
     srcs = [
         "system_bridge_mac.mm",
+        "system_delegate_mac.mm",
     ],
     visibility = ["//visibility:private"],
 )

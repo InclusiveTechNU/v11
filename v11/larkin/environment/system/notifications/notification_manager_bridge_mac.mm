@@ -22,7 +22,6 @@
 #include "utils/definitions.h"
 #include "utils/string.h"
 #include "larkin/environment/system/notifications/notification.h"
-#include "larkin/environment/application/application.h"
 #include "larkin/environment/system/notifications/notification_manager_bridge.h"
 
 #define A11Y_CHANGE NSWorkspaceAccessibilityDisplayOptionsDidChangeNotification
@@ -38,8 +37,6 @@
                        NSWorkspaceWillPowerOffNotification, \
                        NSWorkspaceWillSleepNotification, \
                        A11Y_CHANGE]
-
-using app::Application;
 using utils::error;
 using utils::error_code;
 using utils::string_copy;
@@ -129,6 +126,8 @@ error NotificationManagerBridge::register_global_observer(const global_observer
                     nn_value == APPLICATION_DID_TERMINATE ||
                     nn_value == APPLICATION_DID_HIDE ||
                     nn_value == APPLICATION_DID_UNHIDE) {
+                    // TODO(tommymchugh): Handle application logic from environment/application
+                    /*
                     NSDictionary* notification_data = [native_notification userInfo];
                     // TODO(tommymchugh): Turn this application into larkin app instance
                     NSRunningApplication* native_app = notification_data[@"NSWorkspaceApplicationKey"];
@@ -141,7 +140,7 @@ error NotificationManagerBridge::register_global_observer(const global_observer
                     if (app->get_name() != nullptr) {
                         sys_notification->put_data_with_key("name", std::string(app->get_name()));
                     }
-                    delete app;
+                    delete app;*/
                 }
 
                 // Push the notification to the global observer

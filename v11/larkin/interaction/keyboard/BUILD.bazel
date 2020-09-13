@@ -32,6 +32,9 @@ cross_cc_library(
         "keyboard_manager.cc",
         "keyboard_simulator.cc",
     ],
+    macos_hdrs = [
+        ":keyboard_lib_macos_hdrs",
+    ],
     macos_srcs = [
         ":keyboard_lib_macos_srcs",
     ],
@@ -60,6 +63,14 @@ filegroup(
 )
 
 # Core Keyboard Interaction Lib MacOS Platform Resources
+
+filegroup(
+    name = "keyboard_lib_macos_hdrs",
+    srcs = [
+        "keycode_converter_mac.h",
+    ],
+    visibility = ["//visibility:private"],
+)
 
 filegroup(
     name = "keyboard_lib_macos_srcs",

@@ -26,7 +26,6 @@ namespace app {
 class ApplicationObserverBridge {
  private:
     void* _native_object = nullptr;
-    
  public:
     explicit ApplicationObserverBridge(pid_t identifier);
     void* get_native_observer();

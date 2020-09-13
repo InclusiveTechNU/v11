@@ -24,6 +24,9 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "objc_library")
 def cross_cc_library(name,
                     hdrs = [],
                     srcs = [],
+                    macos_hdrs = [],
+                    linux_hdrs = [],
+                    windows_hdrs = [],
                     macos_srcs = [],
                     linux_srcs = [],
                     windows_srcs = [],
@@ -71,7 +74,7 @@ def cross_cc_library(name,
     # Define MacOS support Objective-C library
     objc_library(
         name = name + "__foundation_objc__",
-        srcs = macos_srcs + srcs,
+        srcs = macos_srcs,
         deps = [
             ":" + name + "__foundation__",
         ],
@@ -82,14 +85,26 @@ def cross_cc_library(name,
     # Define foundation components C++ library
     cc_library(
         name = name + "__foundation__",
-        hdrs = hdrs,
-        srcs = select({
-            "//tools/bazel/platforms:linux": linux_srcs + srcs,
-            "//tools/bazel/platforms:windows": windows_srcs + srcs,
+        hdrs = hdrs + select({
+            "//tools/bazel/platforms:linux": linux_hdrs,
+            "//tools/bazel/platforms:windows": windows_hdrs,
+            "//tools/bazel/platforms:macos": macos_hdrs,
+            "//conditions:default": [],
+        }),
+        srcs = srcs + select({
+            "//tools/bazel/platforms:linux": linux_srcs,
+            "//tools/bazel/platforms:windows": windows_srcs,
             "//conditions:default": [],
         }),
         deps = deps,
         strip_include_prefix = strip_include_prefix,
+        copts = select({
+            "//tools/bazel/platforms:macos": [
+                "-stdlib=libc++",
+                "-ObjC++",
+            ],
+            "//conditions:default": [],
+        }),
         alwayslink = True,
         visibility = ["//visibility:private"],
     )

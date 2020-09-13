@@ -35,11 +35,11 @@ std::vector<AccessibilityWindow*> AccessibilityTree::get_windows() {
         return windows;
     }
 
-    NSArray* window_array = (__bridge_transfer NSArray*) window_array_raw;
+    NSArray* window_array = (__bridge NSArray*) window_array_raw;
     (__bridge_transfer NSString*) window_label;
     for (int i = 0; i < [window_array count]; i++) {
-        AXUIElementRef window = (AXUIElementRef) window_array[i];
-        windows.push_back(new AccessibilityWindow(_app, (const void*) window));
+        const void* window_ptr = (__bridge void*) window_array[i];
+        windows.push_back(new AccessibilityWindow(_app, window_ptr));
     }
     return windows;
 }
