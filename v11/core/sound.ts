@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as larkin from '../larkin/larkin';
+import * as larkin from 'itl/programming/v11/larkin/larkin';
 
 // * v11.speech
 // v11.speech is a replica of the larkin speech synthesis API. The

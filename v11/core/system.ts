@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as larkin from '../larkin/larkin';
+import * as larkin from 'itl/programming/v11/larkin/larkin';
 import {EventTarget} from './events';
 import {Application} from './applications';
 

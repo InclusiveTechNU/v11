@@ -17,17 +17,17 @@
 // TODO(tommymchugh): Unknown module error from native gyp binding
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-import * as larkinAddon from './runtime/node/larkin_node_addon.js';
+import * as addon from './runtime/node/larkin_node_addon.js';
 
 // Export all types through larkin as a new type module
 import * as Types from 'larkin';
 export {Types};
 
 // Declare public facing larkin API types
-export const speech: Types.SpeechAPI = larkinAddon.speech;
-export const platform: Types.PlatformAPI = larkinAddon.platform;
-export const utils: Types.UtilsAPI = larkinAddon.utils;
-export const keyboard: Types.KeyboardAPI = larkinAddon.keyboard;
-export const notifications: Types.NotificationsAPI = larkinAddon.notifications;
-export const applications: Types.ApplicationAPI = larkinAddon.applications;
-export const accessibility: Types.AccessibilityAPI = larkinAddon.accessibility;
+export const speech: Types.SpeechAPI = addon.speech;
+export const platform: Types.PlatformAPI = addon.platform;
+export const utils: Types.UtilsAPI = addon.utils;
+export const keyboard: Types.KeyboardAPI = addon.keyboard;
+export const notifications: Types.NotificationsAPI = addon.notifications;
+export const applications: Types.ApplicationAPI = addon.applications;
+export const accessibility: Types.AccessibilityAPI = addon.accessibility;
