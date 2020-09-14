@@ -15,14 +15,11 @@
 load("@npm//@bazel/typescript:index.bzl", "ts_library")
 
 ts_library(
-    name = "larkin_lib_node",
+    name = "larkin_lib_types",
     srcs = [
-        "larkin.ts",
+        "larkin.d.ts",
     ],
-    deps = [
-        "//v11/larkin/@types:larkin_lib_types",
+    visibility = [
+        "//v11/larkin:__pkg__",
     ],
-    data = [
-        "//v11/larkin/runtime/node:larkin_node_addon",
-    ]
 )

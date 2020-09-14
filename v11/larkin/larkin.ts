@@ -14,34 +14,16 @@
  * limitations under the License.
  */
 
-// ! IGNORE-ERROR
-// TODO(tommymchugh): Unknown module from native gyp binding
+// TODO(tommymchugh): Unknown module error from native gyp binding
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-// eslint-disable-next-line node/no-unpublished-import
-import * as larkin from './runtime/node/build/Release/larkin_node_addon';
-// ! END-IGNORE-ERROR
+import * as larkinAddon from './runtime/node/larkin_node_addon.js';
 
-import * as Types from 'larkin-types';
-export type SpeechAPI = Types.SpeechAPI;
-export type PlatformAPI = Types.PlatformAPI;
-export type UtilsAPI = Types.UtilsAPI;
-export type KeyboardAPI = Types.KeyboardAPI;
-export type NotificationsAPI = Types.NotificationsAPI;
-export type ApplicationAPI = Types.ApplicationAPI;
-export type AccessibilityAPI = Types.AccessibilityAPI;
-
-export type Element = Types.Element;
-export type Window = Types.Window;
-export type Application = Types.Application;
-export type Event = Types.Event;
-export type Voice = Types.Voice;
-export type Version = Types.Version;
-
-export const speech: SpeechAPI = larkin.speech;
-export const platform: PlatformAPI = larkin.platform;
-export const utils: UtilsAPI = larkin.utils;
-export const keyboard: KeyboardAPI = larkin.keyboard;
-export const notifications: NotificationsAPI = larkin.notifications;
-export const applications: ApplicationAPI = larkin.applications;
-export const accessibility: AccessibilityAPI = larkin.accessibility;
+// Export all addon modules from the native bindings
+export const speech: SpeechAPI = larkinAddon.speech;
+export const platform: PlatformAPI = larkinAddon.platform;
+export const utils: UtilsAPI = larkinAddon.utils;
+export const keyboard: KeyboardAPI = larkinAddon.keyboard;
+export const notifications: NotificationsAPI = larkinAddon.notifications;
+export const applications: ApplicationAPI = larkinAddon.applications;
+export const accessibility: AccessibilityAPI = larkinAddon.accessibility;
