@@ -15,15 +15,17 @@
 load("@npm//@bazel/typescript:index.bzl", "ts_library")
 
 ts_library(
-    name = "larkin_lib_node",
+    name = "v11_lib_node",
     srcs = [
-        "larkin.ts",
+        "applications.ts",
+        "events.ts",
+        "keyboard.ts",
+        "sound.ts",
+        "system.ts",
+        "v11.ts",
     ],
     deps = [
-        "//v11/larkin/@types:larkin_lib_types",
-    ],
-    data = [
-        "//v11/larkin/runtime/node:larkin_node_addon",
+        "//v11/larkin:larkin_lib_node",
     ],
     visibility = ["//visibility:public"],
 )

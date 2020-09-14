@@ -1,0 +1,4 @@
+{
+    "typeRoots": ["@types"],
+    "types": ["larkin"],
+}
