@@ -14,5 +14,5 @@
 
 exports_files([
     "binding.gyp.tpl",
-    "node_gyp_build.sh.tpl"
+    "loader.js.tpl"
 ])

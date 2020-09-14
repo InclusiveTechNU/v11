@@ -229,11 +229,21 @@ def _node_native_library_impl(ctx):
         outputs = addon_output_files,
         use_default_shell_env = True,
     )
+
+    # Create a JS loader file to output
+    loader_file = ctx.actions.declare_file(ctx.label.name + ".js")
+    ctx.actions.expand_template(
+        output = loader_file,
+        template = ctx.file._loader_file_template,
+        substitutions = {
+            "{{MODULE_PATH}}": "build/Release/" + ctx.label.name,
+        },
+    )
     return [DefaultInfo(
         runfiles = ctx.runfiles(
-            files = addon_output_files,
+            files = addon_output_files + [loader_file],
         ),
-        files = depset(addon_output_files),
+        files = depset(addon_output_files + [loader_file]),
     )]
 
 node_native_module = rule(
@@ -256,6 +266,10 @@ node_native_module = rule(
         "_build_file_template": attr.label(
             allow_single_file = True,
             default = "//tools/bazel/templates:binding.gyp.tpl",
+        ),
+        "_loader_file_template": attr.label(
+            allow_single_file = True,
+            default = "//tools/bazel/templates:loader.js.tpl",
         ),
         "_node_gyp": attr.label(
             default = "@npm//node-gyp",
