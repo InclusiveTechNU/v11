@@ -25,7 +25,7 @@ ts_library(
     data = [
         "//v11/larkin/runtime/node:larkin_node_addon",
     ],
-    visibility = ["//visibility:private"],
+    visibility = ["//visibility:public"],
 )
 
 filegroup(
