@@ -16,5 +16,6 @@
 
 const cwd = process.cwd();
 process.chdir(__dirname + "/build");
-exports.default = require('./{{MODULE_PATH}}');
+const moduleAddon = require('./{{MODULE_PATH}}');
+module.exports = moduleAddon;
 process.chdir(cwd);

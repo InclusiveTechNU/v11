@@ -26,6 +26,24 @@ ts_library(
         "//v11/larkin/runtime/node:larkin_node_addon",
     ],
     devmode_module = "commonjs",
-    link_workspace_root = True,
+    runtime = "node",
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "larkin_lib_node_dev",
+    srcs = [
+        ":larkin_lib_node",
+    ],
+    output_group = "es5_sources",
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "larkin_lib_node_prod",
+    srcs = [
+        ":larkin_lib_node",
+    ],
+    output_group = "es6_sources",
     visibility = ["//visibility:public"],
 )

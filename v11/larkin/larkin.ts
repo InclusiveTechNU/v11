@@ -20,7 +20,7 @@
 import * as addon from './runtime/node/larkin_node_addon.js';
 
 // Export all types through larkin as a new type module
-import * as Types from 'larkin';
+import type * as Types from 'larkin';
 export {Types};
 
 // Declare public facing larkin API types
