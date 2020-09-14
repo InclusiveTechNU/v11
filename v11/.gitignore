@@ -1,5 +1,0 @@
-# Added for transition to Bazel
-build/
-larkin/build/
-node_modules/
-yarn.lock
