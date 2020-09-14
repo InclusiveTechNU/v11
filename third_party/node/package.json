@@ -1,13 +1,12 @@
 {
     "name": "node-modules",
-    "version": "1.0.0",
+    "version": "0.0.0",
     "devDependencies": {
-        "@bazel/typescript": "^2.0.2",
+        "@bazel/typescript": "^2.2.0",
         "gts": "^2.0.2",
         "typescript": "^3.9.7"
     },
     "dependencies": {
-        "get-uv-event-loop-napi-h": "^1.0.6",
         "node-gyp": "^7.1.0"
     }
 }

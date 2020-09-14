@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as larkin from 'itl/programming/v11/larkin/larkin';
+import * as larkin from '../larkin/larkin';
 
 export const start = larkin.utils.run;
 export {system} from './system';
