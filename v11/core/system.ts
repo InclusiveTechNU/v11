@@ -27,7 +27,7 @@ const PLATFORM_WINDOWS = 'windows';
 const PLATFORM_LINUX = 'linux';
 const PLATFORM_UNKNOWN = 'unknown';
 
-interface Version extends larkin.Version {
+interface Version extends larkin.Types.Version {
   code: string;
 }
 

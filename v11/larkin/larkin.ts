@@ -19,11 +19,15 @@
 // @ts-ignore
 import * as larkinAddon from './runtime/node/larkin_node_addon.js';
 
-// Export all addon modules from the native bindings
-export const speech: SpeechAPI = larkinAddon.speech;
-export const platform: PlatformAPI = larkinAddon.platform;
-export const utils: UtilsAPI = larkinAddon.utils;
-export const keyboard: KeyboardAPI = larkinAddon.keyboard;
-export const notifications: NotificationsAPI = larkinAddon.notifications;
-export const applications: ApplicationAPI = larkinAddon.applications;
-export const accessibility: AccessibilityAPI = larkinAddon.accessibility;
+// Export all types through larkin as a new type module
+import * as Types from 'larkin';
+export {Types};
+
+// Declare public facing larkin API types
+export const speech: Types.SpeechAPI = larkinAddon.speech;
+export const platform: Types.PlatformAPI = larkinAddon.platform;
+export const utils: Types.UtilsAPI = larkinAddon.utils;
+export const keyboard: Types.KeyboardAPI = larkinAddon.keyboard;
+export const notifications: Types.NotificationsAPI = larkinAddon.notifications;
+export const applications: Types.ApplicationAPI = larkinAddon.applications;
+export const accessibility: Types.AccessibilityAPI = larkinAddon.accessibility;

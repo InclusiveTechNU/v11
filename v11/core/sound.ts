@@ -25,15 +25,15 @@ interface PrivateSpeechAPI {
 
 interface SpeechAPI {
   // Voice-related methods
-  filterVoices(filter: (voice: larkin.Voice) => boolean): Array<larkin.Voice>;
-  getDefaultVoice(): larkin.Voice;
-  getVoiceById(id: string): Array<larkin.Voice>;
-  getVoiceByLocale(name: string): Array<larkin.Voice>;
-  getVoiceByName(name: string): Array<larkin.Voice>;
-  getVoices(): Array<larkin.Voice>;
+  filterVoices(filter: (voice: larkin.Types.Voice) => boolean): Array<larkin.Types.Voice>;
+  getDefaultVoice(): larkin.Types.Voice;
+  getVoiceById(id: string): Array<larkin.Types.Voice>;
+  getVoiceByLocale(name: string): Array<larkin.Types.Voice>;
+  getVoiceByName(name: string): Array<larkin.Types.Voice>;
+  getVoices(): Array<larkin.Types.Voice>;
 
   // Speech Synthesis methods
-  speak(text: string, voice?: larkin.Voice): void;
+  speak(text: string, voice?: larkin.Types.Voice): void;
 }
 
 // Private Speech API
@@ -49,31 +49,31 @@ export const speech: SpeechAPI = {
   getVoices: larkin.speech.getVoices,
   getDefaultVoice: larkin.speech.getDefaultVoice,
 
-  filterVoices: (filter: (voice: larkin.Voice) => boolean) => {
-    return speech.getVoices().filter((voice: larkin.Voice) => {
+  filterVoices: (filter: (voice: larkin.Types.Voice) => boolean) => {
+    return speech.getVoices().filter((voice: larkin.Types.Voice) => {
       return filter(voice);
     });
   },
 
   getVoiceByName: (name: string) => {
-    return speech.filterVoices((voice: larkin.Voice) => {
+    return speech.filterVoices((voice: larkin.Types.Voice) => {
       return voice.name === name;
     });
   },
 
   getVoiceById: (id: string) => {
-    return speech.filterVoices((voice: larkin.Voice) => {
+    return speech.filterVoices((voice: larkin.Types.Voice) => {
       return voice.id === id;
     });
   },
 
   getVoiceByLocale: (name: string) => {
-    return speech.filterVoices((voice: larkin.Voice) => {
+    return speech.filterVoices((voice: larkin.Types.Voice) => {
       return voice.locale === name;
     });
   },
 
-  speak: (text: string, voice?: larkin.Voice) => {
+  speak: (text: string, voice?: larkin.Types.Voice) => {
     _speech.speak(text, voice?.id ?? undefined);
   },
 };

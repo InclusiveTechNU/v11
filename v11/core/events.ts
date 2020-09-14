@@ -16,7 +16,7 @@
 
 import * as larkin from '../larkin/larkin';
 
-export type Event = larkin.Event;
+export type Event = larkin.Types.Event;
 
 // * EventTarget
 // @type: class
@@ -25,7 +25,7 @@ export type Event = larkin.Event;
 // are Applications and the System. System can be notified of all
 // events while Applications can be notified of only relevant events.
 
-export class EventTarget implements larkin.NotificationsAPI {
+export class EventTarget implements larkin.Types.NotificationsAPI {
   private _onlaunch?: () => void;
   private _onhide?: () => void;
   private _onunhide?: () => void;

@@ -16,84 +16,86 @@
 
 // larkin.d.ts
 // Provides the typescript declarations for the larkin native bindings
-interface Voice {
-  id: string;
-  name: string;
-  gender: string;
-  age: number;
-  locale: string;
-}
+declare module 'larkin' {
+  interface Voice {
+    id: string;
+    name: string;
+    gender: string;
+    age: number;
+    locale: string;
+  }
 
-interface Version {
-  major: number;
-  minor: number;
-  patch: number;
-}
+  interface Version {
+    major: number;
+    minor: number;
+    patch: number;
+  }
 
-interface Event {
-  id: string;
-  name: string;
-}
+  interface Event {
+    id: string;
+    name: string;
+  }
 
-interface NotificationsAPI {
-  addEventListener(type: string, callback: (event?: Event) => void): void;
-}
+  interface NotificationsAPI {
+    addEventListener(type: string, callback: (event?: Event) => void): void;
+  }
 
-interface Application {
-  id: string;
-  name: string;
-  processId: string;
-}
+  interface Application {
+    id: string;
+    name: string;
+    processId: string;
+  }
 
-interface ApplicationAPI {
-  activate(processId: number): void;
-  getApplications(): Array<Application>;
-}
+  interface ApplicationAPI {
+    activate(processId: number): void;
+    getApplications(): Array<Application>;
+  }
 
-interface Window {
-  title: string;
-  native: {};
-}
+  interface Window {
+    title: string;
+    native: {};
+  }
 
-interface Element {
-  type: string;
-  title?: string;
-  value?: string;
-  label?: string;
-  native: {};
-}
+  interface Element {
+    type: string;
+    title?: string;
+    value?: string;
+    label?: string;
+    native: {};
+  }
 
-interface AccessibilityAPI {
-  getWindows(pid: number): Array<Window>;
-  setValue(native: {}, text: string): void;
-  performAction(native: {}, name: string): void;
-  getActions(native: {}): Array<string>;
-  getChildren(native: {}): Array<Element>;
-  addEventListener(native: {},
-                    type:string,
-                    callback: () => void): void;
-}
+  interface AccessibilityAPI {
+    getWindows(pid: number): Array<Window>;
+    setValue(native: {}, text: string): void;
+    performAction(native: {}, name: string): void;
+    getActions(native: {}): Array<string>;
+    getChildren(native: {}): Array<Element>;
+    addEventListener(native: {},
+                      type:string,
+                      callback: () => void): void;
+  }
 
-interface PlatformAPI {
-  type: string;
-  version: Version;
-}
+  interface PlatformAPI {
+    type: string;
+    version: Version;
+  }
 
-interface UtilsAPI {
-  run(): void;
-}
+  interface UtilsAPI {
+    run(): void;
+  }
 
-interface KeyboardSimulationAPI {
-  holdKey(): void;
-  releaseKey(): void;
-}
+  interface KeyboardSimulationAPI {
+    holdKey(): void;
+    releaseKey(): void;
+  }
 
-interface KeyboardAPI {
-  simulation: KeyboardSimulationAPI;
-}
+  interface KeyboardAPI {
+    simulation: KeyboardSimulationAPI;
+  }
 
-interface SpeechAPI {
-  getVoices(): Array<Voice>;
-  getDefaultVoice(): Voice;
-  speak(text: string, voiceId: string): void;
+  interface SpeechAPI {
+    getVoices(): Array<Voice>;
+    getDefaultVoice(): Voice;
+    speak(text: string, voiceId: string): void;
+  }
 }

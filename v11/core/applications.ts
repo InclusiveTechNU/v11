@@ -34,7 +34,7 @@ export class Element implements ApplicationElement {
   label?: string;
   actions: {[k: string]: () => void};
 
-  constructor(element: larkin.Element) {
+  constructor(element: larkin.Types.Element) {
     this.type = processType(element.type);
     this.title = element.title;
     this._value = element.value;
@@ -109,7 +109,7 @@ export class Window implements ApplicationElement {
   title: string;
   type: string;
 
-  constructor(window: larkin.Window) {
+  constructor(window: larkin.Types.Window) {
     this.title = window.title;
     this.type = 'window';
     this._native = window.native;
@@ -148,7 +148,7 @@ export class Application {
   id: string;
   name: string;
 
-  constructor(instance: larkin.Application) {
+  constructor(instance: larkin.Types.Application) {
     this.id = instance.id;
     this.name = instance.name;
     this._pid = parseInt(instance.processId, 10);

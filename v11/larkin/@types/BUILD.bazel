@@ -21,5 +21,6 @@ ts_library(
     ],
     visibility = [
         "//v11/larkin:__pkg__",
+        "//v11/core:__pkg__",
     ],
 )
