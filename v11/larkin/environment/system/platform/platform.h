@@ -25,7 +25,6 @@ namespace sys {
 // the platform that the resulting library is being run on.
 class Platform {
  public:
-
     // Returns the operating system type out of MacOS, Windows, Linux, and
     // unknown systems. All Linux distribution are under the linux type,
     // but specific distro type is avaialble through GetPlatformName().
