@@ -26,12 +26,17 @@ PlatformLinux::~PlatformLinux() {
     delete native_process_info_;
 }
 
+Version PlatformLinux::ConvertSringToVersion(const std::string& value) const {
+    return {-1,-1,-1};
+}
+
 OperatingSystem PlatformLinux::GetOperatingSystem() const {
     return OperatingSystem::kLinux;
 }
 
 Version PlatformLinux::GetVersion() const {
-    return {-1,-1,-1};
+    std::string version_txt = std::string(native_process_info_->version);
+    return ConvertSringToVersion(version_txt);
 }
 
 std::string PlatformLinux::GetPlatformName() const {

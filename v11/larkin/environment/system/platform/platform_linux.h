@@ -28,6 +28,9 @@ class PlatformLinux : public Platform {
     // Class owned native process spec
     utsname* native_process_info_ = nullptr;
 
+    // String to Version native conversion method
+    Version ConvertSringToVersion(const std::string& value) const;
+
  public:
     PlatformLinux();
     ~PlatformLinux();
