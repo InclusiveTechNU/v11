@@ -15,6 +15,7 @@
  */
 
 #include "larkin/environment/system/platform/platform.h"
+#include "absl/strings/str_format.h"
 
 namespace sys {
 
@@ -27,7 +28,11 @@ Version Platform::GetVersion() const {
 }
 
 std::string Platform::GetVersionAsString() const {
-    return "";
+    Version version = GetVersion();
+    return absl::StrFormat("%d.%d.%d",
+                           version.major_version,
+                           version.minor_version,
+                           version.patch_version);
 }
 
 std::string Platform::GetPlatformName() const {

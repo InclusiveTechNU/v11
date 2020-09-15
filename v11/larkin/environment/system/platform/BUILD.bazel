@@ -35,6 +35,9 @@ cross_cc_library(
     linux_srcs = [
         "platform_linux.cc",
     ],
+    deps = [
+        "@abseil_cpp//absl/strings:str_format",
+    ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:public"],
 )

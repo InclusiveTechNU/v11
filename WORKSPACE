@@ -94,3 +94,14 @@ pip_import(
 )
 load("@protobuf_py_deps//:requirements.bzl", protobuf_pip_install = "pip_install")
 protobuf_pip_install()
+
+# Add dependencies from 
+local_repository(
+    name = "abseil_cpp",
+    path = "third_party/abseil/cpp",
+)
+
+local_repository(
+    name = "abseil_py",
+    path = "third_party/abseil/py",
+)
