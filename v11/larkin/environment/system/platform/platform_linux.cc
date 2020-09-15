@@ -31,7 +31,7 @@ OperatingSystem PlatformLinux::GetOperatingSystem() const {
 }
 
 Version PlatformLinux::GetVersion() const {
-    return {0,0,0};
+    return {-1,-1,-1};
 }
 
 std::string PlatformLinux::GetPlatformName() const {
