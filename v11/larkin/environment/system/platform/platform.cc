@@ -15,22 +15,29 @@
  */
 
 #include "larkin/environment/system/platform/platform.h"
-#include "larkin/environment/system/platform/get_platform.h"
 
 namespace sys {
-namespace platform {
 
-const version get_platform_version() {
-    return implementation::get_platform_version();
+OperatingSystem Platform::GetOperatingSystem() const {
+    return OperatingSystem::kUnknown;
 }
 
-const platform get_platform() {
-    return implementation::get_platform();
+Version Platform::GetVersion() const {
+    return {0, 0, 0};
 }
 
-const platform_info get_platform_info() {
-    return {get_platform(), get_platform_version(), false};
+std::string Platform::GetVersionAsString() const {
+    return "";
 }
 
-};  // namespace platform
-};  // namespace sys
+std::string Platform::GetPlatformName() const {
+    return "unknown";
+}
+
+bool Platform::IsMobile() const {
+    // TODO(tommymchugh): Look into Android support for mobile devices.
+    // Mobile devices are currently not supported so defaulting to false.
+    return false;
+}
+
+}  // namespace sys

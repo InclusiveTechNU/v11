@@ -13,3 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#include "larkin/environment/system/platform/platform_linux.h"
+
+namespace sys {
+
+PlatformLinux::PlatformLinux() {
+    native_process_info_ = new utsname;
+}
+
+PlatformLinux::~PlatformLinux() {
+    delete native_process_info_;
+}
+
+OperatingSystem PlatformLinux::GetOperatingSystem() const {
+    return OperatingSystem::kLinux;
+}
+
+Version PlatformLinux::GetVersion() const {
+    return {0,0,0};
+}
+
+std::string PlatformLinux::GetPlatformName() const {
+    return std::string(native_process_info_->sysname);
+}
+
+}  // namespace sys

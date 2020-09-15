@@ -16,15 +16,26 @@
 
 #pragma once
 
+#include <string>
+#include <sys/utsname.h>
 #include "larkin/environment/system/platform/platform_info.h"
+#include "larkin/environment/system/platform/platform.h"
 
 namespace sys {
-namespace platform {
-namespace implementation {
 
-const version get_platform_version();
-const platform get_platform();
+// Platform class implementation for Linux specific environments
+class PlatformLinux : public Platform {
+    // Class owned native process spec
+    utsname* native_process_info_ = nullptr;
 
-};  // namespace implementation
-};  // namespace platform
-};  // namespace sys
+ public:
+    PlatformLinux();
+    ~PlatformLinux();
+
+    // Inherited methods from Platform class
+    OperatingSystem GetOperatingSystem() const;
+    Version GetVersion() const;
+    std::string GetPlatformName() const;
+};
+
+}  // namespace sys

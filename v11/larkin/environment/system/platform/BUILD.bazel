@@ -17,55 +17,24 @@ load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
 cross_cc_library(
     name = "sys_platform_lib",
     hdrs = [
-        "get_platform.h",
         "platform.h",
         "platform_info.h",
     ],
     srcs = [
         "platform.cc",
     ],
+    macos_hdrs = [
+        "platform_mac.h",
+    ],
     macos_srcs = [
-        ":sys_platform_lib_macos_srcs",
+        "platform_mac.mm",
+    ],
+    linux_hdrs = [
+        "platform_linux.h",
     ],
     linux_srcs = [
-        ":sys_platform_lib_linux_srcs",
-    ],
-    windows_srcs = [
-        ":sys_platform_lib_windows_srcs",
-    ],
-    deps = [
-        "//v11/utils:v11_utils_lib",
+        "platform_linux.cc",
     ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:public"],
-)
-
-# Core System Platform Lib Linux Platform Resources
-
-filegroup(
-    name = "sys_platform_lib_linux_srcs",
-    srcs = [
-        "get_platform_linux.cc",
-    ],
-    visibility = ["//visibility:private"],
-)
-
-# Core System Platform Lib MacOS Platform Resources
-
-filegroup(
-    name = "sys_platform_lib_macos_srcs",
-    srcs = [
-        "get_platform_mac.mm",
-    ],
-    visibility = ["//visibility:private"],
-)
-
-# Core System Platform Lib Windows Platform Resources
-
-filegroup(
-    name = "sys_platform_lib_windows_srcs",
-    srcs = [
-        "get_platform_windows.cc",
-    ],
-    visibility = ["//visibility:private"],
 )

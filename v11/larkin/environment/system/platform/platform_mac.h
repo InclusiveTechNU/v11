@@ -13,3 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#pragma once
+
+#include <string>
+#include "larkin/environment/system/platform/platform_info.h"
+#include "larkin/environment/system/platform/platform.h"
+
+namespace sys {
+
+// Platform class implementation for Mac specific environments
+class PlatformMac : public Platform {
+    // Class owned native process spec
+    void* native_process_info_ = nullptr;
+
+ public:
+    PlatformMac();
+    ~PlatformMac();
+
+    // Inherited methods from Platform class
+    OperatingSystem GetOperatingSystem() const;
+    Version GetVersion() const;
+    std::string GetPlatformName() const;
+};
+
+}  // namespace sys

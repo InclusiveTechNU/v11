@@ -15,24 +15,38 @@
  */
 
 #pragma once
-#include "utils/definitions.h"
+#include <string>
 #include "larkin/environment/system/platform/platform_info.h"
 
 namespace sys {
-namespace platform {
 
-// Returns a version struct with the major, minor, and patch
-// version of the current operating system environment.
-const version get_platform_version();
+// The Abstract Base Class for a system platform. Contains standard
+// details about the version, operating system, and platform specs for
+// the platform that the resulting library is being run on.
+class Platform {
+ public:
 
-// Returns the platform type of the current operating system
-// environment.
-const platform get_platform();
+    // Returns the operating system type out of MacOS, Windows, Linux, and
+    // unknown systems. All Linux distribution are under the linux type,
+    // but specific distro type is avaialble through GetPlatformName().
+    virtual OperatingSystem GetOperatingSystem() const;
 
-// Returns a platform info object with the type and version of the
-// platform. Also includes a boolean that currently defaults to false
-// identifying with the platform is mobile.
-const platform_info get_platform_info();
+    // Returns the platform's operating system version as a set of integers
+    // representing Major, Minor, and Patch code stored in a version struct.
+    virtual Version GetVersion() const;
 
-};  // namespace platform
-};  // namespace sys
+    // Returns the platform's operating system version as a string in the
+    // "major.minor.patch string" code format.
+    std::string GetVersionAsString() const;
+
+    // Returns the full platform name for the operating system. This usually
+    // remains the same on MacOS and Windows, but will change on different
+    // Linux distribution types.
+    virtual std::string GetPlatformName() const;
+
+    // Returns a boolean variable representing whether the platform being
+    // run is considered a mobile device, i.e a tablet/phone/watch.
+    bool IsMobile() const;
+};
+
+}  // namespace sys
