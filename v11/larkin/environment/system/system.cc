@@ -20,9 +20,9 @@ using sound::sound_type;
 
 namespace sys {
 
-System::System(): platform(platform::get_platform_info()),
-                  notification_center(NotificationManager::
+System::System(): notification_center(NotificationManager::
                                       get_system_center()) {
+    platform_ = Platform::Create();
     bridge = new SystemBridge;
     pending_actions = bridge->get_pending_actions();
     keyboard_listener = bridge->get_keyboard_listener();
@@ -68,6 +68,7 @@ System::~System() {
     delete notification_center;
     delete _sound_manager;
     delete bridge;
+    delete platform_;
 }
 
 };  // namespace sys

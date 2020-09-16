@@ -25,7 +25,6 @@
 #include "larkin/interaction/sound/sound_manager.h"
 #include "larkin/interaction/keyboard/keyboard_listener.h"
 
-using sys::platform::platform_info;
 using sys::notifications::NotificationManager;
 using keyboard::KeyboardListener;
 using sound::SoundManager;
@@ -34,7 +33,7 @@ namespace sys {
 
 class System {
     SystemBridge* bridge = nullptr;
-    const platform_info platform;
+    Platform* platform_ = nullptr;
 
     NotificationManager* notification_center = nullptr;
     KeyboardListener* keyboard_listener = nullptr;

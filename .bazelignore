@@ -7,3 +7,5 @@
 /tsconfig.json
 yarn-error.log
 node_modules
+third_party/googletest
+third_party/abseil

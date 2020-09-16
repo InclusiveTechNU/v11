@@ -103,6 +103,11 @@ local_repository(
     path = "third_party/abseil/cpp",
 )
 
+local_repository(
+    name = "com_google_absl",
+    path = "third_party/abseil/cpp",
+)
+
 # Abseil Python Version
 local_repository(
     name = "abseil_py",

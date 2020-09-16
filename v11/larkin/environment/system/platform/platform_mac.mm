@@ -20,6 +20,10 @@
 
 namespace sys {
 
+Platform* Platform::Create() {
+    return new PlatformMac();
+}
+
 PlatformMac::PlatformMac() {
     NSProcessInfo* proc_info = [NSProcessInfo processInfo];
     native_process_info_ = (__bridge_retained void*) proc_info; 

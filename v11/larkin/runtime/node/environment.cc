@@ -38,10 +38,9 @@ using sys::System;
 using sys::notifications::Notification;
 using sys::notifications::callback;
 using sys::notifications::notification_type;
-using sys::platform::platform;
-using sys::platform::version;
-using sys::platform::get_platform;
-using sys::platform::get_platform_version;
+using sys::Platform;
+using sys::Version;
+using sys::OperatingSystem;
 using app::Application;
 
 // TODO(tommymchugh): This should be moved somewhere else
@@ -154,13 +153,18 @@ napi_status system(napi_env env, napi_value exports) {
     // Returns the specific platform larkin is running on
     // i.e. Apple, Windows, Linux, or Unknown
     napi_value platform_type;
-    platform sys_platform = get_platform();
     std::string platform_str;
-    if (sys_platform == platform::MAC) {
+
+    Platform* platform = Platform::Create();
+    OperatingSystem sys_platform = platform->GetOperatingSystem();
+    Version sys_version = platform->GetVersion();
+    delete platform;
+
+    if (sys_platform == OperatingSystem::kMac) {
         platform_str = PLATFORM_TEXT_MAC;
-    } else if (sys_platform == platform::WINDOWS) {
+    } else if (sys_platform == OperatingSystem::kWindows) {
         platform_str = PLATFORM_TEXT_WINDOWS;
-    } else if (sys_platform == platform::LINUX) {
+    } else if (sys_platform == OperatingSystem::kLinux) {
         platform_str = PLATFORM_TEXT_LINUX;
     } else {
         platform_str = PLATFORM_TEXT_UNKNOWN;
@@ -180,7 +184,6 @@ napi_status system(napi_env env, napi_value exports) {
     // Returns information related to the platform version
     // Include major version, minor version, patch version, and
     // full string version
-    version sys_version = get_platform_version();
     napi_value version, major_ver, minor_ver, patch_ver;
     status = napi_create_object(env, &version);
     if (status != napi_ok) return status;
