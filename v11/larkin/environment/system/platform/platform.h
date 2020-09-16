@@ -27,6 +27,10 @@ class Platform {
  public:
     virtual ~Platform();
 
+    // Creates a pointer to a base Platform class dependent on the runtime
+    // operating system. Transfers ownership of platform to the caller.
+    static Platform* Create();
+
     // Returns the operating system type out of MacOS, Windows, Linux, and
     // unknown systems. All Linux distribution are under the linux type,
     // but specific distro type is avaialble through GetPlatformName().
@@ -40,10 +44,6 @@ class Platform {
     // remains the same on MacOS and Windows, but will change on different
     // Linux distribution types.
     virtual std::string GetPlatformName() const = 0;
-
-    // Creates a pointer to a base Platform class dependent on the runtime
-    // operating system. Transfers ownership of platform to the caller.
-    static Platform* Create();
 
     // Returns the platform's operating system version as a string in the
     // "major.minor.patch string" code format.
