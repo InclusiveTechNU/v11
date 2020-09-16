@@ -18,7 +18,7 @@
 
 namespace sys {
 
-Platform* Platform::create() {
+Platform* Platform::Create() {
     return new MockPlatform();
 }
 
