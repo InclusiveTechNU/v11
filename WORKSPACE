@@ -95,13 +95,22 @@ pip_import(
 load("@protobuf_py_deps//:requirements.bzl", protobuf_pip_install = "pip_install")
 protobuf_pip_install()
 
-# Add dependencies from 
+# Add dependencies from third_party
+
+# Abseil C++ version
 local_repository(
     name = "abseil_cpp",
     path = "third_party/abseil/cpp",
 )
 
+# Abseil Python Version
 local_repository(
     name = "abseil_py",
     path = "third_party/abseil/py",
+)
+
+# Google C++ Testing Framework
+local_repository(
+    name = "gtest",
+    path = "third_party/googletest",
 )

@@ -13,6 +13,8 @@
 #  limitations under the License.
 
 load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
 
 cross_cc_library(
     name = "sys_platform_lib",
@@ -40,4 +42,32 @@ cross_cc_library(
     ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "sys_platform_lib_mock",
+    hdrs = [
+        "platform_mock.h",
+    ],
+    srcs = [
+        "platform_mock.cc",
+    ],
+    deps = [
+        ":sys_platform_lib",
+    ],
+    strip_include_prefix = "//v11",
+    visibility = ["//visibility:private"],
+)
+
+cc_test(
+    name = "sys_platform_lib_test",
+    srcs = [
+        "platform_test.cc",
+    ],
+    deps = [
+        ":sys_platform_lib",
+        ":sys_platform_lib_mock",
+        "@gtest//:gtest_main",
+    ],
+    visibility = ["//v11:__subpackages__"],
 )
