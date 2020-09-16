@@ -28,20 +28,20 @@ class Platform {
     // Returns the operating system type out of MacOS, Windows, Linux, and
     // unknown systems. All Linux distribution are under the linux type,
     // but specific distro type is avaialble through GetPlatformName().
-    virtual OperatingSystem GetOperatingSystem() const;
+    virtual OperatingSystem GetOperatingSystem() const = 0;
 
     // Returns the platform's operating system version as a set of integers
     // representing Major, Minor, and Patch code stored in a version struct.
-    virtual Version GetVersion() const;
-
-    // Returns the platform's operating system version as a string in the
-    // "major.minor.patch string" code format.
-    std::string GetVersionAsString() const;
+    virtual Version GetVersion() const = 0;
 
     // Returns the full platform name for the operating system. This usually
     // remains the same on MacOS and Windows, but will change on different
     // Linux distribution types.
-    virtual std::string GetPlatformName() const;
+    virtual std::string GetPlatformName() const = 0;
+
+    // Returns the platform's operating system version as a string in the
+    // "major.minor.patch string" code format.
+    std::string GetVersionAsString() const;
 
     // Returns a boolean variable representing whether the platform being
     // run is considered a mobile device, i.e a tablet/phone/watch.

@@ -21,19 +21,21 @@
 
 using sys::Platform;
 using sys::MockPlatform;
+using sys::Version;
 
 // TODO(tommymchugh): Remove this once mobile platforms are supported.
 // Tests that Platform will return false to IsMobile until supported.
 TEST(V11LarkinSysPlatformTest, MobileUnsupported) {
-    Platform platform = MockPlatform();
-    EXPECT_FALSE(platform.IsMobile());
+    MockPlatform mock_platform = MockPlatform();
+    Platform* platform = &mock_platform;
+    EXPECT_FALSE(platform->IsMobile());
 }
 
 // Tests that Platform String Version is equal to Version values
 TEST(V11LarkinSysPlatformTest, Platform) {
     MockPlatform mock_platform = MockPlatform();
     Platform* platform = &mock_platform;
-    sys::Version platform_version = platform->GetVersion();
+    Version platform_version = platform->GetVersion();
     int* major_version = &(platform_version.major_version);
     int* minor_version = &(platform_version.minor_version);
     int* patch_version = &(platform_version.patch_version);

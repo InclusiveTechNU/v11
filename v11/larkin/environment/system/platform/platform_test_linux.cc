@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
+#include <string>
+#include "googletest/include/gtest/gtest.h"
 #include "larkin/environment/system/platform/platform.h"
-#include "absl/strings/str_format.h"
+#include "larkin/environment/system/platform/platform_linux.h"
 
-namespace sys {
+using sys::Platform;
+using sys::PlatformLinux;
+using sys::Version;
+using sys::OperatingSystem;
 
-std::string Platform::GetVersionAsString() const {
-    Version version = GetVersion();
-    return absl::StrFormat("%d.%d.%d",
-                           version.major_version,
-                           version.minor_version,
-                           version.patch_version);
+// Tests that on linux devices the platform OS type is linux
+TEST(V11LarkinSysPlatformTest, PlatformOperatingSystemIsLinux) {
+    PlatformLinux platform_linux = PlatformLinux();
+    Platform* platform = &platform_linux;
+    EXPECT_EQ(platform->GetOperatingSystem(), OperatingSystem::kLinux);
 }
-
-bool Platform::IsMobile() const {
-    // TODO(tommymchugh): Look into Android support for mobile devices.
-    // Mobile devices are currently not supported so defaulting to false.
-    return false;
-}
-
-}  // namespace sys

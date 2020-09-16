@@ -63,7 +63,18 @@ cc_test(
     name = "sys_platform_lib_test",
     srcs = [
         "platform_test.cc",
-    ],
+    ] + select({
+        "//tools/bazel/platforms:linux": [
+            "platform_test_linux.cc"
+        ],
+        "//tools/bazel/platforms:macos": [
+            "platform_test_mac.cc"
+        ],
+        "//tools/bazel/platforms:windows": [
+            "platform_test_windows.cc"
+        ],
+        "//conditions:default": [],
+    }),
     deps = [
         ":sys_platform_lib",
         ":sys_platform_lib_mock",
