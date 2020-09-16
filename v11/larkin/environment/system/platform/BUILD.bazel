@@ -70,9 +70,6 @@ cc_test(
         "//tools/bazel/platforms:macos": [
             "platform_test_mac.cc"
         ],
-        "//tools/bazel/platforms:windows": [
-            "platform_test_windows.cc"
-        ],
         "//conditions:default": [],
     }),
     deps = [
