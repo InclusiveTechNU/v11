@@ -27,9 +27,9 @@ std::string Platform::GetVersionAsString() const {
                            version.patch_version);
 }
 
+// TODO(tommymchugh): Look into Android support for mobile devices.
+// Mobile devices are currently not supported so defaulting to false.
 bool Platform::IsMobile() const {
-    // TODO(tommymchugh): Look into Android support for mobile devices.
-    // Mobile devices are currently not supported so defaulting to false.
     return false;
 }
 
