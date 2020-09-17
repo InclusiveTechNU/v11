@@ -14,10 +14,36 @@
  * limitations under the License.
  */
 
-#include "larkin/environment/system/notifications/notification.h"
+#include "larkin/environment/system/notifications/notification_data_builder.h"
 
 namespace sys {
 namespace notifications {
+
+NotificationDataBuilder::~NotificationDataBuilder() {
+    delete data_value_;
+}
+
+NotificationDataBuilder* NotificationDataBuilder::Create() {
+    return new NotificationDataBuilder;
+}
+
+NotificationData* NotificationDataBuilder::Build() {
+    return this;
+}
+
+void NotificationDataBuilder::PutData(notification_data_type type,
+                                      void* data) {
+    delete data_value_;
+    data_value_ = data;
+    data_type_ = type;
+}
+
+notification_data_type NotificationDataBuilder::GetType() const {
+    return data_type_;
+}
+const void* NotificationDataBuilder::GetData() const {
+    return data_value_;
+}
 
 }  // namespace notifications
 }  // namespace sys

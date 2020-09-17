@@ -20,7 +20,7 @@ namespace sys {
 namespace notifications {
 
 NotificationBuilder::NotificationBuilder() {
-    data_ = new absl::flat_hash_map<std::string, int>;
+    data_ = new absl::flat_hash_map<std::string, NotificationData*>;
     keys_ = new absl::flat_hash_set<std::string>;
 }
 
@@ -37,23 +37,27 @@ const Notification* NotificationBuilder::Build() {
     return this;
 }
 
-const absl::flat_hash_map<std::string, int>* NotificationBuilder::GetDataMap() const {
+const absl::flat_hash_map<std::string, NotificationData*>*
+      NotificationBuilder::GetDataMap() const {
     return data_;
 }
 
-const absl::flat_hash_set<std::string>* NotificationBuilder::GetDataKeys() const {
-    return keys_
+const absl::flat_hash_set<std::string>* NotificationBuilder::
+                                        GetDataKeys() const {
+    return keys_;
 }
 
-void NotificationBuilder::PutData(const std::string& key, int value) {
+void NotificationBuilder::
+     PutData(const std::string& key, NotificationData* value) {
     data_->insert({key, value});
     keys_->insert({key});
 }
 
-int NotificationBuilder::GetData(const std::string& key) const {
+const NotificationData* NotificationBuilder::
+                        GetData(const std::string& key) const {
     auto key_result = data_->find(key);
     if (key_result == data_->end()) {
-        return -1;
+        return nullptr;
     }
     return key_result->second;
 }

@@ -25,8 +25,9 @@
 namespace sys {
 namespace notifications {
 
-// A platform indepdent structure containining the
-// details of the observed notification.
+// A factory class for generating a Notification class object. Provides
+// methods for customizing the inner objects of the Notification class
+// and exposing those values to a Notification object.
 class NotificationBuilder : public Notification {
  private:
      NotificationBuilder();
@@ -38,7 +39,7 @@ class NotificationBuilder : public Notification {
     // An unsorted map of NotificationData objects stored with the
     // notification. Data objects are owned by the Notification and
     // are destroyed on release.
-    absl::flat_hash_map<std::string, int>* data_ = nullptr;
+    absl::flat_hash_map<std::string, NotificationData*>* data_ = nullptr;
 
     // An unsorted map of keys that is kept as a record of keys that
     // are data elements for the notification's data object.    
@@ -64,11 +65,11 @@ class NotificationBuilder : public Notification {
     // Returns a pointer to the notification's data object. This does not
     // transfer ownership of the data object. This is always owned by the
     // notification builder.
-    const absl::flat_hash_map<std::string, int>* GetDataMap() const;
+    const absl::flat_hash_map<std::string, NotificationData*>* GetDataMap() const;
 
     // Adds or replaces an entry in the notification's data with key 'key'
     // and data of object 'value'.
-    void PutData(const std::string& key, int value);
+    void PutData(const std::string& key, NotificationData* value);
 
     // Changes the built notification type to the value of 'type'
     void SetType(notification_type type);
@@ -79,7 +80,7 @@ class NotificationBuilder : public Notification {
     // From Notification class
     notification_type GetType() const;
     const absl::flat_hash_set<std::string>* GetDataKeys() const;
-    int GetData(const std::string& key) const;
+    const NotificationData* GetData(const std::string& key) const;
     const NotificationManager* GetManager() const;
 };
 

@@ -66,6 +66,28 @@ enum notification_type {
     kUIElementDidRemove
 };
 
+enum notification_data_type {
+    kUnknown,
+    kStringType,
+};
+
+// A storage container for a variable object types. These objects are then
+// stored as a data object within a Notification class object.
+class NotificationData {
+ public:
+    // On release of the NotificationData object, the class will also release
+    // the data object from memory.
+    virtual ~NotificationData();
+
+    // Returns the specific type of object that the data object is storing
+    virtual notification_data_type GetType() const = 0;
+
+    // Returns a references to the container's stored object as a pointer.
+    // The notification data object is owned by the NotificationData class
+    // and this object just returns a read-only reference to it.
+    virtual const void* GetData() const = 0;
+};
+
 // A platform indepdent structure containining the
 // details of the observed notification.
 class Notification {
@@ -78,7 +100,7 @@ class Notification {
 
     // Returns a pointer to the objects data object of key 'key'. Ownership
     // is not transferred and remains owned by the notification data map.
-    virtual int GetData(const std::string& key) const = 0;
+    virtual const NotificationData* GetData(const std::string& key) const = 0;
 
     // Returns a read-only pointer to a hash set of keys that are a part
     // of the notification's data map object. Object remains owned by
