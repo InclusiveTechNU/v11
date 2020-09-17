@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#include <string>
 #include "googletest/include/gtest/gtest.h"
 #include "larkin/environment/system/platform/platform.h"
 #include "larkin/environment/system/platform/platform_linux.h"
