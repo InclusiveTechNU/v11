@@ -16,77 +16,63 @@
 
 #pragma once
 
-#include <sys/types.h>
 #include <string>
-#include <functional>
-#include <map>
+#include "absl/container/flat_hash_map.h"
 
 namespace sys {
 namespace notifications {
 
 // Platform indepdent notification identifier names
 enum notification_type {
-    UNKNOWN,
+    kUnknown,
 
     // Hardware Notifications    
-    DEVICE_DID_MOUNT,
-    DEVICE_DID_UNMOUNT,
+    kDeviceDidMount,
+    kDeviceDidUnmount,
 
     // System Notifications
-    SYSTEM_DID_WAKE,
-    SYSTEM_DID_SLEEP,
-    SYSTEM_WILL_POWER_OFF,
+    kSystemDidWake,
+    kSystemDidSleep,
+    kSystemWillPowerOff,
 
     // Accessibility Notifications
-    ACCESSIBILITY_DID_CHANGE,
+    kAccessibilityDidChange,
 
     // Application Lifecycle Notifications
-    APPLICATION_DID_LAUNCH,
-    APPLICATION_DID_TERMINATE,
-    APPLICATION_DID_HIDE,
-    APPLICATION_DID_UNHIDE,
-    APPLICATION_DID_CHANGE_MAIN_WINDOW,
-    APPLICATION_DID_CHANGE_FOCUSED_WINDOW,
-    APPLICATION_DID_CHANGE_FOCUSED_UI_ELEMENT,
-    APPLICATION_DID_CREATE_UI_ELEMENT,
-    APPLICATION_DID_CREATE_WINDOW,
-    APPLICATION_DID_REMOVE_ELEMENT,
+    kApplicationDidLaunch,
+    kApplicationDidTerminate,
+    kApplicationDidHide,
+    kApplicationDidUnhide,
+    kApplicationDidChangeMainWindow,
+    kApplicationDidChangeFocusedWindow,
+    kApplicationDidChangeFocusedUIElement,
+    kApplicationDidCreateUIElement,
+    kApplicationDidCreateWindow,
+    kApplicationDidRemoveElement,
 
     // Window Element Notifications
-    WINDOW_ELEMENT_DID_FINISH_MOVE,
-    WINDOW_ELEMENT_DID_FINISH_RESIZE,
-    WINDOW_ELEMENT_DID_MINIMIZE,
-    WINDOW_ELEMENT_DID_DEMINIMIZE,
+    kWindowDidFinishMove,
+    kWindowDidFinishResize,
+    kWindowDidMinimize,
+    kWindowDidDeminimize,
 
     // Application UI Element Notifications
-    UI_ELEMENT_DID_RESIZE,
-    UI_ELEMENT_DID_MOVE,
-    UI_ELEMENT_DID_CHANGE_TITLE,
-    UI_ELEMENT_DID_CHANGE_VALUE,
-    UI_ELEMENT_REMOVED
+    kUIElementDidResize,
+    kUIElementDidMove,
+    kUIElementDidChangeTitle,
+    kUIElementDidChangeValue,
+    kUIElementDidRemove
 };
 
 // A platform indepdent structure containining the
 // details of the observed notification.
 class Notification {
- private:
-    notification_type name;
-    char* native_name;
-    std::map<std::string, std::string> notification_data;
  public:
-    Notification(const char* name, notification_type type);
-    ~Notification();
+    virtual ~Notification();
 
-    const notification_type& get_name();
-    const char* get_native_name();
-
-    std::map<std::string, std::string> get_notification_data() const;
-    std::string get_data_with_key(const std::string& key) const;
-    void put_data_with_key(const std::string& key, const std::string& data);
-
-    // Releases the current object from memory.
-    // ! notification objects should always be acquired from `new`
-    void release();
+    // Returns the specific type of action identifier that the notification
+    // is linked to.
+    virtual notification_type GetType() = 0;
 };
 
 }  // namespace notifications

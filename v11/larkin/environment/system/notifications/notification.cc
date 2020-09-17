@@ -14,51 +14,13 @@
  * limitations under the License.
  */
 
-#include <iostream>
-#include <string.h>
-#include <utility>
 #include "larkin/environment/system/notifications/notification.h"
 
 namespace sys {
 namespace notifications {
 
-Notification::Notification(const char* name, notification_type type) :
-                                                          name(type) {
-    native_name = new char[strlen(name)+1];
-    for (int i = 0; name[i] != '\0'; i++) {
-        native_name[i] = name[i];
-    }
-}
+notification_type Notification::GetType() {
 
-const notification_type& Notification::get_name() {
-    return name;
-}
-
-const char* Notification::get_native_name() {
-    return native_name;
-}
-
-std::map<std::string, std::string> Notification::
-                                   get_notification_data() const {
-    return notification_data;
-}
-
-std::string Notification::get_data_with_key(const std::string& key) const {
-    return notification_data.at(key);
-}
-
-void Notification::put_data_with_key(const std::string& key,
-                                     const std::string& data) {
-    notification_data.insert(std::pair<std::string, std::string>(key, data));
-}
-
-void Notification::release() {
-    delete native_name;
-    native_name = nullptr;
-}
-
-Notification::~Notification() {
-    release();
 }
 
 }  // namespace notifications
