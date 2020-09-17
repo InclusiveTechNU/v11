@@ -25,11 +25,7 @@ namespace sys {
 // the platform that the resulting library is being run on.
 class Platform {
  public:
-    virtual ~Platform();
-
-    // Creates a pointer to a base Platform class dependent on the runtime
-    // operating system. Transfers ownership of platform to the caller.
-    static Platform* Create();
+    virtual ~Platform() {}
 
     // Returns the operating system type out of MacOS, Windows, Linux, and
     // unknown systems. All Linux distribution are under the linux type,

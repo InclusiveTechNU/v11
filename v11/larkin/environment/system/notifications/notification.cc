@@ -19,9 +19,5 @@
 namespace sys {
 namespace notifications {
 
-notification_type Notification::GetType() {
-
-}
-
 }  // namespace notifications
 }  // namespace sys

@@ -14,41 +14,64 @@
  * limitations under the License.
  */
 
-#include "environment/system/notifications/notification_builder.h"
+#include "larkin/environment/system/notifications/notification_builder.h"
 
 namespace sys {
 namespace notifications {
 
 NotificationBuilder::NotificationBuilder() {
     data_ = new absl::flat_hash_map<std::string, int>;
+    keys_ = new absl::flat_hash_set<std::string>;
 }
 
 NotificationBuilder::~NotificationBuilder() {
     delete data_;
+    delete keys_;
 }
 
-// Creates a reference to a NotificationBuilder object and passes
-// ownership of the object back to the caller.
 NotificationBuilder* NotificationBuilder::Create() {
     return new NotificationBuilder;
 }
 
-// Casts the current builder object as a Notification object and returns 
-// this object as a pointer. Transfers ownership of this object to
-// the caller.
-Notification* NotificationBuilder::Build() {
+const Notification* NotificationBuilder::Build() {
     return this;
 }
 
-// Changes the built notification type to the value of 'type'
+const absl::flat_hash_map<std::string, int>* NotificationBuilder::GetDataMap() const {
+    return data_;
+}
+
+const absl::flat_hash_set<std::string>* NotificationBuilder::GetDataKeys() const {
+    return keys_
+}
+
+void NotificationBuilder::PutData(const std::string& key, int value) {
+    data_->insert({key, value});
+    keys_->insert({key});
+}
+
+int NotificationBuilder::GetData(const std::string& key) const {
+    auto key_result = data_->find(key);
+    if (key_result == data_->end()) {
+        return -1;
+    }
+    return key_result->second;
+}
+
 void NotificationBuilder::SetType(notification_type type) {
     type_ = type;
 }
 
-// Returns the specific type of action identifier that the notification
-// is linked to.
-notification_type NotificationBuilder::GetType() {
+notification_type NotificationBuilder::GetType() const {
     return type_;
+}
+
+void NotificationBuilder::SetManager(const NotificationManager* manager) {
+    manager_ = manager;
+}
+
+const NotificationManager* NotificationBuilder::GetManager() const {
+    return manager_;
 }
 
 }  // namespace notifications

@@ -18,6 +18,8 @@
 
 #include <string>
 #include "absl/container/flat_hash_map.h"
+#include "absl/container/flat_hash_set.h"
+#include "larkin/environment/system/notifications/notification_manager.h"
 
 namespace sys {
 namespace notifications {
@@ -72,7 +74,21 @@ class Notification {
 
     // Returns the specific type of action identifier that the notification
     // is linked to.
-    virtual notification_type GetType() = 0;
+    virtual notification_type GetType() const = 0;
+
+    // Returns a pointer to the objects data object of key 'key'. Ownership
+    // is not transferred and remains owned by the notification data map.
+    virtual int GetData(const std::string& key) const = 0;
+
+    // Returns a read-only pointer to a hash set of keys that are a part
+    // of the notification's data map object. Object remains owned by
+    // the notification object.
+    virtual const absl::flat_hash_set<std::string>* GetDataKeys() const = 0;
+
+    // Returns the manager that the notification was generated from.
+    // Notification manager's usually have ownership over notification objects.
+    // Otherwise this will return null.
+    virtual const NotificationManager* GetManager() const = 0;
 };
 
 }  // namespace notifications

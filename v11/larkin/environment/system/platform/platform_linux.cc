@@ -18,10 +18,6 @@
 
 namespace sys {
 
-Platform* Platform::Create() {
-    return new PlatformLinux();
-}
-
 PlatformLinux::PlatformLinux() {
     native_process_info_ = new utsname;
 }

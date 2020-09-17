@@ -18,10 +18,6 @@
 
 namespace sys {
 
-Platform* Platform::Create() {
-    return new MockPlatform();
-}
-
 MockPlatform::MockPlatform() {
     mock_platform_name_ = kMockPlatformName;
     mock_version_ = kMockVersion;

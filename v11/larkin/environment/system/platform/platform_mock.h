@@ -29,9 +29,15 @@ const Version kMockVersion = {1, 1, 1};
 
 // Platform class implementation for testing platform features
 class MockPlatform : public Platform {
+    // A non-native string representation for the mock platform
     std::string mock_platform_name_;
+
+    // A non-native version values for the mock platform
     Version mock_version_;
+
+    // A non-native operating system type for the mock platform
     OperatingSystem mock_os_;
+
  public:
     MockPlatform();
 
@@ -40,8 +46,13 @@ class MockPlatform : public Platform {
     Version GetVersion() const;
     std::string GetPlatformName() const;
 
+    // Sets the platform object's string name representation value
     void SetPlatformName(const std::string& platform_name);
+
+    // Sets the platform object's version values
     void SetVersion(const Version& version);
+
+    // Sets the platform object's operating system type
     void SetOperatingSystem(const OperatingSystem& os);
 };
 
