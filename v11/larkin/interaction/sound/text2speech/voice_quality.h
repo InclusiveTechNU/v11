@@ -29,5 +29,5 @@ enum voice_quality {
     DEFAULT
 };
 
-};  // namespace voice
-};  // namespace sound
+}  // namespace voice
+}  // namespace sound

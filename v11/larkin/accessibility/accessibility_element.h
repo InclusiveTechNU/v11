@@ -58,4 +58,4 @@ class AccessibilityElement {
                                    std::function<void()>* callback);
 };
 
-};  // namespace a11y
+}  // namespace a11y

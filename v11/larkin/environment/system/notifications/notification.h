@@ -89,5 +89,5 @@ class Notification {
     void release();
 };
 
-};  // namespace notifications
-};  // namespace sys
+}  // namespace notifications
+}  // namespace sys

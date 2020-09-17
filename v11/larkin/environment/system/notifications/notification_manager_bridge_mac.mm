@@ -178,5 +178,5 @@ NotificationManagerBridge::~NotificationManagerBridge() {
     }
 }
 
-};  // namespace notifications
-};  // namespace sys
+}  // namespace notifications
+}  // namespace sys

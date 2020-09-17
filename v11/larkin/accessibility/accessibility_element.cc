@@ -48,4 +48,4 @@ const void* AccessibilityElement::get_native_element() const {
     return _native_element;
 }
 
-};  // namespace a11y
+}  // namespace a11y

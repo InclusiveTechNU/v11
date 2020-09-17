@@ -70,4 +70,4 @@ void Application::activate() {
     [app activateWithOptions:NSApplicationActivateIgnoringOtherApps];
 }
 
-};  // namespace app
+}  // namespace app

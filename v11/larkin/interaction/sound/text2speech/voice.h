@@ -67,5 +67,5 @@ class Voice {
     ~Voice();
 };
 
-};  // namespace voice
-};  // namespace sound
+}  // namespace voice
+}  // namespace sound

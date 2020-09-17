@@ -83,5 +83,5 @@ Voice::~Voice() {
     delete native_voice_bridge;
 }
 
-};  // namespace voice
-};  // namespace sound
+}  // namespace voice
+}  // namespace sound

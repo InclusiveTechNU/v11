@@ -49,4 +49,4 @@ Application::~Application() {
     delete _bundle_id;
 }
 
-};  // namespace app
+}  // namespace app

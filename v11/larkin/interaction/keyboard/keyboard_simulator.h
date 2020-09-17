@@ -52,4 +52,4 @@ class KeyboardSimulator {
     ~KeyboardSimulator();
 };
 
-};  // namespace keyboard
+}  // namespace keyboard

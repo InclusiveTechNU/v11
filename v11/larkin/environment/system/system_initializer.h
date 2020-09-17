@@ -22,5 +22,5 @@ namespace sys {
 
 typedef std::function<void*()>* initializer;
 
-};  // namespace sys
+}  // namespace sys
 

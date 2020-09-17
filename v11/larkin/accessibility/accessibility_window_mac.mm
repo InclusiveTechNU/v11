@@ -29,4 +29,4 @@ const char* AccessibilityWindow::get_title() const {
     NSString* window_title_str = (__bridge_transfer NSString*) window_title_raw;
     return [window_title_str UTF8String];
 }
-};  // namespace a11y
+}  // namespace a11y

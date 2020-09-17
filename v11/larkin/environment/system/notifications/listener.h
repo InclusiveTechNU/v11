@@ -43,5 +43,5 @@ struct listener {
     sys::notifications::callback callback;
 };
 
-};  // namespace notifications
-};  // namespace sys
+}  // namespace notifications
+}  // namespace sys

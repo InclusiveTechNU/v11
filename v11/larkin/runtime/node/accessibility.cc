@@ -320,4 +320,4 @@ void init(napi_env env, napi_value exports, System* sys_ptr) {
                                 accessibility_object));
 }
 
-};  // namespace a11y
+}  // namespace a11y

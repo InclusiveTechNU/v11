@@ -347,4 +347,4 @@ void init(napi_env env, napi_value exports, System* sys_ptr) {
     }
 }
 
-};  // namespace environment
+}  // namespace environment

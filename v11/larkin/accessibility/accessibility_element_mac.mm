@@ -126,4 +126,4 @@ void AccessibilityElement::add_notification_listener(notification_type type, std
     app_observer->add_observer_callback(type, callback);
 }
 
-};  // namespace a11y
+}  // namespace a11y

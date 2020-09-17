@@ -20,4 +20,4 @@ namespace a11y {
 
 bool has_accessibility_permissions();
 
-};  // namespace a11y
+}  // namespace a11y

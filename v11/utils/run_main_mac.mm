@@ -58,4 +58,4 @@ void pause_main_loop() {
     }
 }
 
-};  // namespace utils
+}  // namespace utils

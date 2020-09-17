@@ -68,4 +68,4 @@ KeyboardSimulator::~KeyboardSimulator() {
     delete bridge;
 }
 
-};  // namespace keyboard
+}  // namespace keyboard

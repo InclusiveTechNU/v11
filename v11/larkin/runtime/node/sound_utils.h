@@ -29,6 +29,6 @@ napi_status voice_to_object(napi_env env,
                             const Voice* voice,
                             napi_value object);
 
-};  // namespace sound
-};  // namespace utils
-};  // namespace interaction
+}  // namespace sound
+}  // namespace utils
+}  // namespace interaction

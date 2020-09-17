@@ -73,5 +73,5 @@ class NotificationManagerBridge {
     void post_notification(const Notification notification);
 };
 
-};  // namespace notifications
-};  // namespace sys
+}  // namespace notifications
+}  // namespace sys

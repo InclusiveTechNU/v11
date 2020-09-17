@@ -27,4 +27,4 @@ class AccessibilityWindow: public AccessibilityElement  {
     AccessibilityWindow(Application* app, const void* native_window);
     const char* get_title() const;
 };
-};  // namespace a11y
+}  // namespace a11y

@@ -151,5 +151,5 @@ VoiceBridge::~VoiceBridge() {
                 native_voice_ptr;
 }
 
-};  // namespace voice
-};  // namespace sound
+}  // namespace voice
+}  // namespace sound

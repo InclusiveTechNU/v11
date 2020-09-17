@@ -51,4 +51,4 @@ void* ApplicationObserverBridge::get_native_observer() {
     return _native_object;
 }
 
-};  // namespace app
+}  // namespace app

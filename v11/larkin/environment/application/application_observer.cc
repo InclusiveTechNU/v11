@@ -46,4 +46,4 @@ ApplicationObserver::~ApplicationObserver() {
     delete _callback_handler;
 }
 
-};  // namespace app
+}  // namespace app

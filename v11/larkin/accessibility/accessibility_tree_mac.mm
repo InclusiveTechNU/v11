@@ -44,4 +44,4 @@ std::vector<AccessibilityWindow*> AccessibilityTree::get_windows() {
     return windows;
 }
 
-};  // namespace a11y
+}  // namespace a11y

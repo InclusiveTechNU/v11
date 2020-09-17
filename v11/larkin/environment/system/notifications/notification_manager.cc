@@ -85,5 +85,5 @@ NotificationManager::~NotificationManager() {
     delete global_event_observer;
 }
 
-};  // namespace notifications
-};  // namespace sys
+}  // namespace notifications
+}  // namespace sys

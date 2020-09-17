@@ -37,4 +37,4 @@ class SystemBridge {
     ~SystemBridge();
 };
 
-};  // namespace sys
+}  // namespace sys

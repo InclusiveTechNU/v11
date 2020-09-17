@@ -147,4 +147,4 @@ enum keycode {
     F19_KEY,
     F20_KEY
 };
-};  // namespace keyboard
+}  // namespace keyboard

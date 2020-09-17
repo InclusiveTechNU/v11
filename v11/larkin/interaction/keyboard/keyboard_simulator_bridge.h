@@ -49,4 +49,4 @@ class KeyboardSimulatorBridge {
     bool keycode_free(const keycode& key);
 };
 
-};  // namespace keyboard
+}  // namespace keyboard

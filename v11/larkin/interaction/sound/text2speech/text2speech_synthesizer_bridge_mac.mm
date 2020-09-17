@@ -119,5 +119,5 @@ Text2SpeechSynthesizerBridge::~Text2SpeechSynthesizerBridge() {
     __lk_unused__ (__bridge_transfer NSSpeechSynthesizer*) synthesizer;
 }
 
-};  // namespace voice
-};  // namespace sound
+}  // namespace voice
+}  // namespace sound

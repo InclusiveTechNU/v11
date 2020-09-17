@@ -88,5 +88,5 @@ class VoiceBridge {
     ~VoiceBridge();
 };
 
-};  // namespace voice
-};  // namespace sound
+}  // namespace voice
+}  // namespace sound

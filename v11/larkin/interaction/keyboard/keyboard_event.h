@@ -49,5 +49,5 @@ class KeyboardEvent {
     const keycode& get_event_target_key();
 };
 
-};  // namespace event
-};  // namespace keyboard
+}  // namespace event
+}  // namespace keyboard

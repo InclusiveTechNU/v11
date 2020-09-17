@@ -30,5 +30,5 @@ struct speech_request {
     std::string text;
 };
 
-};  // namespace voice
-};  // namespace sound
+}  // namespace voice
+}  // namespace sound

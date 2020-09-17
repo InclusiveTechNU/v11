@@ -24,4 +24,4 @@ bool has_accessibility_permissions() {
     return AXIsProcessTrusted() ? true : false;
 }
 
-};  // namespace a11y
+}  // namespace a11y

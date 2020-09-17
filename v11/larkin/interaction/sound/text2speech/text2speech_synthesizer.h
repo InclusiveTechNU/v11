@@ -97,5 +97,5 @@ class Text2SpeechSynthesizer {
     ~Text2SpeechSynthesizer();
 };
 
-};  // namespace voice
-};  // namespace sound
+}  // namespace voice
+}  // namespace sound

@@ -25,4 +25,4 @@ AccessibilityWindow::AccessibilityWindow(Application* app,
                                           native_window) {
 }
 
-};  // namespace a11y
+}  // namespace a11y

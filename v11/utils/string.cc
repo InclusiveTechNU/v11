@@ -35,4 +35,4 @@ char* string_copy(const char* text) {
     return new_string;
 }
 
-};  // namespace utils
+}  // namespace utils

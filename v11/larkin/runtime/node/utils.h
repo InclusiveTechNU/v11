@@ -52,4 +52,4 @@ void element_to_object(napi_env env,
 
 void run_non_block_loop(uv_loop_t* node_loop);
 
-};  // namespace utils
+}  // namespace utils

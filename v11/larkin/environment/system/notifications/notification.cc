@@ -61,5 +61,5 @@ Notification::~Notification() {
     release();
 }
 
-};  // namespace notifications
-};  // namespace sys
+}  // namespace notifications
+}  // namespace sys

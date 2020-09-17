@@ -50,4 +50,4 @@ bool KeyboardSimulatorBridge::keycode_free(const keycode& key) {
     return key_events.find(key) == key_events.end();
 }
 
-};  // namespace keyboard
+}  // namespace keyboard

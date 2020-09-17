@@ -43,4 +43,4 @@ KeyboardListener::~KeyboardListener() {
     delete global_event_observer;
 }
 
-};  // namespace keyboard
+}  // namespace keyboard

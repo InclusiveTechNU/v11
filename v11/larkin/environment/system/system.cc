@@ -71,4 +71,4 @@ System::~System() {
     delete platform_;
 }
 
-};  // namespace sys
+}  // namespace sys

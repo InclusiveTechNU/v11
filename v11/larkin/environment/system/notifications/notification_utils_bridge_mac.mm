@@ -59,6 +59,6 @@ void* __convert_notification_type_to_native(notification_type type) {
     }
 }
 
-};  // namespace utils
-};  // namespace notifications
-};  // namespace sys
+}  // namespace utils
+}  // namespace notifications
+}  // namespace sys

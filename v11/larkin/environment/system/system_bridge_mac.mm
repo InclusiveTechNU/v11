@@ -69,4 +69,4 @@ SystemBridge::~SystemBridge() {
     delete pending_actions;
 }
 
-};  // namespace sys
+}  // namespace sys

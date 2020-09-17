@@ -22,4 +22,4 @@ namespace utils {
 // the string ownership to the caller
 char* string_copy(const char* text);
 
-};  // namespace utils
+}  // namespace utils

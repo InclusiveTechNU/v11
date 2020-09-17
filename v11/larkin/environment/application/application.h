@@ -50,4 +50,4 @@ class Application {
     pid_t get_process_id() const;
 };
 
-};  // namespace app
+}  // namespace app

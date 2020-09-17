@@ -49,4 +49,4 @@ class SoundManager {
     ~SoundManager();
 };
 
-};  // namespace sound
+}  // namespace sound

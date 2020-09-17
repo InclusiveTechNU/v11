@@ -66,5 +66,5 @@ class Text2SpeechSynthesizerBridge {
     ~Text2SpeechSynthesizerBridge();
 };
 
-};  // namespace voice
-};  // namespace sound
+}  // namespace voice
+}  // namespace sound

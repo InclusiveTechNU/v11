@@ -113,5 +113,5 @@ Text2SpeechSynthesizer::~Text2SpeechSynthesizer() {
     delete bridge;
 }
 
-};  // namespace voice
-};  // namespace sound
+}  // namespace voice
+}  // namespace sound

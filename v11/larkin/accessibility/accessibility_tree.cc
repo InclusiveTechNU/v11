@@ -22,4 +22,4 @@ AccessibilityTree::AccessibilityTree(Application* app) {
     _app = app;
 }
 
-};  // namespace a11y
+}  // namespace a11y

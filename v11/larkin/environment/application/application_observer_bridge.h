@@ -31,4 +31,4 @@ class ApplicationObserverBridge {
     void* get_native_observer();
 };
 
-};  // namespace app
+}  // namespace app

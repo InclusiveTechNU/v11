@@ -85,6 +85,6 @@ napi_status voice_to_object(napi_env env,
     return s;
 }
 
-};  // namespace sound
-};  // namespace utils
-};  // namespace interaction
+}  // namespace sound
+}  // namespace utils
+}  // namespace interaction

@@ -65,4 +65,4 @@ SoundManager::~SoundManager() {
     delete t2s_synthesizer;
 }
 
-};  // namespace sound
+}  // namespace sound

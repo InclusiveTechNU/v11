@@ -183,4 +183,4 @@ void run_non_block_loop(uv_loop_t* node_loop) {
         uv_run(node_loop, uv_run_mode::UV_RUN_NOWAIT);
     }
 }
-};  // namespace utils
+}  // namespace utils

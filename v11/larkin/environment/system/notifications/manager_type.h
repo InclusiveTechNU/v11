@@ -29,5 +29,5 @@ enum manager_type {
     custom
 };
 
-};  // namespace notifications
-};  // namespace sys
+}  // namespace notifications
+}  // namespace sys

@@ -85,4 +85,4 @@ KeyboardListenerBridge::~KeyboardListenerBridge() {
     [NSEvent removeMonitor: (__bridge_transfer id) monitoring_event_];
 }
 
-};  // namespace keyboard
+}  // namespace keyboard
