@@ -23,7 +23,7 @@
 #include "larkin/environment/system/notifications/notification.h"
 
 using app::Application;
-using sys::notifications::notification_type;
+using sys::notification_type;
 
 namespace a11y {
 

@@ -25,7 +25,7 @@
 #include "larkin/interaction/sound/sound_manager.h"
 #include "larkin/interaction/keyboard/keyboard_listener.h"
 
-using sys::notifications::NotificationManager;
+using sys::NotificationManager;
 using keyboard::KeyboardListener;
 using sound::SoundManager;
 
@@ -56,8 +56,8 @@ class System {
     void add_event_listener(const keyboard::event::
                                   event_type& action,
                             const keyboard::callback& callback);
-    void add_event_listener(const notifications::notification_type& action,
-                            const notifications::callback& callback);
+    void add_event_listener(const notification_type& action,
+                            const callback& callback);
 
     // Deallocates owned object
     ~System();

@@ -52,8 +52,8 @@ void System::add_event_listener(const keyboard::event::
         }
     }
 }
-void System::add_event_listener(const notifications::notification_type& action,
-                                const notifications::callback& callback) {
+void System::add_event_listener(const notification_type& action,
+                                const callback& callback) {
     notification_center->add_event_listener({
         action,
         0,

@@ -26,7 +26,6 @@
 using utils::error;
 
 namespace sys {
-namespace notifications {
 
 // TODO(tommymchugh): I'm not sure about whether this should be
 // events instead of notifications so that we can have notifications
@@ -89,5 +88,4 @@ class NotificationManager {
     ~NotificationManager();
 };
 
-}  // namespace notifications
 }  // namespace sys

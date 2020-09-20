@@ -26,7 +26,7 @@
 
 #define a_ok(call) assert(call == napi_ok)
 
-using sys::notifications::Notification;
+using sys::Notification;
 using app::Application;
 using a11y::AccessibilityWindow;
 using a11y::AccessibilityElement;

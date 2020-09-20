@@ -19,7 +19,6 @@
 #include "larkin/environment/system/notifications/notification_utils_bridge.h"
 
 namespace sys {
-namespace notifications {
 namespace utils {
 
 void* __convert_notification_type_to_native(notification_type type) {
@@ -60,5 +59,4 @@ void* __convert_notification_type_to_native(notification_type type) {
 }
 
 }  // namespace utils
-}  // namespace notifications
 }  // namespace sys

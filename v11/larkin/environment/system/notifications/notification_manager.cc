@@ -21,7 +21,6 @@ using utils::error_code;
 using utils::error;
 
 namespace sys {
-namespace notifications {
 
 NotificationManager::NotificationManager(manager_type type) : type(type) {
     global_event_observer = get_global_event_observer();
@@ -85,5 +84,4 @@ NotificationManager::~NotificationManager() {
     delete global_event_observer;
 }
 
-}  // namespace notifications
 }  // namespace sys

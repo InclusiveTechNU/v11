@@ -21,7 +21,6 @@
 #include "larkin/environment/system/notifications/notification.h"
 
 namespace sys {
-namespace notifications {
 
 // A function that distributes incoming observed notifications
 // to specific callbacks that are attached to observing events.
@@ -40,8 +39,7 @@ typedef const std::function<void(Notification*)> callback;
 struct listener {
     notification_type name;
     pid_t id;
-    sys::notifications::callback callback;
+    sys::callback callback;
 };
 
-}  // namespace notifications
 }  // namespace sys

@@ -17,7 +17,6 @@
 #pragma once
 
 namespace sys {
-namespace notifications {
 
 // Notification managers can support a default
 // system manager type or a custom type for group
@@ -29,5 +28,4 @@ enum manager_type {
     custom
 };
 
-}  // namespace notifications
 }  // namespace sys

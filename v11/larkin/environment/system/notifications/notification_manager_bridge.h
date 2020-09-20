@@ -25,7 +25,6 @@
 using utils::error;
 
 namespace sys {
-namespace notifications {
 
 // Provides pointer to native notification manager
 // that has transferred ownership to the notification
@@ -73,5 +72,4 @@ class NotificationManagerBridge {
     void post_notification(const Notification notification);
 };
 
-}  // namespace notifications
 }  // namespace sys

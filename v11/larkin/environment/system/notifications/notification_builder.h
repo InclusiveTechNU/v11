@@ -23,7 +23,6 @@
 #include "larkin/environment/system/notifications/notification_manager.h"
 
 namespace sys {
-namespace notifications {
 
 // A factory class for generating a Notification class object. Provides
 // methods for customizing the inner objects of the Notification class
@@ -84,5 +83,4 @@ class NotificationBuilder : public Notification {
     const NotificationManager* GetManager() const;
 };
 
-}  // namespace notifications
 }  // namespace sys

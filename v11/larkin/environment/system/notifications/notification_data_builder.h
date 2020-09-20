@@ -19,7 +19,6 @@
 #include "larkin/environment/system/notifications/notification.h"
 
 namespace sys {
-namespace notifications {
 
 // Provides a factory class for building a NotificationData object. 
 class NotificationDataBuilder : public NotificationData {
@@ -58,5 +57,4 @@ class NotificationDataBuilder : public NotificationData {
     const void* GetData() const;
 };
 
-}  // namespace notifications
 }  // namespace sys

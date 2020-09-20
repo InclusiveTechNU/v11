@@ -42,7 +42,6 @@ using utils::error_code;
 using utils::string_copy;
 
 namespace sys {
-namespace notifications {
 
 NotificationManagerBridge* NotificationManagerBridge::
                            create_bridge(const manager_type& type) {
@@ -178,5 +177,4 @@ NotificationManagerBridge::~NotificationManagerBridge() {
     }
 }
 
-}  // namespace notifications
 }  // namespace sys

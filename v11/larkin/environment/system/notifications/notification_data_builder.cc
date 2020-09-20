@@ -17,7 +17,6 @@
 #include "larkin/environment/system/notifications/notification_data_builder.h"
 
 namespace sys {
-namespace notifications {
 
 NotificationDataBuilder::~NotificationDataBuilder() {
     delete data_value_;
@@ -45,5 +44,4 @@ const void* NotificationDataBuilder::GetData() const {
     return data_value_;
 }
 
-}  // namespace notifications
 }  // namespace sys

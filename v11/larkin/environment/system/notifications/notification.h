@@ -22,7 +22,6 @@
 #include "larkin/environment/system/notifications/notification_manager.h"
 
 namespace sys {
-namespace notifications {
 
 // Platform indepdent notification identifier names
 enum notification_type {
@@ -77,7 +76,7 @@ class NotificationData {
  public:
     // On release of the NotificationData object, the class will also release
     // the data object from memory.
-    virtual ~NotificationData();
+    virtual ~NotificationData() {};
 
     // Returns the specific type of object that the data object is storing
     virtual notification_data_type GetType() const = 0;
@@ -92,7 +91,7 @@ class NotificationData {
 // details of the observed notification.
 class Notification {
  public:
-    virtual ~Notification();
+    virtual ~Notification() {};
 
     // Returns the specific type of action identifier that the notification
     // is linked to.
@@ -113,5 +112,4 @@ class Notification {
     virtual const NotificationManager* GetManager() const = 0;
 };
 
-}  // namespace notifications
 }  // namespace sys

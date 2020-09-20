@@ -19,7 +19,7 @@
 #include <sys/types.h>
 #include "larkin/environment/system/notifications/notification.h"
 
-using sys::notifications::notification_type;
+using sys::notification_type;
 
 namespace app {
 

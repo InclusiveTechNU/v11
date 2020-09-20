@@ -22,7 +22,7 @@
 #include "larkin/environment/application/application_observer_bridge.h"
 #include "larkin/environment/system/notifications/notification.h"
 
-using sys::notifications::notification_type;
+using sys::notification_type;
 
 namespace app {
 

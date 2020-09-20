@@ -30,7 +30,7 @@ using utils::window_to_object;
 using a11y::AccessibilityWindow;
 using a11y::AccessibilityTree;
 using a11y::AccessibilityElement;
-using sys::notifications::notification_type;
+using sys::notification_type;
 
 // TODO(tommymchugh): This should be moved somewhere else
 #define NOTIF_TYPE_APPLICATION_DID_CHANGE_MAIN_WINDOW "unknown"
