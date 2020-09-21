@@ -29,9 +29,9 @@ enum OperatingSystem {
 // Platform version numbers following a major, minor,
 // and patch number system.
 struct Version {
-    int major_version;
-    int minor_version;
-    int patch_version;
+    uint16_t major_version;
+    uint16_t minor_version;
+    uint16_t patch_version;
 };
 
 }  // namespace sys

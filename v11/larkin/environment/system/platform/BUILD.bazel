@@ -21,9 +21,11 @@ cross_cc_library(
     hdrs = [
         "platform.h",
         "platform_info.h",
+        "platform_utils.h",
     ],
     srcs = [
         "platform.cc",
+        "platform_utils.cc",
     ],
     macos_hdrs = [
         "platform_mac.h",
@@ -63,6 +65,7 @@ cc_test(
     name = "sys_platform_lib_test",
     srcs = [
         "platform_test.cc",
+        "platform_utils_test.cc",
     ] + select({
         "//tools/bazel/platforms:linux": [
             "platform_test_linux.cc"

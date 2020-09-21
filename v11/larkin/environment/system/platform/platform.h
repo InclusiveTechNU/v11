@@ -15,6 +15,7 @@
  */
 
 #pragma once
+
 #include <string>
 #include "larkin/environment/system/platform/platform_info.h"
 
@@ -32,8 +33,9 @@ class Platform {
     // but specific distro type is avaialble through GetPlatformName().
     virtual OperatingSystem GetOperatingSystem() const = 0;
 
-    // Returns the platform's operating system version as a set of integers
-    // representing Major, Minor, and Patch code stored in a version struct.
+    // Returns the platform's operating system version as a set of unsigned
+    // 16-bit integers representing Major, Minor, and Patch code stored in a
+    // version struct.
     virtual Version GetVersion() const = 0;
 
     // Returns the full platform name for the operating system. This usually

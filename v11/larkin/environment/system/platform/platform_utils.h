@@ -18,30 +18,16 @@
 
 #include <string>
 #include "larkin/environment/system/platform/platform_info.h"
-#include "larkin/environment/system/platform/platform.h"
 
 namespace sys {
 
-const std::string kReleaseFilePath = "/etc/os-release";
-const std::string kPlatformNameDefault= "Linux";
-const std::string kReleaseName = "NAME";
-const std::string kReleaseVersion = "VERSION";
-
-// Platform class implementation for Linux specific environments
-class PlatformLinux : public Platform {
-    // The specific distribution of linux. Defaults to kPlatformNameDefault.
-    std::string name_;
-
-    // The specific version of the platform's Linux distribution.
-    Version version_;
-
+class PlatformUtils {
  public:
-    PlatformLinux();
-
-    // Inherited methods from Platform class
-    OperatingSystem GetOperatingSystem() const;
-    Version GetVersion() const;
-    std::string GetPlatformName() const;
+    // String to Version native conversion method. Takes in a string and
+    // returns a version object. Ignores extraneous text after the version
+    // but must start with the version component and not alphanumeric
+    // characters.
+    static Version StringToVersion(const std::string& str);
 };
 
 }  // namespace sys

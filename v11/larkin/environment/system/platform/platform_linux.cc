@@ -14,20 +14,45 @@
  * limitations under the License.
  */
 
+#include <fstream>
 #include "larkin/environment/system/platform/platform_linux.h"
+#include "larkin/environment/system/platform/platform_utils.h"
 
 namespace sys {
 
 PlatformLinux::PlatformLinux() {
-    native_process_info_ = new utsname;
-}
+    // TODO(tommymchugh): Confirmed working on ubuntu try on other distros
+    std::string release_line;
+    std::fstream release_file(kReleaseFilePath);
+    bool have_name = false;
+    bool have_version = false;
+    if (release_file.is_open()) {
+        while(getline(release_file, release_line) &&
+                      !have_name &&
+                      !have_version) {
+            if (release_line.size() > kReleaseName.size() &&
+                release_line.substr(0, kReleaseName.size()) == kReleaseName) {
+                name_ = release_line.substr(kReleaseName.size() + 2);
+                name_.pop_back();
+                have_name = true;
+            } else if (release_line.size() > kReleaseVersion.size() &&
+                       release_line.substr(0, kReleaseVersion.size())
+                          == kReleaseVersion) {
+                std::size_t ver_size = kReleaseVersion.size();
+                std::string version_str = release_line.substr(ver_size + 2);
+                version_str.pop_back();
 
-PlatformLinux::~PlatformLinux() {
-    delete native_process_info_;
-}
+                // Turn string representation into Version
+                version_ = PlatformUtils::StringToVersion(version_str);
+                have_version = true;
+            } 
+        }
+        release_file.close();
+    }
 
-Version PlatformLinux::ConvertSringToVersion(const std::string& value) const {
-    return {-1,-1,-1};
+    if (!have_name) {
+        name_ = kPlatformNameDefault;
+    }
 }
 
 OperatingSystem PlatformLinux::GetOperatingSystem() const {
@@ -35,12 +60,11 @@ OperatingSystem PlatformLinux::GetOperatingSystem() const {
 }
 
 Version PlatformLinux::GetVersion() const {
-    std::string version_txt = std::string(native_process_info_->version);
-    return ConvertSringToVersion(version_txt);
+    return version_;
 }
 
 std::string PlatformLinux::GetPlatformName() const {
-    return std::string(native_process_info_->sysname);
+    return name_;
 }
 
 }  // namespace sys

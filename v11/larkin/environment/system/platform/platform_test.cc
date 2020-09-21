@@ -36,9 +36,9 @@ TEST(V11LarkinSysPlatformTest, Platform) {
     MockPlatform mock_platform = MockPlatform();
     Platform* platform = &mock_platform;
     Version platform_version = platform->GetVersion();
-    int* major_version = &(platform_version.major_version);
-    int* minor_version = &(platform_version.minor_version);
-    int* patch_version = &(platform_version.patch_version);
+    uint16_t* major_version = &(platform_version.major_version);
+    uint16_t* minor_version = &(platform_version.minor_version);
+    uint16_t* patch_version = &(platform_version.patch_version);
 
     std::string expected_val = std::to_string(*major_version) + "." +
                                std::to_string(*minor_version) + "." +
