@@ -18,6 +18,8 @@
 #  purpose with or without fee is hereby granted, provided that the above
 #  copyright notice and this permission notice appear in all copies.
 
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
 cc_library(
     name = "uv_event_loop_node_lib",
     hdrs = [
