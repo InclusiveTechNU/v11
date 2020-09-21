@@ -30,10 +30,10 @@ const std::string kReleaseVersion = "VERSION";
 // Platform class implementation for Linux specific environments
 class PlatformLinux : public Platform {
     // The specific distribution of linux. Defaults to kPlatformNameDefault.
-    std::string name_;
+    std::string name_ = kPlatformNameDefault;
 
     // The specific version of the platform's Linux distribution.
-    Version version_;
+    Version version_ = {0,0,0};
 
  public:
     PlatformLinux();

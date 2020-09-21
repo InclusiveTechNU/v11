@@ -23,13 +23,12 @@ namespace sys {
 PlatformLinux::PlatformLinux() {
     // TODO(tommymchugh): Confirmed working on ubuntu try on other distros
     std::string release_line;
-    std::fstream release_file(kReleaseFilePath);
+    std::ifstream release_file(kReleaseFilePath);
     bool have_name = false;
     bool have_version = false;
     if (release_file.is_open()) {
         while(getline(release_file, release_line) &&
-                      !have_name &&
-                      !have_version) {
+                      (!have_name || !have_version)) {
             if (release_line.size() > kReleaseName.size() &&
                 release_line.substr(0, kReleaseName.size()) == kReleaseName) {
                 name_ = release_line.substr(kReleaseName.size() + 2);
@@ -41,17 +40,12 @@ PlatformLinux::PlatformLinux() {
                 std::size_t ver_size = kReleaseVersion.size();
                 std::string version_str = release_line.substr(ver_size + 2);
                 version_str.pop_back();
-
                 // Turn string representation into Version
                 version_ = PlatformUtils::StringToVersion(version_str);
                 have_version = true;
             } 
         }
         release_file.close();
-    }
-
-    if (!have_name) {
-        name_ = kPlatformNameDefault;
     }
 }
 
