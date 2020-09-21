@@ -32,7 +32,7 @@ TEST(V11LarkinSysPlatformTest, MobileUnsupported) {
 }
 
 // Tests that Platform String Version is equal to Version values
-TEST(V11LarkinSysPlatformTest, Platform) {
+TEST(V11LarkinSysPlatformTest, VersionStringConversion) {
     MockPlatform mock_platform = MockPlatform();
     Platform* platform = &mock_platform;
     Version platform_version = platform->GetVersion();
