@@ -1,12 +1,13 @@
 {
     "name": "node-modules",
     "version": "0.0.0",
+    "private": true,
     "devDependencies": {
-        "@bazel/typescript": "^2.2.0",
-        "gts": "^2.0.2",
-        "typescript": "^3.9.7"
+        "@bazel/typescript": ">=2.2.0",
+        "gts": ">=2.0.2",
+        "typescript": ">=3.9.7"
     },
     "dependencies": {
-        "node-gyp": "^7.1.0"
+        "node-gyp": ">=7.1.0"
     }
 }

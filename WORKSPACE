@@ -95,7 +95,9 @@ pip_import(
 load("@protobuf_py_deps//:requirements.bzl", protobuf_pip_install = "pip_install")
 protobuf_pip_install()
 
-# Add dependencies from third_party
+##################################
+# Third Party Bazel Dependencies #
+##################################
 
 # Abseil C++ version
 local_repository(

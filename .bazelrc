@@ -6,3 +6,6 @@ query --output=label_kind
 
 # Disable deprecated feature flags
 ---incompatible_require_linker_input_cc_api
+
+# Use the Angular Ivy compiler
+build --define=angular_ivy_enabled=True
