@@ -4,6 +4,9 @@
         "typeRoots": [
             "../../third_party/node/node_modules/@types",
         ],
+        "lib": [
+            "ES2020",
+        ]
     },
     "exclude": [
         "third_party",
