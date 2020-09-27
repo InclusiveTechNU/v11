@@ -1,0 +1,14 @@
+{
+    "extends": "./tsconfig.json",
+    "compileOnSave": false,
+    "compilerOptions": {
+        "sourceMap": false,
+        "types": [
+            "@types/chrome"
+        ],
+        "lib": [
+            "es2018",
+            "dom"
+        ]
+    }
+}

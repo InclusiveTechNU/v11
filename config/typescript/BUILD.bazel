@@ -12,6 +12,44 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+load("@npm//@bazel/typescript:index.bzl", "ts_config")
+
+ts_config(
+    name = "ts_config_base",
+    src = "tsconfig.json",
+    deps = [
+        "//third_party/node:ts_config_gts",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+ts_config(
+    name = "ts_config_chrome_extension",
+    src = "tsconfig_chrome.json",
+    deps = [
+        ":ts_config_base",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+ts_config(
+    name = "ts_config_web_app",
+    src = "tsconfig_web.json",
+    deps = [
+        ":ts_config_base",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+ts_config(
+    name = "ts_config_node",
+    src = "tsconfig_node.json",
+    deps = [
+        ":ts_config_base",
+    ],
+    visibility = ["//visibility:public"],
+)
+
 exports_files(
     [
         "tsconfig.json",
