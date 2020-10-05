@@ -3,12 +3,14 @@
     "version": "0.0.0",
     "private": true,
     "devDependencies": {
+        "@bazel/rollup": "^2.2.0",
         "@bazel/typescript": ">=2.2.0",
         "gts": ">=2.0.2",
         "typescript": ">=3.9.7"
     },
     "dependencies": {
         "@types/chrome": "^0.0.124",
-        "node-gyp": ">=7.1.0"
+        "node-gyp": ">=7.1.0",
+        "rollup": "^2.28.2"
     }
 }
