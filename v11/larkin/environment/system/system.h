@@ -56,7 +56,7 @@ class System {
     void add_event_listener(const keyboard::event::
                                   event_type& action,
                             const keyboard::callback& callback);
-    void add_event_listener(const notification_type& action,
+    void add_event_listener(const NotificationType& action,
                             const callback& callback);
 
     // Deallocates owned object

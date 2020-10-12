@@ -17,7 +17,6 @@
 #include "larkin/environment/system/notifications/notification_builder.h"
 
 namespace sys {
-namespace notifications {
 
 NotificationBuilder::NotificationBuilder() {
     data_ = new absl::flat_hash_map<std::string, NotificationData*>;
@@ -62,11 +61,11 @@ const NotificationData* NotificationBuilder::
     return key_result->second;
 }
 
-void NotificationBuilder::SetType(notification_type type) {
+void NotificationBuilder::SetType(NotificationType type) {
     type_ = type;
 }
 
-notification_type NotificationBuilder::GetType() const {
+NotificationType NotificationBuilder::GetType() const {
     return type_;
 }
 
@@ -78,5 +77,4 @@ const NotificationManager* NotificationBuilder::GetManager() const {
     return manager_;
 }
 
-}  // namespace notifications
 }  // namespace sys

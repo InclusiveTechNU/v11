@@ -17,29 +17,34 @@ load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
 cross_cc_library(
     name = "sys_notifications_lib",
     hdrs = [
-        "listener.h",
-        "manager_type.h",
         "notification.h",
+        "notification_builder.h",
+        "notification_data_builder.h",
         "notification_manager.h",
-        "notification_manager_bridge.h",
-        "notification_utils.h",
-        "notification_utils_bridge.h",
+        "notification_manager_builder.h",
+        "input_source.h",
+        "input_source_base.h",
+        "system_notification_manager.h",
     ],
     srcs = [
-        "notification.cc",
-        "notification_manager.cc",
-        "notification_utils.cc",
+        "input_source_base.cc",
+        "notification_builder.cc",
+        "notification_data_builder.cc",
+        "notification_manager_builder.cc",
+        "system_notification_manager.cc",
     ],
-    macos_srcs = [
-        ":sys_notifications_lib_macos_srcs",
-    ],
-    linux_srcs = [
-        ":sys_notifications_lib_linux_srcs",
-    ],
-    windows_srcs = [
-        ":sys_notifications_lib_windows_srcs",
-    ],
+#    macos_srcs = [
+#        ":sys_notifications_lib_macos_srcs",
+#    ],
+#    linux_srcs = [
+#        ":sys_notifications_lib_linux_srcs",
+#    ],
+#    windows_srcs = [
+#        ":sys_notifications_lib_windows_srcs",
+#    ],
     deps = [
+        "@abseil_cpp//absl/container:flat_hash_map",
+        "@abseil_cpp//absl/container:flat_hash_set",
         "//v11/utils:v11_utils_lib",
     ],
     strip_include_prefix = "//v11",
@@ -51,8 +56,6 @@ cross_cc_library(
 filegroup(
     name = "sys_notifications_lib_linux_srcs",
     srcs = [
-        "notification_manager_bridge_linux.cc",
-        "notification_utils_bridge_linux.cc",
     ],
     visibility = ["//visibility:private"],
 )
@@ -62,8 +65,6 @@ filegroup(
 filegroup(
     name = "sys_notifications_lib_macos_srcs",
     srcs = [
-        "notification_manager_bridge_mac.mm",
-        "notification_utils_bridge_mac.mm",
     ],
     visibility = ["//visibility:private"],
 )
@@ -73,8 +74,6 @@ filegroup(
 filegroup(
     name = "sys_notifications_lib_windows_srcs",
     srcs = [
-        "notification_manager_bridge_windows.cc",
-        "notification_utils_bridge_windows.cc",
     ],
     visibility = ["//visibility:private"],
 )

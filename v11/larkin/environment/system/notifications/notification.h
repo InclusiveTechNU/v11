@@ -17,14 +17,13 @@
 #pragma once
 
 #include <string>
-#include "absl/container/flat_hash_map.h"
 #include "absl/container/flat_hash_set.h"
 #include "larkin/environment/system/notifications/notification_manager.h"
 
 namespace sys {
 
 // Platform indepdent notification identifier names
-enum notification_type {
+enum NotificationType {
     kUnknown,
 
     // Hardware Notifications    
@@ -65,8 +64,8 @@ enum notification_type {
     kUIElementDidRemove
 };
 
-enum notification_data_type {
-    kUnknown,
+enum NotificationDataType {
+    kNone,
     kStringType,
 };
 
@@ -79,7 +78,7 @@ class NotificationData {
     virtual ~NotificationData() {};
 
     // Returns the specific type of object that the data object is storing
-    virtual notification_data_type GetType() const = 0;
+    virtual NotificationDataType GetType() const = 0;
 
     // Returns a references to the container's stored object as a pointer.
     // The notification data object is owned by the NotificationData class
@@ -95,7 +94,7 @@ class Notification {
 
     // Returns the specific type of action identifier that the notification
     // is linked to.
-    virtual notification_type GetType() const = 0;
+    virtual NotificationType GetType() const = 0;
 
     // Returns a pointer to the objects data object of key 'key'. Ownership
     // is not transferred and remains owned by the notification data map.

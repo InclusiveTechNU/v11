@@ -30,14 +30,14 @@ NotificationData* NotificationDataBuilder::Build() {
     return this;
 }
 
-void NotificationDataBuilder::PutData(notification_data_type type,
+void NotificationDataBuilder::PutData(NotificationDataType type,
                                       void* data) {
     delete data_value_;
     data_value_ = data;
     data_type_ = type;
 }
 
-notification_data_type NotificationDataBuilder::GetType() const {
+NotificationDataType NotificationDataBuilder::GetType() const {
     return data_type_;
 }
 const void* NotificationDataBuilder::GetData() const {

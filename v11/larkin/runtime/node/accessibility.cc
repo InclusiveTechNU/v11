@@ -54,41 +54,41 @@ namespace a11y {
 
 /*notification_type convert_string_to_notification_type(std::string type_str) {
     if (type_str == NOTIF_TYPE_APPLICATION_DID_CHANGE_MAIN_WINDOW) {
-        return notification_type::APPLICATION_DID_CHANGE_MAIN_WINDOW;
+        return NotificationType::APPLICATION_DID_CHANGE_MAIN_WINDOW;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_CHANGE_FOCUSED_WINDOW) {
-        return notification_type::APPLICATION_DID_CHANGE_FOCUSED_WINDOW;
+        return NotificationType::APPLICATION_DID_CHANGE_FOCUSED_WINDOW;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_CHANGE_FOCUSED_ELEMENT) {
-        return notification_type::APPLICATION_DID_CREATE_UI_ELEMENT;
+        return NotificationType::APPLICATION_DID_CREATE_UI_ELEMENT;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_CREATE_WINDOW) {
-        return notification_type::APPLICATION_DID_CREATE_WINDOW;
+        return NotificationType::APPLICATION_DID_CREATE_WINDOW;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_REMOVE_ELEMENT) {
-        return notification_type::APPLICATION_DID_REMOVE_ELEMENT;
+        return NotificationType::APPLICATION_DID_REMOVE_ELEMENT;
     } else {
-        return notification_type::UNKNOWN;
+        return NotificationType::UNKNOWN;
     }
 }*/
 
 notification_type convert_string_to_notification_type(std::string type_str) {
     if (type_str == NOTIF_TYPE_WINDOW_ELEMENT_DID_FINISH_MOVE) {
-        return notification_type::WINDOW_ELEMENT_DID_FINISH_MOVE;
+        return NotificationType::WINDOW_ELEMENT_DID_FINISH_MOVE;
     } else if (type_str == NOTIF_TYPE_WINDOW_ELEMENT_DID_FINISH_RESIZE) {
-        return notification_type::WINDOW_ELEMENT_DID_FINISH_RESIZE;
+        return NotificationType::WINDOW_ELEMENT_DID_FINISH_RESIZE;
     } else if (type_str == NOTIF_TYPE_WINDOW_ELEMENT_DID_MINIMIZE) {
-        return notification_type::WINDOW_ELEMENT_DID_MINIMIZE;
+        return NotificationType::WINDOW_ELEMENT_DID_MINIMIZE;
     } else if (type_str == NOTIF_TYPE_WINDOW_ELEMENT_DID_DEMINIMIZE) {
-        return notification_type::WINDOW_ELEMENT_DID_DEMINIMIZE;
+        return NotificationType::WINDOW_ELEMENT_DID_DEMINIMIZE;
     } else if (type_str == NOTIF_TYPE_UI_ELEMENT_DID_RESIZE) {
-        return notification_type::UI_ELEMENT_DID_RESIZE;
+        return NotificationType::UI_ELEMENT_DID_RESIZE;
     } else if (type_str == NOTIF_TYPE_UI_ELEMENT_DID_MOVE) {
-        return notification_type::UI_ELEMENT_DID_MOVE;
+        return NotificationType::UI_ELEMENT_DID_MOVE;
     } else if (type_str == NOTIF_TYPE_UI_ELEMENT_DID_CHANGE_TITLE) {
-        return notification_type::UI_ELEMENT_DID_CHANGE_TITLE;
+        return NotificationType::UI_ELEMENT_DID_CHANGE_TITLE;
     } else if (type_str == NOTIF_TYPE_UI_ELEMENT_DID_CHANGE_VALUE) {
-        return notification_type::UI_ELEMENT_DID_CHANGE_VALUE;
+        return NotificationType::UI_ELEMENT_DID_CHANGE_VALUE;
     } else if (type_str == NOTIF_TYPE_UI_ELEMENT_REMOVED) {
-        return notification_type::UI_ELEMENT_REMOVED;
+        return NotificationType::UI_ELEMENT_REMOVED;
     } else {
-        return notification_type::UNKNOWN;
+        return NotificationType::UNKNOWN;
     }
 }
 
@@ -152,7 +152,7 @@ void listeners(napi_env env, napi_value exports) {
             return nullptr;
         }
         std::string listener_type_str = std::string(listener_type_ptr);
-        notification_type listener_type =
+        NotificationType listener_type =
             convert_string_to_notification_type(listener_type_str);
 
         napi_value listener_callback_object = args[2];

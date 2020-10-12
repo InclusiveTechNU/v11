@@ -106,7 +106,7 @@ void AccessibilityElement::perform_action(const char* name) {
 }
 
 void AccessibilityElement::add_notification_listener(notification_type type, std::function<void()>* callback) {
-    if (type == notification_type::UNKNOWN) {
+    if (type == NotificationType::UNKNOWN) {
         return;
     }
     // Create an observer for the element

@@ -27,7 +27,7 @@ class NotificationDataBuilder : public NotificationData {
 
     // The specific data type that the data value should be cast to when
     // returned through the GetData method.
-    notification_data_type data_type_ = notification_data_type::kUnknown;
+    NotificationDataType data_type_ = NotificationDataType::kNone;
 
     // The data stored by the resulting NotificationData class. Data is owned
     // by the NotificationData object and is released when the owner
@@ -50,10 +50,10 @@ class NotificationDataBuilder : public NotificationData {
     // places it within the class as the data_value_ variable. If there is
     // already a stored data value in the class, that value is released from
     // memory.
-    void PutData(notification_data_type type, void* data);
+    void PutData(NotificationDataType type, void* data);
 
     // From NotificationData class
-    notification_data_type GetType() const;
+    NotificationDataType GetType() const;
     const void* GetData() const;
 };
 

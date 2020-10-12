@@ -33,7 +33,7 @@ class NotificationBuilder : public Notification {
 
     // The specific supported type of system/custom notification that
     // this particular notification is linked to.
-    notification_type type_ = notification_type::kUnknown;
+    NotificationType type_ = NotificationType::kUnknown;
 
     // An unsorted map of NotificationData objects stored with the
     // notification. Data objects are owned by the Notification and
@@ -71,13 +71,13 @@ class NotificationBuilder : public Notification {
     void PutData(const std::string& key, NotificationData* value);
 
     // Changes the built notification type to the value of 'type'
-    void SetType(notification_type type);
+    void SetType(NotificationType type);
 
     // Sets the notifications owned manager object.
     void SetManager(const NotificationManager* manager);
 
     // From Notification class
-    notification_type GetType() const;
+    NotificationType GetType() const;
     const absl::flat_hash_set<std::string>* GetDataKeys() const;
     const NotificationData* GetData(const std::string& key) const;
     const NotificationManager* GetManager() const;

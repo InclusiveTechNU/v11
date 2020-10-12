@@ -60,27 +60,27 @@ namespace environment {
 
 notification_type convert_string_to_notification_type(std::string type_str) {
     if (type_str == NOTIF_TYPE_APPLICATION_DID_HIDE) {
-        return notification_type::APPLICATION_DID_HIDE;
+        return NotificationType::APPLICATION_DID_HIDE;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_LAUNCH) {
-        return notification_type::APPLICATION_DID_LAUNCH;
+        return NotificationType::APPLICATION_DID_LAUNCH;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_TERMINATE) {
-        return notification_type::APPLICATION_DID_TERMINATE;
+        return NotificationType::APPLICATION_DID_TERMINATE;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_UNHIDE) {
-        return notification_type::APPLICATION_DID_UNHIDE;
+        return NotificationType::APPLICATION_DID_UNHIDE;
     } else if (type_str == NOTIF_TYPE_DEVICE_DID_MOUNT) {
-        return notification_type::DEVICE_DID_MOUNT;
+        return NotificationType::DEVICE_DID_MOUNT;
     } else if (type_str == NOTIF_TYPE_DEVICE_DID_UNMOUNT) {
-        return notification_type::DEVICE_DID_UNMOUNT;
+        return NotificationType::DEVICE_DID_UNMOUNT;
     } else if (type_str == NOTIF_TYPE_SYSTEM_DID_WAKE) {
-        return notification_type::SYSTEM_DID_WAKE;
+        return NotificationType::SYSTEM_DID_WAKE;
     } else if (type_str == NOTIF_TYPE_SYSTEM_DID_SLEEP) {
-        return notification_type::SYSTEM_DID_SLEEP;
+        return NotificationType::SYSTEM_DID_SLEEP;
     } else if (type_str == NOTIF_TYPE_SYSTEM_WILL_POWER_OFF) {
-        return notification_type::SYSTEM_WILL_POWER_OFF;
+        return NotificationType::SYSTEM_WILL_POWER_OFF;
     } else if (type_str == NOTIF_TYPE_ACCESSIBILITY_DID_CHANGE) {
-        return notification_type::ACCESSIBILITY_DID_CHANGE;
+        return NotificationType::ACCESSIBILITY_DID_CHANGE;
     } else {
-        return notification_type::UNKNOWN;
+        return NotificationType::UNKNOWN;
     }
 }
 
@@ -293,7 +293,7 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
             // TODO(tommymchugh): Implement catch all notification callback
             // ! Adds a callback function for all events
         } else {
-            notification_type listener_type = notification_type::UNKNOWN;
+            NotificationType listener_type = NotificationType::UNKNOWN;
             std::string type_str = std::string(listener_type_ptr);
             listener_type = convert_string_to_notification_type(type_str);
 

@@ -52,7 +52,7 @@ void System::add_event_listener(const keyboard::event::
         }
     }
 }
-void System::add_event_listener(const notification_type& action,
+void System::add_event_listener(const NotificationType& action,
                                 const callback& callback) {
     notification_center->add_event_listener({
         action,
