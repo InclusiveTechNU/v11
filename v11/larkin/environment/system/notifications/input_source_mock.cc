@@ -23,5 +23,9 @@ void MockInputSource::CallCallbackMethod(Notification* notification) {
     SendCallback(notification);
 }
 
+const std::string& MockInputSource::GetInputSourceName() const {
+    return name_;
+}
+
 }  // namespace tests
 }  // namespace sys

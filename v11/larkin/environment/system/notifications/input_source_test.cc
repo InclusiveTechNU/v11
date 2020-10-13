@@ -17,6 +17,7 @@
 #include "googletest/include/gtest/gtest.h"
 #include "larkin/environment/system/notifications/input_source.h"
 #include "larkin/environment/system/notifications/input_source_mock.h"
+#include "larkin/environment/system/notifications/input_source_base.h"
 
 using sys::InputSource;
 using sys::InputSourceSettings;
@@ -129,4 +130,12 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemoryDefaultStoringMemory) {
     } else {
         EXPECT_EQ(source->GetMemory(), nullptr);
     }
+}
+
+// Tests that input source name for mock type is not base
+TEST(V11LarkinSysNotificationsInputSourceTest, NameIsOverridenFromBase) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    EXPECT_NE(source->GetInputSourceName(), sys::kBaseInputSourceName);
+    EXPECT_EQ(source->GetInputSourceName(), sys::tests::kMockInputSourceName);
 }

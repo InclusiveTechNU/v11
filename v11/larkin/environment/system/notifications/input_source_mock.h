@@ -34,6 +34,7 @@ class MockInputSource : public InputSourceBase {
  public:
     MockInputSource() = default;
     void CallCallbackMethod(Notification* notification);
+    const std::string& GetInputSourceName() const;
 };
 
 }  // namespace tests

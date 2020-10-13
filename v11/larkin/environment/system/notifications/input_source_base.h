@@ -30,6 +30,11 @@ const std::string kBaseInputSourceName = "base";
 // Implementation of InputSource that can be used by other
 // platforms to build OS-specific input sources.
 class InputSourceBase : public InputSource {
+ private:
+     // The name of the type of notifications that are coming into the
+    // input source.
+    const std::string name_ = kBaseInputSourceName;
+
  protected:
     // The standard settings that control the management of
     // incoming notifications.
@@ -38,10 +43,6 @@ class InputSourceBase : public InputSource {
     // A vector of notifications owned by the InputSource until they are
     // cleared by the classe's memory mangement.
     std::vector<Notification*> memory_;
-
-    // The name of the type of notifications that are coming into the
-    // input source.
-    std::string name_ = kBaseInputSourceName;
 
     // A callback function that is used to 
     InputSourceCallback* callback_ = nullptr;
@@ -62,7 +63,7 @@ class InputSourceBase : public InputSource {
     bool IsStoringMemory() const;
     void ClearMemory();
     const std::vector<Notification*>* GetMemory() const;
-    const std::string& GetInputSourceName() const;
+    virtual const std::string& GetInputSourceName() const;
 };
 
 }  // namespace sys
