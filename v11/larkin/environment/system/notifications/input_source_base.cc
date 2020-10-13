@@ -23,8 +23,20 @@ InputSourceBase::~InputSourceBase() {
    delete callback_;
 }
 
+void InputSourceBase::StoreNotification(Notification* notification) {
+   if (IsStoringMemory()) {
+      memory_.push_back(notification);
+   } else {
+      delete notification;
+   }
+}
+
 void InputSourceBase::SetCallback(InputSourceCallback* callback) {
    callback_ = callback;
+}
+
+const InputSourceCallback* InputSourceBase::GetCallback() const {
+   return callback_;
 }
 
 const InputSourceSettings& InputSourceBase::GetSettings() const {

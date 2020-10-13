@@ -46,15 +46,15 @@ class InputSourceBase : public InputSource {
     // A callback function that is used to 
     InputSourceCallback* callback_ = nullptr;
 
-    // A pure virtual declaration for other classes to define what to do when
-    // sending calback function with notifications to the input source.
-    virtual void SendCallback(Notification* notification) = 0;
+    // From InputSource parent class
+    void StoreNotification(Notification* notification);
 
  public:
     virtual ~InputSourceBase();
 
     // From InputSource parent class
     void SetCallback(InputSourceCallback* callback);
+    const InputSourceCallback* GetCallback() const;
     const InputSourceSettings& GetSettings() const;
     bool IsEnabled() const;
     virtual void SetEnabled(bool enabled);

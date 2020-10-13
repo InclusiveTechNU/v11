@@ -27,6 +27,7 @@ cross_cc_library(
         "system_notification_manager.h",
     ],
     srcs = [
+        "input_source.cc",
         "input_source_base.cc",
         "notification_builder.cc",
         "notification_data_builder.cc",
@@ -77,3 +78,32 @@ filegroup(
     ],
     visibility = ["//visibility:private"],
 )
+
+cc_library(
+    name = "sys_notifications_lib_mock",
+    hdrs = [
+        "input_source_mock.h",
+    ],
+    srcs = [
+        "input_source_mock.cc",
+    ],
+    deps = [
+        ":sys_notifications_lib",
+    ],
+    strip_include_prefix = "//v11",
+    visibility = ["//visibility:private"],
+)
+
+cc_test(
+    name = "sys_notifications_lib_test",
+    srcs = [
+        "input_source_test.cc",
+    ],
+    deps = [
+        ":sys_notifications_lib",
+        ":sys_notifications_lib_mock",
+        "@gtest//:gtest_main",
+    ],
+    visibility = ["//v11:__subpackages__"],
+)
+

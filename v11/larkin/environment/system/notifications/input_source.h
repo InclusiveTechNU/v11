@@ -42,6 +42,16 @@ struct InputSourceSettings {
 // processed by a NotificationManager class. Most managers have one or more
 // InputSources attached to them to handle event listeners.
 class InputSource {
+ protected:
+    // A pure virtual declaration for other classes to define what to do when
+    // sending calback function with notifications to the input source.
+    void SendCallback(Notification* notification);
+
+    // Transfers ownership of the notification to an internal storage system
+    // for notifications. Will be deallocated on class deallocation or when
+    // ClearMemory() is called.
+    virtual void StoreNotification(Notification* notification) = 0;
+
  public:
     virtual ~InputSource() {};
 
@@ -49,6 +59,10 @@ class InputSource {
     // whenever a new notification is received and the notification is passed
     // through the callback before being released from memory.
     virtual void SetCallback(InputSourceCallback* callback) = 0;
+
+    // Returns a pointer to the input source callback function. Pointer is
+    // constant and is immutable and not transferred to the caller.
+    virtual const InputSourceCallback* GetCallback() const = 0;
 
     // Returns the settings that control how and when notifications are
     // received and handled by the InputSource object.
