@@ -93,3 +93,40 @@ TEST(V11LarkinSysNotificationsInputSourceTest, StoreMemoryChangesPropogate) {
     source->SetStoringMemory(false);
     EXPECT_FALSE(source->IsStoringMemory());
 }
+
+// Tests that internal memory system is null when memory is not being stored 
+TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWhenNotStoringMemory) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    source->SetStoringMemory(false);
+    EXPECT_FALSE(source->IsStoringMemory());
+    EXPECT_EQ(source->GetMemory(), nullptr);
+}
+
+// Tests that internal memory system is not null when memory is being stored 
+TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWhenStoringMemory) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    source->SetStoringMemory(true);
+    EXPECT_TRUE(source->IsStoringMemory());
+    EXPECT_NE(source->GetMemory(), nullptr);
+}
+
+// Tests that internal memory system size is 0 when empty
+TEST(V11LarkinSysNotificationsInputSourceTest, MemoryZeroEmptyMemoryStore) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    source->SetStoringMemory(true);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
+}
+
+// Tests that internal memory system returns correct pointer on instantiation
+TEST(V11LarkinSysNotificationsInputSourceTest, MemoryDefaultStoringMemory) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    if (source->IsStoringMemory()) {
+        EXPECT_NE(source->GetMemory(), nullptr);
+    } else {
+        EXPECT_EQ(source->GetMemory(), nullptr);
+    }
+}
