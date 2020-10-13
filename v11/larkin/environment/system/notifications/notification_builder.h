@@ -20,7 +20,6 @@
 #include "absl/container/flat_hash_map.h"
 #include "absl/container/flat_hash_set.h"
 #include "larkin/environment/system/notifications/notification.h"
-#include "larkin/environment/system/notifications/notification_manager.h"
 
 namespace sys {
 
@@ -43,11 +42,6 @@ class NotificationBuilder : public Notification {
     // An unsorted map of keys that is kept as a record of keys that
     // are data elements for the notification's data object.    
     absl::flat_hash_set<std::string>* keys_ = nullptr;
-
-    // A pointer to the owner of the notification. Notifications are owned
-    // null or a NotificationManager object that is passed to the object
-    // when it is created.
-    const NotificationManager* manager_ = nullptr;
 
  public:
     ~NotificationBuilder();
@@ -73,14 +67,10 @@ class NotificationBuilder : public Notification {
     // Changes the built notification type to the value of 'type'
     void SetType(NotificationType type);
 
-    // Sets the notifications owned manager object.
-    void SetManager(const NotificationManager* manager);
-
     // From Notification class
     NotificationType GetType() const;
     const absl::flat_hash_set<std::string>* GetDataKeys() const;
     const NotificationData* GetData(const std::string& key) const;
-    const NotificationManager* GetManager() const;
 };
 
 }  // namespace sys

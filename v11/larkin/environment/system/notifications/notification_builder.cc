@@ -69,12 +69,4 @@ NotificationType NotificationBuilder::GetType() const {
     return type_;
 }
 
-void NotificationBuilder::SetManager(const NotificationManager* manager) {
-    manager_ = manager;
-}
-
-const NotificationManager* NotificationBuilder::GetManager() const {
-    return manager_;
-}
-
 }  // namespace sys

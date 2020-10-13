@@ -18,7 +18,6 @@
 
 #include <string>
 #include "absl/container/flat_hash_set.h"
-#include "larkin/environment/system/notifications/notification_manager.h"
 
 namespace sys {
 
@@ -104,11 +103,6 @@ class Notification {
     // of the notification's data map object. Object remains owned by
     // the notification object.
     virtual const absl::flat_hash_set<std::string>* GetDataKeys() const = 0;
-
-    // Returns the manager that the notification was generated from.
-    // Notification manager's usually have ownership over notification objects.
-    // Otherwise this will return null.
-    virtual const NotificationManager* GetManager() const = 0;
 };
 
 }  // namespace sys
