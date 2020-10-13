@@ -57,3 +57,39 @@ TEST(V11LarkinSysNotificationsInputSourceTest, EnableChangesPropogate) {
     source->SetEnabled(false);
     EXPECT_FALSE(source->IsEnabled());
 }
+
+// Tests that input source's store memory method initially match the default
+// input source settings value for store memory.
+TEST(V11LarkinSysNotificationsInputSourceTest, StoreMemoryMatchesDefault) {
+    InputSourceSettings settings;
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    EXPECT_EQ(source->IsStoringMemory(), settings.store_memory);
+}
+
+// Tests that the store memory switch does not just flip every call
+TEST(V11LarkinSysNotificationsInputSourceTest, StoreMemoryDoesNotFlip) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    source->SetStoringMemory(false);
+    EXPECT_FALSE(source->IsStoringMemory());
+    source->SetStoringMemory(false);
+    EXPECT_FALSE(source->IsStoringMemory());
+    source->SetStoringMemory(true);
+    EXPECT_TRUE(source->IsStoringMemory());
+    source->SetStoringMemory(true);
+    EXPECT_TRUE(source->IsStoringMemory());
+}
+
+// Tests that changes to the input sources store memory method result in the
+// source enabling or disabling.
+TEST(V11LarkinSysNotificationsInputSourceTest, StoreMemoryChangesPropogate) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    source->SetStoringMemory(false);
+    EXPECT_FALSE(source->IsStoringMemory());
+    source->SetStoringMemory(true);
+    EXPECT_TRUE(source->IsStoringMemory());
+    source->SetStoringMemory(false);
+    EXPECT_FALSE(source->IsStoringMemory());
+}
