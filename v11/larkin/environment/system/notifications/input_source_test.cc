@@ -139,3 +139,16 @@ TEST(V11LarkinSysNotificationsInputSourceTest, NameIsOverridenFromBase) {
     EXPECT_NE(source->GetInputSourceName(), sys::kBaseInputSourceName);
     EXPECT_EQ(source->GetInputSourceName(), sys::tests::kMockInputSourceName);
 }
+
+// Tests that input source settings struct updates with changes through methods
+TEST(V11LarkinSysNotificationsInputSourceTest, SettingsMatchGetterMethods) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    const InputSourceSettings& settings = source->GetSettings();
+    EXPECT_EQ(source->IsEnabled(), settings.enabled);
+    EXPECT_EQ(source->IsStoringMemory(), settings.store_memory);
+    source->SetEnabled(!source->IsEnabled());
+    EXPECT_EQ(source->IsEnabled(), settings.enabled);
+    source->SetStoringMemory(!source->IsStoringMemory());
+    EXPECT_EQ(source->IsStoringMemory(), settings.store_memory);
+}

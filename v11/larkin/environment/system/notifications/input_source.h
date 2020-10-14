@@ -31,11 +31,11 @@ typedef std::function<void(const Notification*)> InputSourceCallback;
 // Used primarily by InputSource classes.
 struct InputSourceSettings {
     // Whether the InputSource class is accepting input
-    bool enabled = false;
+    bool enabled = true;
 
     // Whether the InputSource class should store notifications
     // in memory.
-    bool store_memory = false;
+    bool store_memory = true;
 };
 
 // Transformer for abstract notifications into structured data that can be
