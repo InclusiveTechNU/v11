@@ -19,12 +19,18 @@
 namespace sys {
 
 void InputSource::SendCallback(Notification* notification) {
+    if (!IsEnabled()) {
+        return;
+    }
+
     const InputSourceCallback* callback = GetCallback();
-    if (callback && IsEnabled()) {
+    if (callback) {
         (*callback)(notification);
     }
     if (IsStoringMemory()) {
         StoreNotification(notification);
+    } else {
+        delete notification;
     }
 }
 

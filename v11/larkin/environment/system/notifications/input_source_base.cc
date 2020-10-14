@@ -48,18 +48,13 @@ bool InputSourceBase::IsEnabled() const {
 }
 
 void InputSourceBase::SetEnabled(bool enabled) {
-   if (!IsEnabled() && enabled) {
-      settings_.enabled = true;
-   } else if (IsEnabled() && !enabled) {
-      settings_.enabled = false;
-   }
+   settings_.enabled = enabled;
 }
 
 void InputSourceBase::SetStoringMemory(bool storing) {
-   if (!IsStoringMemory() && storing) {
-      settings_.store_memory = true;
-   } else if (IsStoringMemory() && !storing) {
-      settings_.store_memory = false;
+   settings_.store_memory = storing;
+   if (!storing) {
+      ClearMemory();
    }
 }
 
