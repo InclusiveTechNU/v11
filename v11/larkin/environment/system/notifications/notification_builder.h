@@ -50,10 +50,11 @@ class NotificationBuilder : public Notification {
     // ownership of the object back to the caller.
     static NotificationBuilder* Create();
 
-    // Casts the current builder object as a Notification object and returns 
-    // this object as a pointer. Transfers ownership of this object to
-    // the caller.
-    const Notification* Build();
+    // TODO(tommymchugh): Clone instead of cast
+    // Clones the current builder object as a new Notification object and
+    // returns this object as a pointer. Transfers ownership of this object
+    // to the caller.
+    Notification* Build();
 
     // Returns a pointer to the notification's data object. This does not
     // transfer ownership of the data object. This is always owned by the

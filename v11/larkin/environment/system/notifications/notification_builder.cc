@@ -32,7 +32,7 @@ NotificationBuilder* NotificationBuilder::Create() {
     return new NotificationBuilder;
 }
 
-const Notification* NotificationBuilder::Build() {
+Notification* NotificationBuilder::Build() {
     return this;
 }
 

@@ -18,10 +18,14 @@
 #include "larkin/environment/system/notifications/input_source.h"
 #include "larkin/environment/system/notifications/input_source_mock.h"
 #include "larkin/environment/system/notifications/input_source_base.h"
+#include "larkin/environment/system/notifications/notification_builder.h"
+#include "larkin/environment/system/notifications/notification.h"
 
 using sys::InputSource;
 using sys::InputSourceSettings;
 using sys::tests::MockInputSource;
+using sys::Notification;
+using sys::NotificationBuilder;
 
 // Tests that input source's enable method initially match the default input
 // source settings value for enabled.
@@ -104,6 +108,28 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWhenNotStoringMemory) {
     EXPECT_EQ(source->GetMemory(), nullptr);
 }
 
+// Tests that internal memory system is null when when not being stored even
+// if input source is enabled.
+TEST(V11LarkinSysNotificationsInputSourceTest, EnabledWhenNotStoringMemory) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    source->SetEnabled(true);
+    source->SetStoringMemory(false);
+    EXPECT_FALSE(source->IsStoringMemory());
+    EXPECT_EQ(source->GetMemory(), nullptr);
+}
+
+// Tests that internal memory system is null when when not being stored even
+// if input source is disabled.
+TEST(V11LarkinSysNotificationsInputSourceTest, DisabledWhenNotStoringMemory) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    source->SetEnabled(false);
+    source->SetStoringMemory(false);
+    EXPECT_FALSE(source->IsStoringMemory());
+    EXPECT_EQ(source->GetMemory(), nullptr);
+}
+
 // Tests that internal memory system is not null when memory is being stored 
 TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWhenStoringMemory) {
     MockInputSource mock_source = MockInputSource();
@@ -119,6 +145,211 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemoryZeroEmptyMemoryStore) {
     InputSource* source = &mock_source;
     source->SetStoringMemory(true);
     EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
+}
+
+// Tests that empty internal memory system size is 0 even when disabled.
+TEST(V11LarkinSysNotificationsInputSourceTest, MemoryZeroDisabledInput) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    source->SetEnabled(false);
+    source->SetStoringMemory(true);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
+}
+
+// Tests that empty internal memory system size is 0 even when enabled.
+TEST(V11LarkinSysNotificationsInputSourceTest, MemoryZeroEnabledInput) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    source->SetEnabled(true);
+    source->SetStoringMemory(true);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
+}
+
+// Tests that internal memory system remains null when not storing memory
+// even when delivered a notification.
+TEST(V11LarkinSysNotificationsInputSourceTest, NoMemoryStoreRemainsEmpty) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    NotificationBuilder* builder = NotificationBuilder::Create();
+    Notification* notification = builder->Build();
+
+    source->SetStoringMemory(false);
+    mock_source.CallCallbackMethod(notification);
+    EXPECT_EQ(source->GetMemory(), nullptr);
+}
+
+// Tests that internal memory system remains empty even when enabled if
+// the input source is not enabled.
+TEST(V11LarkinSysNotificationsInputSourceTest, DisabledSourceRemainsEmpty) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    NotificationBuilder* builder = NotificationBuilder::Create();
+    Notification* notification = builder->Build();
+
+    source->SetEnabled(false);
+    source->SetStoringMemory(true);
+    mock_source.CallCallbackMethod(notification);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
+}
+
+// Tests that internal memory system has size of 1 if delivered notification
+// before memory was enabled and then afterwards.
+TEST(V11LarkinSysNotificationsInputSourceTest, FlippedEnableMemoryIsOne) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    NotificationBuilder* builder_one = NotificationBuilder::Create();
+    Notification* notification_one = builder_one->Build();
+    NotificationBuilder* builder_two = NotificationBuilder::Create();
+    Notification* notification_two = builder_two->Build();
+
+    source->SetEnabled(true);
+    source->SetStoringMemory(false);
+    mock_source.CallCallbackMethod(notification_one);
+    EXPECT_EQ(source->GetMemory(), nullptr);
+    source->SetStoringMemory(true);
+    mock_source.CallCallbackMethod(notification_two);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 1);
+}
+
+// Tests that internal memory system has size of 1 if delivered notification
+// before input source was enabled and then afterwards.
+TEST(V11LarkinSysNotificationsInputSourceTest, FlippedEnableSourceIsOne) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    NotificationBuilder* builder_one = NotificationBuilder::Create();
+    Notification* notification_one = builder_one->Build();
+    NotificationBuilder* builder_two = NotificationBuilder::Create();
+    Notification* notification_two = builder_two->Build();
+
+    source->SetEnabled(false);
+    source->SetStoringMemory(true);
+    mock_source.CallCallbackMethod(notification_one);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
+    source->SetEnabled(true);
+    mock_source.CallCallbackMethod(notification_two);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 1);
+}
+
+// Tests that internal memory system does not remain empty when storing memory
+// and delivered a notification.
+TEST(V11LarkinSysNotificationsInputSourceTest, EnabledNotEmpty) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    NotificationBuilder* builder = NotificationBuilder::Create();
+    Notification* notification = builder->Build();
+
+    source->SetEnabled(true);
+    source->SetStoringMemory(true);
+    mock_source.CallCallbackMethod(notification);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 1);
+}
+
+// Tests that internal memory system will increase size after receiving
+// notifications after being delivered the first notification.
+TEST(V11LarkinSysNotificationsInputSourceTest, MemorySizeWillIncrease) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    NotificationBuilder* builder_one = NotificationBuilder::Create();
+    Notification* notification_one = builder_one->Build();
+    NotificationBuilder* builder_two = NotificationBuilder::Create();
+    Notification* notification_two = builder_two->Build();
+
+    source->SetEnabled(true);
+    source->SetStoringMemory(true);
+    mock_source.CallCallbackMethod(notification_one);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 1);
+    mock_source.CallCallbackMethod(notification_two);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 2);
+}
+
+// Tests that internal memory system is cleared when memory disabled
+TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWillClearWhenDisabled) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    NotificationBuilder* builder = NotificationBuilder::Create();
+    Notification* notification = builder->Build();
+
+    source->SetEnabled(true);
+    source->SetStoringMemory(true);
+    mock_source.CallCallbackMethod(notification);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 1);
+    source->SetStoringMemory(false);
+    EXPECT_EQ(source->GetMemory(), nullptr);
+    source->SetStoringMemory(true);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
+}
+
+// Tests that internal memory system is not cleared when input source
+// is disabled.
+TEST(V11LarkinSysNotificationsInputSourceTest, MemoryExistsForDisabledSource) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    NotificationBuilder* builder = NotificationBuilder::Create();
+    Notification* notification = builder->Build();
+
+    source->SetEnabled(true);
+    source->SetStoringMemory(true);
+    mock_source.CallCallbackMethod(notification);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 1);
+    source->SetEnabled(false);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 1);
+}
+
+// Tests that internal memory system is cleared when ClearMemory is called
+TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWillClearFromMethod) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    NotificationBuilder* builder = NotificationBuilder::Create();
+    Notification* notification = builder->Build();
+
+    source->SetEnabled(true);
+    source->SetStoringMemory(true);
+    mock_source.CallCallbackMethod(notification);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 1);
+    source->ClearMemory();
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
+}
+
+// Tests that internal memory system is cleared even when input source
+// is disabled.
+TEST(V11LarkinSysNotificationsInputSourceTest, DisabledSoureceWillClear) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    NotificationBuilder* builder = NotificationBuilder::Create();
+    Notification* notification = builder->Build();
+
+    source->SetEnabled(true);
+    source->SetStoringMemory(true);
+    mock_source.CallCallbackMethod(notification);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 1);
+    source->SetEnabled(false);
+    source->ClearMemory();
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
+}
+
+// Tests that ClearMemory does nothing with empty storage.
+TEST(V11LarkinSysNotificationsInputSourceTest, ClearMemoryNoActionEmpty) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+
+    source->SetEnabled(true);
+    source->SetStoringMemory(true);
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
+    source->ClearMemory();
+    EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
+}
+
+// Tests that ClearMemory does nothing even with disabled input source and
+// disabled input source storage.
+TEST(V11LarkinSysNotificationsInputSourceTest, ClearMemoryNoActionDisabled) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+
+    source->SetEnabled(false);
+    source->SetStoringMemory(false);
+    EXPECT_EQ(source->GetMemory(), nullptr);
+    source->ClearMemory();
+    EXPECT_EQ(source->GetMemory(), nullptr);
 }
 
 // Tests that internal memory system returns correct pointer on instantiation
@@ -151,4 +382,11 @@ TEST(V11LarkinSysNotificationsInputSourceTest, SettingsMatchGetterMethods) {
     EXPECT_EQ(source->IsEnabled(), settings.enabled);
     source->SetStoringMemory(!source->IsStoringMemory());
     EXPECT_EQ(source->IsStoringMemory(), settings.store_memory);
+}
+
+// Tests that empty callback is null
+TEST(V11LarkinSysNotificationsInputSourceTest, EmptyCallbackIsNull) {
+    MockInputSource mock_source = MockInputSource();
+    InputSource* source = &mock_source;
+    EXPECT_EQ(source->GetCallback(), nullptr);
 }
