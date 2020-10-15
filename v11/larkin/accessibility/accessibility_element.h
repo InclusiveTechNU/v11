@@ -23,7 +23,7 @@
 #include "larkin/environment/system/notifications/notification.h"
 
 using app::Application;
-using sys::notification_type;
+using sys::NotificationType;
 
 namespace a11y {
 
@@ -54,7 +54,7 @@ class AccessibilityElement {
     const char* get_value() const;
     const char* get_description() const;
     const void* get_native_element() const;
-    void add_notification_listener(notification_type type,
+    void add_notification_listener(NotificationType type,
                                    std::function<void()>* callback);
 };
 

@@ -80,7 +80,7 @@ notification_type convert_string_to_notification_type(std::string type_str) {
     } else if (type_str == NOTIF_TYPE_ACCESSIBILITY_DID_CHANGE) {
         return NotificationType::ACCESSIBILITY_DID_CHANGE;
     } else {
-        return NotificationType::UNKNOWN;
+        return NotificationType::kUnknownNotification;
     }
 }
 
@@ -293,7 +293,7 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
             // TODO(tommymchugh): Implement catch all notification callback
             // ! Adds a callback function for all events
         } else {
-            NotificationType listener_type = NotificationType::UNKNOWN;
+            NotificationType listener_type = NotificationType::kUnknownNotification;
             std::string type_str = std::string(listener_type_ptr);
             listener_type = convert_string_to_notification_type(type_str);
 

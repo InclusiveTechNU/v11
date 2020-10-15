@@ -20,10 +20,10 @@ using sound::sound_type;
 
 namespace sys {
 
-System::System(): notification_center(NotificationManager::
-                                      get_system_center()) {
-    platform_ = Platform::Create();
+System::System() {
     bridge = new SystemBridge;
+    platform_ = bridge->GetPlatform();
+    notification_center = bridge->GetNotificationManager();
     pending_actions = bridge->get_pending_actions();
     keyboard_listener = bridge->get_keyboard_listener();
     _sound_manager = new SoundManager({sound_type::TEXT2SPEECH});
@@ -53,22 +53,16 @@ void System::add_event_listener(const keyboard::event::
     }
 }
 void System::add_event_listener(const NotificationType& action,
-                                const callback& callback) {
-    notification_center->add_event_listener({
-        action,
-        0,
-        callback
-    });
+                                NotificationCallback* callback) {
+    notification_center->AddEventListener(action, callback);
 }
 
 System::~System() {
     if (bridge) {
         bridge->remove_all_pending_actions();
     }
-    delete notification_center;
     delete _sound_manager;
     delete bridge;
-    delete platform_;
 }
 
 }  // namespace sys

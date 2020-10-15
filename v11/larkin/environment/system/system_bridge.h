@@ -17,8 +17,10 @@
 #pragma once
 
 #include <vector>
+#include "larkin/environment/system/platform/platform.h"
 #include "larkin/environment/system/system_initializer.h"
 #include "larkin/interaction/keyboard/keyboard_listener.h"
+#include "larkin/environment/system/notifications/notification_manager.h"
 
 namespace sys {
 
@@ -29,8 +31,12 @@ class SystemBridge {
     system_delegate delegate = nullptr;
     keyboard::KeyboardListener* keyboard_listener = nullptr;
     std::vector<std::function<void(void*)>*>* pending_actions = nullptr;
+    Platform* platform_ = nullptr;
+    NotificationManager* notifications_ = nullptr;
  public:
     SystemBridge();
+    Platform* GetPlatform();
+    NotificationManager* GetNotificationManager();
     keyboard::KeyboardListener* get_keyboard_listener();
     std::vector<std::function<void(void*)>*>* get_pending_actions();
     void remove_all_pending_actions();

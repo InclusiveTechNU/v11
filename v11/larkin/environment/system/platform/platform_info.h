@@ -23,7 +23,7 @@ enum OperatingSystem {
     kMac,
     kWindows,
     kLinux,
-    kUnknown,
+    kUnknownPlatform,
 };
 
 // Platform version numbers following a major, minor,

@@ -57,7 +57,7 @@ class System {
                                   event_type& action,
                             const keyboard::callback& callback);
     void add_event_listener(const NotificationType& action,
-                            const callback& callback);
+                            NotificationCallback* callback);
 
     // Deallocates owned object
     ~System();

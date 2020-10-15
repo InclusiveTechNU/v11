@@ -33,6 +33,9 @@ node_native_module(
         "utils.cc",
     ],
     deps = [
+        "@abseil_cpp//absl/container:flat_hash_map",
+        "@abseil_cpp//absl/container:flat_hash_set",
+        "@abseil_cpp//absl/strings:str_format",
         "//third_party/get_uv_event_loop:uv_event_loop_node_lib",
         "//v11/utils:v11_utils_main_loop_lib",
         "//v11/larkin/accessibility:larkin_accessibility_lib",

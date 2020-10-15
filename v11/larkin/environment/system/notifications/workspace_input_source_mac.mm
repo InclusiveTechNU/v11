@@ -64,7 +64,7 @@ void WorkspaceInputSourceMac::RegisterNotificationObserver() {
                    usingBlock: ^(NSNotification *native_notification){
             NotificationBuilder* notif_builder = NotificationBuilder::Create();
             NSNotificationName native_name = [native_notification name];
-            NotificationType notification_type = NotificationType::kUnknown;
+            NotificationType notification_type = NotificationType::kUnknownNotification;
             for (int i = 0; i < [kNativeNotificationTypes count]; i++) {
                 if (native_name == kNativeNotificationTypes[i]) {
                     notification_type = kLarkinNotificationTypes[i];

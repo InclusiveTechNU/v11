@@ -21,7 +21,7 @@
 #include "larkin/accessibility/accessibility_element.h"
 #include "larkin/environment/system/notifications/notification.h"
 
-using sys::notification_type;
+using sys::NotificationType;
 
 namespace a11y {
 

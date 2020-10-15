@@ -64,7 +64,7 @@ namespace a11y {
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_REMOVE_ELEMENT) {
         return NotificationType::APPLICATION_DID_REMOVE_ELEMENT;
     } else {
-        return NotificationType::UNKNOWN;
+        return NotificationType::kUnknownNotification;
     }
 }*/
 
@@ -88,7 +88,7 @@ notification_type convert_string_to_notification_type(std::string type_str) {
     } else if (type_str == NOTIF_TYPE_UI_ELEMENT_REMOVED) {
         return NotificationType::UI_ELEMENT_REMOVED;
     } else {
-        return NotificationType::UNKNOWN;
+        return NotificationType::kUnknownNotification;
     }
 }
 

@@ -20,10 +20,14 @@
 #include "utils/definitions.h"
 #include "larkin/environment/system/system_bridge.h"
 #include "larkin/environment/system/system_delegate_mac.h"
+#include "larkin/environment/system/platform/platform_mac.h"
+#include "larkin/environment/system/notifications/system_notification_manager_mac.h"
 
 namespace sys {
 
 SystemBridge::SystemBridge() {
+    platform_ = new PlatformMac();
+    notifications_ = new SystemNotificationManagerMac();
     pending_actions = new std::vector<std::function<void(void*)>*>;
     native_initializer = new std::function<void*()>([&]() {
         keyboard_listener = new keyboard::KeyboardListener;
@@ -50,6 +54,10 @@ std::vector<std::function<void(void*)>*>* SystemBridge::get_pending_actions() {
     return pending_actions;
 }
 
+Platform* SystemBridge::GetPlatform() {
+    return platform_;
+}
+
 void SystemBridge::remove_all_pending_actions() {
     if (pending_actions) {
         for (std::function<void(void*)>* action : *pending_actions) {
@@ -67,6 +75,8 @@ SystemBridge::~SystemBridge() {
     delete native_initializer;
     delete keyboard_listener;
     delete pending_actions;
+    delete platform_;
+    delete notifications_;
 }
 
 }  // namespace sys

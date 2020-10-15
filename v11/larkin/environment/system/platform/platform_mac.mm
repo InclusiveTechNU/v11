@@ -34,7 +34,7 @@ OperatingSystem PlatformMac::GetOperatingSystem() const {
 }
 
 Version PlatformMac::GetVersion() const {
-    NSProcessInfo* proc_info (__bridge NSProcessInfo*) native_process_info_;
+    NSProcessInfo* proc_info = (__bridge NSProcessInfo*) native_process_info_;
     NSOperatingSystemVersion version = [proc_info operatingSystemVersion];
     uint16_t major_version = (uint16_t) version.majorVersion;
     uint16_t minor_version = (uint16_t) version.minorVersion;

@@ -20,7 +20,7 @@
 namespace app {
 
 ApplicationObserver::ApplicationObserver(pid_t identifier) {
-    _callback_handler = new std::function<void(notification_type)>([](notification_type type) {
+    _callback_handler = new std::function<void(NotificationType)>([](NotificationType type) {
         std::cout << "hey!\n";
     });
     _native_bridge = new ApplicationObserverBridge(identifier);
@@ -31,9 +31,9 @@ ApplicationObserver* ApplicationObserver::
     return new ApplicationObserver(identifier);
 }
 
-void ApplicationObserver::add_observer_callback(notification_type type,
+void ApplicationObserver::add_observer_callback(NotificationType type,
                                                 std::function<void()>* callback) {
-    _callbacks.insert(std::pair<notification_type,
+    _callbacks.insert(std::pair<NotificationType,
                                 std::function<void()>*>(type, callback));
 }
 

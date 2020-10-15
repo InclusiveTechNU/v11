@@ -105,8 +105,8 @@ void AccessibilityElement::perform_action(const char* name) {
     AXUIElementPerformAction(app_ref, action_name);
 }
 
-void AccessibilityElement::add_notification_listener(notification_type type, std::function<void()>* callback) {
-    if (type == NotificationType::UNKNOWN) {
+void AccessibilityElement::add_notification_listener(NotificationType type, std::function<void()>* callback) {
+    if (type == NotificationType::kUnknownNotification) {
         return;
     }
     // Create an observer for the element
