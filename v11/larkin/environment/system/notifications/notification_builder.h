@@ -40,7 +40,7 @@ class NotificationBuilder : public Notification {
     absl::flat_hash_map<std::string, NotificationData*>* data_ = nullptr;
 
     // An unsorted map of keys that is kept as a record of keys that
-    // are data elements for the notification's data object.    
+    // are data elements for the notification's data object.
     absl::flat_hash_set<std::string>* keys_ = nullptr;
 
  public:

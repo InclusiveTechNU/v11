@@ -16,23 +16,18 @@
 
 #pragma once
 
-#include "larkin/environment/system/notifications/notification_manager_base.h"
-#include "larkin/environment/system/notifications/input_source.h"
+#include <vector>
+#include "larkin/environment/system/notifications/system_notification_manager.h"
 
 namespace sys {
 
-class NotificationManagerBuilder : public NotificationManagerBase {
- private:
-    using NotificationManagerBase::NotificationManagerBase;
-    ManagerType type_ = ManagerType::kCustom;
+class SystemNotificationManagerMac : public SystemNotificationManager {
+ protected:
+    void AttachInputSources();
 
  public:
-    static NotificationManagerBuilder* Create();
-    NotificationManager* Build();
-    void AttachInputSource(InputSource* source);
-
-    // From NotificationManagerBase class
-    ManagerType GetManagerType() const;
+    SystemNotificationManagerMac();
+    ~SystemNotificationManagerMac();
 };
 
 }  // namespace sys

@@ -25,7 +25,7 @@ namespace sys {
 enum NotificationType {
     kUnknown,
 
-    // Hardware Notifications    
+    // Hardware Notifications
     kDeviceDidMount,
     kDeviceDidUnmount,
 

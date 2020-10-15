@@ -54,7 +54,7 @@ class InputSource {
     virtual void StoreNotification(Notification* notification) = 0;
 
  public:
-    virtual ~InputSource() {};
+    virtual ~InputSource() {}
 
     // Updates the input source's callback function. This function is called
     // whenever a new notification is received and the notification is passed

@@ -14,58 +14,32 @@
  * limitations under the License.
  */
 
-#include <utility>
 #include <functional>
 #include "larkin/environment/system/notifications/notification_manager_builder.h"
 
 namespace sys {
 
-NotificationManagerBuilder::NotificationManagerBuilder() {
-    listeners_ = new absl::flat_hash_map<NotificationType,
-                                         NotificationCallback*>;
-}
-
 NotificationManagerBuilder* NotificationManagerBuilder::Create() {
     return new NotificationManagerBuilder;
 }
+
 NotificationManager* NotificationManagerBuilder::Build() {
     return this;
-}
-
-const std::vector<InputSource*>* NotificationManagerBuilder::GetInputSources() const {
-    return &sources_;
 }
 
 ManagerType NotificationManagerBuilder::GetManagerType() const {
     return type_;
 }
 
-void NotificationManagerBuilder::AddEventListener(NotificationType type,
-                                                  NotificationCallback* callback) {
-    auto present_callback = listeners_->find(type);
-    if (present_callback != listeners_->end()) {
-        delete present_callback->second;
-    }
-    (*listeners_)[type] = callback;
-
-}
-
 void NotificationManagerBuilder::AttachInputSource(InputSource* source) {
     sources_.push_back(source);
-    source->SetCallback(new InputSourceCallback([&](const Notification* notification) {
+    source->SetCallback(new InputSourceCallback([&](const Notification*
+                                                    notification) {
         auto present_callback = listeners_->find(notification->GetType());
         if (present_callback != listeners_->end()) {
             (*present_callback->second)(notification);
         }
     }));
-}
-
-NotificationManagerBuilder::~NotificationManagerBuilder() {
-    for (std::pair<NotificationType,
-                   NotificationCallback*> listener : *listeners_) {
-        delete listener.second;
-    }
-    delete listeners_;
 }
 
 }  // namespace sys

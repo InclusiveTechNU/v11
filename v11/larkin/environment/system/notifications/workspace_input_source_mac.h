@@ -26,9 +26,13 @@ const char kWorkspaceInputSourceMacName[] = "workspace_mac";
 class WorkspaceInputSourceMac : public InputSourceBase {
  private:
     const std::string name_ = std::string(kWorkspaceInputSourceMacName);
+    void* notification_center_ = nullptr;
+
+    void RegisterNotificationObserver();
 
  public:
     WorkspaceInputSourceMac();
+    ~WorkspaceInputSourceMac();
     const std::string& GetInputSourceName() const;
 };
 

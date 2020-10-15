@@ -17,23 +17,29 @@
 #pragma once
 
 #include <vector>
+#include "absl/container/flat_hash_map.h"
 #include "larkin/environment/system/notifications/notification_manager.h"
-#include "larkin/environment/system/notifications/notification_manager_base.h"
+#include "larkin/environment/system/notifications/notification.h"
 #include "larkin/environment/system/notifications/input_source.h"
 
 namespace sys {
 
-class SystemNotificationManager : public NotificationManagerBase {
+class NotificationManagerBase : public NotificationManager {
  protected:
-    SystemNotificationManager();
-    ManagerType type_ = ManagerType::kSystem;
-    virtual void AttachInputSources() = 0;
+    NotificationManagerBase();
+    // TODO(tommymchugh): Determine whether managers own input sources
+    std::vector<InputSource*> sources_;
+    absl::flat_hash_map<NotificationType,
+                        NotificationCallback*>* listeners_ = nullptr;
 
  public:
-    virtual ~SystemNotificationManager();
+    virtual ~NotificationManagerBase();
 
     // From NotificationManager class
-    ManagerType GetManagerType() const;
+    virtual ManagerType GetManagerType() const = 0;
+    const std::vector<InputSource*>* GetInputSources() const;
+    void AddEventListener(NotificationType type,
+                          NotificationCallback* callback);
 };
 
 }  // namespace sys

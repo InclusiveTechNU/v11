@@ -21,22 +21,27 @@ cross_cc_library(
         "notification_builder.h",
         "notification_data_builder.h",
         "notification_manager.h",
+        "notification_manager_base.h",
         "notification_manager_builder.h",
+        "system_notification_manager.h",
         "input_source.h",
         "input_source_base.h",
-        "system_notification_manager.h",
     ],
     srcs = [
         "input_source.cc",
         "input_source_base.cc",
         "notification_builder.cc",
         "notification_data_builder.cc",
+        "notification_manager_base.cc",
         "notification_manager_builder.cc",
         "system_notification_manager.cc",
     ],
-#    macos_srcs = [
-#        ":sys_notifications_lib_macos_srcs",
-#    ],
+    macos_hdrs = [
+        ":sys_notifications_lib_macos_hdrs",
+    ],
+    macos_srcs = [
+        ":sys_notifications_lib_macos_srcs",
+    ],
 #    linux_srcs = [
 #        ":sys_notifications_lib_linux_srcs",
 #    ],
@@ -62,10 +67,20 @@ filegroup(
 )
 
 # Core System Notifications Lib MacOS Platform Resources
+filegroup(
+    name = "sys_notifications_lib_macos_hdrs",
+    srcs = [
+        "workspace_input_source_mac.h",
+        "system_notification_manager_mac.h",
+    ],
+    visibility = ["//visibility:private"],
+)
 
 filegroup(
     name = "sys_notifications_lib_macos_srcs",
     srcs = [
+        "workspace_input_source_mac.mm",
+        "system_notification_manager_mac.mm",
     ],
     visibility = ["//visibility:private"],
 )

@@ -43,7 +43,7 @@ enum ManagerType {
 
 class NotificationManager {
  public:
-    virtual ~NotificationManager() {};
+    virtual ~NotificationManager() {}
     virtual const std::vector<InputSource*>* GetInputSources() const = 0;
     virtual ManagerType GetManagerType() const = 0;
     virtual void AddEventListener(NotificationType type,
