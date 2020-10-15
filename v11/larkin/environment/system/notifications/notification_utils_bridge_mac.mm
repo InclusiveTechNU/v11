@@ -21,37 +21,37 @@
 namespace sys {
 namespace utils {
 
-void* __convert_notification_type_to_native(notification_type type) {
+void* __convert_notification_type_to_native(NotificationType type) {
     switch(type) {
-        case NotificationType::WINDOW_ELEMENT_DID_MINIMIZE:
+        case NotificationType::kWindowDidMinimize:
             return (void*) kAXWindowMiniaturizedNotification;
-        case NotificationType::WINDOW_ELEMENT_DID_DEMINIMIZE:
+        case NotificationType::kWindowDidDeminimize:
             return (void*) kAXWindowDeminiaturizedNotification;
-        case NotificationType::APPLICATION_DID_CHANGE_MAIN_WINDOW:
+        case NotificationType::kApplicationDidChangeMainWindow:
             return (void*) kAXMainWindowChangedNotification;
-        case NotificationType::APPLICATION_DID_CHANGE_FOCUSED_WINDOW:
+        case NotificationType::kApplicationDidChangeFocusedWindow:
             return (void*) kAXFocusedWindowChangedNotification;
-        case NotificationType::APPLICATION_DID_CHANGE_FOCUSED_UI_ELEMENT:
+        case NotificationType::kApplicationDidChangeFocusedUIElement:
             return (void*) kAXFocusedUIElementChangedNotification;
-        case NotificationType::APPLICATION_DID_CREATE_UI_ELEMENT:
+        case NotificationType::kApplicationDidCreateUIElement:
             return (void*) kAXCreatedNotification;
-        case NotificationType::APPLICATION_DID_CREATE_WINDOW:
+        case NotificationType::kApplicationDidCreateWindow:
             return (void*) kAXWindowCreatedNotification;
-        case NotificationType::APPLICATION_DID_REMOVE_ELEMENT:
+        case NotificationType::kApplicationDidRemoveElement:
             return (void*) kAXUIElementDestroyedNotification;
-        case NotificationType::WINDOW_ELEMENT_DID_FINISH_MOVE:
+        case NotificationType::kWindowDidFinishMove:
             return (void*) kAXWindowMovedNotification;
-        case NotificationType::WINDOW_ELEMENT_DID_FINISH_RESIZE:
+        case NotificationType::kWindowDidFinishResize:
             return (void*) kAXWindowResizedNotification;
-        case NotificationType::UI_ELEMENT_DID_RESIZE:
+        case NotificationType::kUIElementDidResize:
             return (void*) kAXResizedNotification;
-        case NotificationType::UI_ELEMENT_DID_MOVE:
+        case NotificationType::kUIElementDidMove:
             return (void*) kAXMovedNotification;
-        case NotificationType::UI_ELEMENT_DID_CHANGE_TITLE:
+        case NotificationType::kUIElementDidChangeTitle:
             return (void*) kAXTitleChangedNotification;
-        case NotificationType::UI_ELEMENT_DID_CHANGE_VALUE:
+        case NotificationType::kUIElementDidChangeValue:
             return (void*) kAXValueChangedNotification;
-        case NotificationType::UI_ELEMENT_REMOVED:
+        case NotificationType::kUIElementDidRemove:
             return (void*) kAXUIElementDestroyedNotification;
         default:
             return nullptr;

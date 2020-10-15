@@ -18,12 +18,12 @@
 
 #include "larkin/environment/system/notifications/notification.h"
 
-using sys::notification_type;
+using sys::NotificationType;
 
 namespace sys {
 namespace utils {
 
-void* convert_notification_type_to_native(notification_type type);
+void* convert_notification_type_to_native(NotificationType type);
 
 }  // namespace utils
 }  // namespace sys

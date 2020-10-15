@@ -20,7 +20,7 @@
 namespace sys {
 namespace utils {
 
-void* convert_notification_type_to_native(notification_type type) {
+void* convert_notification_type_to_native(NotificationType type) {
     return __convert_notification_type_to_native(type);
 }
 
