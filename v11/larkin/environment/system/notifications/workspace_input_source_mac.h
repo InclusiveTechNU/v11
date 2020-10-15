@@ -15,3 +15,21 @@
  */
 
 #pragma once
+
+#include <string>
+#include "larkin/environment/system/notifications/input_source_base.h"
+
+namespace sys {
+
+const char kWorkspaceInputSourceMacName[] = "workspace_mac";
+
+class WorkspaceInputSourceMac : public InputSourceBase {
+ private:
+    const std::string name_ = std::string(kWorkspaceInputSourceMacName);
+
+ public:
+    WorkspaceInputSourceMac();
+    const std::string& GetInputSourceName() const;
+};
+
+}  // namespace sys

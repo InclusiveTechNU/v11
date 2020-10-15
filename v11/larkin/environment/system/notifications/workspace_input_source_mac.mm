@@ -16,4 +16,14 @@
 
 #include "larkin/environment/system/notifications/workspace_input_source_mac.h"
 
+namespace sys {
 
+WorkspaceInputSourceMac::WorkspaceInputSourceMac() {
+
+}
+
+const std::string& WorkspaceInputSourceMac::GetInputSourceName() const {
+    return name_;
+}
+
+}  // namespace sys
