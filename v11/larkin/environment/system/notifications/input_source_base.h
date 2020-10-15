@@ -25,7 +25,7 @@ namespace sys {
 
 // Default name for all InputSources that are derived from the
 // InputSourceBase base class implementation.
-const std::string kBaseInputSourceName = "base";
+const char kBaseInputSourceName[] = "base";
 
 // Implementation of InputSource that can be used by other
 // platforms to build OS-specific input sources.
@@ -33,7 +33,7 @@ class InputSourceBase : public InputSource {
  private:
      // The name of the type of notifications that are coming into the
     // input source.
-    const std::string name_ = kBaseInputSourceName;
+    const std::string name_ = std::string(kBaseInputSourceName);
 
  protected:
     // The standard settings that control the management of
@@ -44,7 +44,7 @@ class InputSourceBase : public InputSource {
     // cleared by the classe's memory mangement.
     std::vector<Notification*> memory_;
 
-    // A callback function that is used to 
+    // A callback function that is used to
     InputSourceCallback* callback_ = nullptr;
 
     // From InputSource parent class

@@ -25,11 +25,11 @@
 namespace sys {
 namespace tests {
 
-const std::string kMockInputSourceName = "mock";
+const char kMockInputSourceName[] = "mock";
 
 class MockInputSource : public InputSourceBase {
  private:
-    std::string name_ = kMockInputSourceName;
+    std::string name_ = std::string(kMockInputSourceName);
 
  public:
     MockInputSource() = default;

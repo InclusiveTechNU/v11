@@ -19,65 +19,65 @@
 namespace sys {
 
 InputSourceBase::~InputSourceBase() {
-   ClearMemory();
-   delete callback_;
+    ClearMemory();
+    delete callback_;
 }
 
 void InputSourceBase::StoreNotification(Notification* notification) {
-   if (IsStoringMemory()) {
-      memory_.push_back(notification);
-   } else {
-      delete notification;
-   }
+    if (IsStoringMemory()) {
+        memory_.push_back(notification);
+    } else {
+        delete notification;
+    }
 }
 
 void InputSourceBase::SetCallback(InputSourceCallback* callback) {
-   callback_ = callback;
+    callback_ = callback;
 }
 
 const InputSourceCallback* InputSourceBase::GetCallback() const {
-   return callback_;
+    return callback_;
 }
 
 const InputSourceSettings& InputSourceBase::GetSettings() const {
-   return settings_;
+    return settings_;
 }
 
 bool InputSourceBase::IsEnabled() const {
-   return settings_.enabled;
+    return settings_.enabled;
 }
 
 void InputSourceBase::SetEnabled(bool enabled) {
-   settings_.enabled = enabled;
+    settings_.enabled = enabled;
 }
 
 void InputSourceBase::SetStoringMemory(bool storing) {
-   settings_.store_memory = storing;
-   if (!storing) {
-      ClearMemory();
-   }
+    settings_.store_memory = storing;
+    if (!storing) {
+        ClearMemory();
+    }
 }
 
 bool InputSourceBase::IsStoringMemory() const {
-   return settings_.store_memory;
+    return settings_.store_memory;
 }
 
 void InputSourceBase::ClearMemory() {
-   while (memory_.size() != 0) {
-      delete memory_.back();
-      memory_.pop_back();
-   }
+    while (memory_.size() != 0) {
+        delete memory_.back();
+        memory_.pop_back();
+    }
 }
 
 const std::vector<Notification*>* InputSourceBase::GetMemory() const {
-   if (IsStoringMemory()) {
-      return &memory_;
-   }
-   return nullptr;
+    if (IsStoringMemory()) {
+        return &memory_;
+    }
+    return nullptr;
 }
 
 const std::string& InputSourceBase::GetInputSourceName() const {
-   return name_;
+    return name_;
 }
 
 }  // namespace sys
