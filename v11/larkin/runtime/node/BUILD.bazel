@@ -46,7 +46,7 @@ node_native_module(
     ],
     strip_include_prefix = "//v11",
     copts = [
-        "-std=c++17",
+        "-std=c++11",
         "-ansi",
         #"-pedantic",
     ] + select({

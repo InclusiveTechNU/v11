@@ -27,7 +27,6 @@ class SystemNotificationManagerMac : public SystemNotificationManager {
 
  public:
     SystemNotificationManagerMac();
-    ~SystemNotificationManagerMac();
 };
 
 }  // namespace sys

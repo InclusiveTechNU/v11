@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-#include <iostream>
 #include <functional>
 #include <node/node_api.h>
 #include <uv.h>

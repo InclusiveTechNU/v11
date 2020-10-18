@@ -50,6 +50,10 @@ keyboard::KeyboardListener* SystemBridge::get_keyboard_listener() {
     return keyboard_listener;
 }
 
+NotificationManager* SystemBridge::GetNotificationManager() {
+    return notifications_;
+}
+
 std::vector<std::function<void(void*)>*>* SystemBridge::get_pending_actions() {
     return pending_actions;
 }
