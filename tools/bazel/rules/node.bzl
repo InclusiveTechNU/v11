@@ -15,8 +15,7 @@
 load(":base.bzl", "get_cc_library_headers",
                   "get_cc_library_includes",
                   "get_rel_path",
-                  "get_virtual_library_dirname",
-                  "get_cc_library_linked_libs")
+                  "get_virtual_library_dirname")
 
 # Supported Node Addon Extensions
 _cpp_header_extensions = [".h", ".hh", ".hpp", ".hxx", ".h++"]
