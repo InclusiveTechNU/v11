@@ -37,6 +37,7 @@ cross_cc_library(
         "notification_manager_base.cc",
         "notification_manager_builder.cc",
         "system_notification_manager.cc",
+        "notification_utils.cc",
     ],
     macos_hdrs = [
         ":sys_notifications_lib_macos_hdrs",

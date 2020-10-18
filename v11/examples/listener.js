@@ -16,7 +16,7 @@
 
 // A listener that will log 'hey' to the console every time something
 // is added to the main textarea box in the TextEdit application.
-const v11 = require('../build/v11/core/v11');
+const v11 = require('../../bazel-bin/v11/core/v11.js');
 const notes = v11.system.getApplicationByName("TextEdit");
 notes.getElementsByType("textarea")[0].addEventListener('value', () => {
     console.log("hey");

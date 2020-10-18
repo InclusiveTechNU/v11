@@ -57,6 +57,7 @@ filegroup(
     name = "application_lib_macos_srcs",
     srcs = [
         "application_observer_bridge_mac.mm",
+        "application_mac.mm",
     ],
     visibility = ["//visibility:private"],
 )
