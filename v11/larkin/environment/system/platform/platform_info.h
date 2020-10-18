@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 namespace sys {
 
 // Operating system related platforms that Larkin supports.

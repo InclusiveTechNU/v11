@@ -17,7 +17,7 @@
 #pragma once
 
 #include <assert.h>
-#include <node/uv.h>
+#include <uv.h>
 #include <node/node_api.h>
 #include "larkin/environment/system/notifications/notification.h"
 #include "larkin/environment/application/application.h"

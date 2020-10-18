@@ -145,8 +145,15 @@ def _node_native_library_impl(ctx):
     # Generate libraries from linked dependencies
     linked_paths = []
     full_linked_deps = depset([], order="default")
+    external_deps = []
     for dep_lib in ctx.attr.deps:
         cc_info = dep_lib[CcInfo]
+        hdrs = cc_info.compilation_context.headers
+        for hdr in hdrs.to_list():
+            hdr_comps = hdr.path.split("/")
+            root_path = hdr_comps[0]
+            if root_path == "external":
+                external_deps.append(hdr)
         linker_inputs = cc_info.linking_context.linker_inputs.to_list()
         for linker_input in linker_inputs:
             libraries = linker_input.libraries
@@ -167,14 +174,35 @@ def _node_native_library_impl(ctx):
     linked_deps = []
     link_dep_paths = []
     for dep_lib in full_linked_deps.to_list():
-        dep_lib_path = "build/Release/" + vlib_dirname + seperator + dep_lib.short_path
+        path_comps = dep_lib.short_path.split("/")
+        if path_comps[0] != "..":
+            dep_lib_rel_path = vlib_dirname + seperator + dep_lib.short_path
+            dep_lib_path = "build/Release/" + dep_lib_rel_path
+        else:
+            path_comps[0] = "external"
+            dep_lib_rel_path = vlib_dirname + seperator + seperator.join(path_comps)
+            dep_lib_path = "build/Release/" + dep_lib_rel_path
         dep_lib_file = ctx.actions.declare_file(dep_lib_path)
         ctx.actions.symlink(
             output = dep_lib_file,
             target_file = dep_lib
         )
-        link_dep_paths.append("<(PRODUCT_DIR)/" + vlib_dirname + seperator + dep_lib.short_path)
+        link_dep_paths.append("<(PRODUCT_DIR)/" + dep_lib_rel_path)
         linked_deps.append(dep_lib_file)
+
+    external_paths = []
+    for dep_lib in external_deps:
+        dep_lib_path = "build/Release/" + vlib_dirname + seperator + dep_lib.path
+        dep_lib_file = ctx.actions.declare_file(dep_lib_path)
+        ctx.actions.symlink(
+            output = dep_lib_file,
+            target_file = dep_lib
+        )
+        path_comps = dep_lib.path.split("/")
+        external_paths.append("./build/Release/" + vlib_dirname + seperator + path_comps[0] + seperator + path_comps[1])
+        linked_deps.append(dep_lib_file)
+    external_paths_set = depset(external_paths)
+    gyp_includes += external_paths_set.to_list()
 
     # Generate binding.gyp file from build sources
     gyp_build_subs = _gen_gyp_build_subs(ctx.label.name,
