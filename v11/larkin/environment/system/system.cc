@@ -37,6 +37,10 @@ SoundManager* System::get_sound_manager() {
     return _sound_manager;
 }
 
+const Platform* System::GetPlatform() {
+    return platform_;
+}
+
 void System::add_event_listener(const keyboard::event::
                                       event_type& action,
                                 const keyboard::callback& callback) {

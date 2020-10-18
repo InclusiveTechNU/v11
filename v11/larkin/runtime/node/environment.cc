@@ -23,7 +23,6 @@
 #include "larkin/environment/system/system.h"
 #include "larkin/environment/system/platform/platform.h"
 #include "larkin/environment/system/notifications/notification.h"
-#include "larkin/environment/system/notifications/listener.h"
 #include "larkin/environment/application/application.h"
 
 #define PLATFORM_TEXT_MAC "apple"
@@ -36,8 +35,8 @@ using utils::notification_to_object;
 using utils::string_from_value;
 using sys::System;
 using sys::Notification;
-using sys::callback;
-using sys::notification_type;
+using sys::NotificationType;
+using sys::NotificationCallback;
 using sys::Platform;
 using sys::Version;
 using sys::OperatingSystem;
@@ -58,33 +57,33 @@ using app::Application;
 
 namespace environment {
 
-notification_type convert_string_to_notification_type(std::string type_str) {
+NotificationType convert_string_to_notification_type(std::string type_str) {
     if (type_str == NOTIF_TYPE_APPLICATION_DID_HIDE) {
-        return NotificationType::APPLICATION_DID_HIDE;
+        return NotificationType::kApplicationDidHide;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_LAUNCH) {
-        return NotificationType::APPLICATION_DID_LAUNCH;
+        return NotificationType::kApplicationDidLaunch;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_TERMINATE) {
-        return NotificationType::APPLICATION_DID_TERMINATE;
+        return NotificationType::kApplicationDidTerminate;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_UNHIDE) {
-        return NotificationType::APPLICATION_DID_UNHIDE;
+        return NotificationType::kApplicationDidUnhide;
     } else if (type_str == NOTIF_TYPE_DEVICE_DID_MOUNT) {
-        return NotificationType::DEVICE_DID_MOUNT;
+        return NotificationType::kDeviceDidMount;
     } else if (type_str == NOTIF_TYPE_DEVICE_DID_UNMOUNT) {
-        return NotificationType::DEVICE_DID_UNMOUNT;
+        return NotificationType::kDeviceDidUnmount;
     } else if (type_str == NOTIF_TYPE_SYSTEM_DID_WAKE) {
-        return NotificationType::SYSTEM_DID_WAKE;
+        return NotificationType::kSystemDidWake;
     } else if (type_str == NOTIF_TYPE_SYSTEM_DID_SLEEP) {
-        return NotificationType::SYSTEM_DID_SLEEP;
+        return NotificationType::kSystemDidSleep;
     } else if (type_str == NOTIF_TYPE_SYSTEM_WILL_POWER_OFF) {
-        return NotificationType::SYSTEM_WILL_POWER_OFF;
+        return NotificationType::kSystemWillPowerOff;
     } else if (type_str == NOTIF_TYPE_ACCESSIBILITY_DID_CHANGE) {
-        return NotificationType::ACCESSIBILITY_DID_CHANGE;
+        return NotificationType::kAccessibilityDidChange;
     } else {
         return NotificationType::kUnknownNotification;
     }
 }
 
-napi_status system(napi_env env, napi_value exports) {
+napi_status system(napi_env env, napi_value exports, System* sys_ptr) {
     // Create system APIS for larkin
     // APIS within system include:
     //     - platform: platform specific information
@@ -155,10 +154,9 @@ napi_status system(napi_env env, napi_value exports) {
     napi_value platform_type;
     std::string platform_str;
 
-    Platform* platform = Platform::Create();
+    const Platform* platform = sys_ptr->GetPlatform();
     OperatingSystem sys_platform = platform->GetOperatingSystem();
     Version sys_version = platform->GetVersion();
-    delete platform;
 
     if (sys_platform == OperatingSystem::kMac) {
         platform_str = PLATFORM_TEXT_MAC;
@@ -296,19 +294,14 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
             NotificationType listener_type = NotificationType::kUnknownNotification;
             std::string type_str = std::string(listener_type_ptr);
             listener_type = convert_string_to_notification_type(type_str);
-
-            // TODO(tommymchugh): callback func should delete at some point
-            // Create the callback function from callback_object
             sys_ptr->add_event_listener(listener_type,
-                                        [listener_callback]
-                                        (Notification* notification) {
+                                        new NotificationCallback([listener_callback] (const Notification* notification) {
                 napi_acquire_threadsafe_function(listener_callback);
                 napi_call_threadsafe_function(listener_callback,
-                                              notification,
+                                              (void*) notification,
                                               napi_tsfn_blocking);
-            });
+            }));
         }
-
         delete listener_type_ptr;
         return nullptr;
     }, sys_ptr, &add_event_listener);
@@ -330,7 +323,7 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
 
 // Initialize all variables and functions
 void init(napi_env env, napi_value exports, System* sys_ptr) {
-    napi_status system_status = system(env, exports);
+    napi_status system_status = system(env, exports, sys_ptr);
     if (system_status != napi_ok) {
         napi_throw_error(env,
                          nullptr,

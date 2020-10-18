@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-#include <iostream>
 #include <string>
 #include <map>
 #include <utility>
+#include "absl/container/flat_hash_set.h"
 #include "larkin/runtime/node/utils.h"
+#include "larkin/environment/system/notifications/notification.h"
 #include "utils/run_main.h"
 
 using utils::create_main_app;
 using utils::send_event;
+using sys::NotificationData;
 
 namespace utils {
 
@@ -53,17 +55,22 @@ void notification_to_object(napi_env env,
                             napi_value* value) {
     typedef std::map<std::string, std::string> notification_data;
     typedef std::pair<std::string, std::string> notification_pair;
-    notification_data data = notification->get_notification_data();
+    const absl::flat_hash_set<std::string>* data_keys = notification->GetDataKeys();
 
     a_ok(napi_create_object(env, value));
-    for (notification_pair object : data) {
+    for (const std::string& key : *data_keys) {
+        const NotificationData* data = notification->GetData(key);
+        // TODO(tommymchugh): Support multiple types of data
+        const std::string* data_str = (const std::string*) data;
+        std::string data_cpy = std::string(*data_str);
+
         napi_value key_prop, value_prop;
         a_ok(napi_create_string_utf8(env,
-                                     object.first.c_str(),
+                                     key.c_str(),
                                      NAPI_AUTO_LENGTH,
                                      &key_prop));
         a_ok(napi_create_string_utf8(env,
-                                     object.second.c_str(),
+                                     data_cpy.c_str(),
                                      NAPI_AUTO_LENGTH,
                                      &value_prop));
         a_ok(napi_set_property(env, *value, key_prop, value_prop));

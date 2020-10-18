@@ -44,7 +44,7 @@ class System {
  public:
     // Setups up system interaction and information interfaces
     System();
-
+    const Platform* GetPlatform();
     NotificationManager* get_notification_center();
     SoundManager* get_sound_manager();
 

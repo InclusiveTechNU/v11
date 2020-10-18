@@ -30,7 +30,7 @@ using utils::window_to_object;
 using a11y::AccessibilityWindow;
 using a11y::AccessibilityTree;
 using a11y::AccessibilityElement;
-using sys::notification_type;
+using sys::NotificationType;
 
 // TODO(tommymchugh): This should be moved somewhere else
 #define NOTIF_TYPE_APPLICATION_DID_CHANGE_MAIN_WINDOW "unknown"
@@ -52,7 +52,7 @@ using sys::notification_type;
 
 namespace a11y {
 
-/*notification_type convert_string_to_notification_type(std::string type_str) {
+/*NotificationType convert_string_to_NotificationType(std::string type_str) {
     if (type_str == NOTIF_TYPE_APPLICATION_DID_CHANGE_MAIN_WINDOW) {
         return NotificationType::APPLICATION_DID_CHANGE_MAIN_WINDOW;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_CHANGE_FOCUSED_WINDOW) {
@@ -68,25 +68,25 @@ namespace a11y {
     }
 }*/
 
-notification_type convert_string_to_notification_type(std::string type_str) {
+NotificationType convert_string_to_notification_type(std::string type_str) {
     if (type_str == NOTIF_TYPE_WINDOW_ELEMENT_DID_FINISH_MOVE) {
-        return NotificationType::WINDOW_ELEMENT_DID_FINISH_MOVE;
+        return NotificationType::kWindowDidFinishMove;
     } else if (type_str == NOTIF_TYPE_WINDOW_ELEMENT_DID_FINISH_RESIZE) {
-        return NotificationType::WINDOW_ELEMENT_DID_FINISH_RESIZE;
+        return NotificationType::kWindowDidFinishResize;
     } else if (type_str == NOTIF_TYPE_WINDOW_ELEMENT_DID_MINIMIZE) {
-        return NotificationType::WINDOW_ELEMENT_DID_MINIMIZE;
+        return NotificationType::kWindowDidMinimize;
     } else if (type_str == NOTIF_TYPE_WINDOW_ELEMENT_DID_DEMINIMIZE) {
-        return NotificationType::WINDOW_ELEMENT_DID_DEMINIMIZE;
+        return NotificationType::kWindowDidDeminimize;
     } else if (type_str == NOTIF_TYPE_UI_ELEMENT_DID_RESIZE) {
-        return NotificationType::UI_ELEMENT_DID_RESIZE;
+        return NotificationType::kUIElementDidResize;
     } else if (type_str == NOTIF_TYPE_UI_ELEMENT_DID_MOVE) {
-        return NotificationType::UI_ELEMENT_DID_MOVE;
+        return NotificationType::kUIElementDidMove;
     } else if (type_str == NOTIF_TYPE_UI_ELEMENT_DID_CHANGE_TITLE) {
-        return NotificationType::UI_ELEMENT_DID_CHANGE_TITLE;
+        return NotificationType::kUIElementDidChangeTitle;
     } else if (type_str == NOTIF_TYPE_UI_ELEMENT_DID_CHANGE_VALUE) {
-        return NotificationType::UI_ELEMENT_DID_CHANGE_VALUE;
+        return NotificationType::kUIElementDidChangeValue;
     } else if (type_str == NOTIF_TYPE_UI_ELEMENT_REMOVED) {
-        return NotificationType::UI_ELEMENT_REMOVED;
+        return NotificationType::kUIElementDidRemove;
     } else {
         return NotificationType::kUnknownNotification;
     }
