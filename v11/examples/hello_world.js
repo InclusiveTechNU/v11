@@ -15,6 +15,6 @@
  */
 
 // A simple example that uses the Speech API to say "Hello World"
-const v11 = require('../build/v11/core/v11');
+const v11 = require('../../bazel-bin/v11/core/v11.js');
 v11.speech.speak("Hello World!");
 v11.start();
