@@ -95,6 +95,18 @@ pip_import(
 load("@protobuf_py_deps//:requirements.bzl", protobuf_pip_install = "pip_install")
 protobuf_pip_install()
 
+# Install Node.JS Protobuf Support
+load("@rules_proto_ext//node:deps.bzl", "node_proto_library")
+node_proto_library()
+load("@org_pubref_rules_node//node:rules.bzl", "node_repositories", "yarn_modules")
+node_repositories()
+yarn_modules(
+    name = "proto_node_modules",
+    deps = {
+        "google-protobuf": "3.6.1",
+    },
+)
+
 ##################################
 # Third Party Bazel Dependencies #
 ##################################
