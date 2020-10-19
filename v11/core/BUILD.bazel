@@ -29,7 +29,7 @@ ts_library(
     ],
     devmode_module = "commonjs",
     runtime = "node",
-    visibility = ["//visibility:private"],
+    visibility = ["//visibility:public"],
 )
 
 filegroup(
