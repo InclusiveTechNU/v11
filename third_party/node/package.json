@@ -9,8 +9,10 @@
         "typescript": ">=3.9.7"
     },
     "dependencies": {
+        "@bazel/labs": "^2.2.2",
         "@types/chrome": "^0.0.124",
         "@types/node": "^14.11.10",
+        "google-protobuf": "^3.13.0",
         "node-gyp": ">=7.1.0",
         "rollup": "^2.28.2"
     },

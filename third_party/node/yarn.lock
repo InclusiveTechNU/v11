@@ -23,6 +23,11 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
+"@bazel/labs@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@bazel/labs/-/labs-2.2.2.tgz#0f57547d845bf3539c629b912ce74fc1391a7e20"
+  integrity sha512-epthtuksxNc1Rr5vHQQmUYnLCmhu3tt8NadFf1G7Bvu3yi+BkfdxUSo7NXt+2YN7KqZlqx901YGKLy0z0jxjmw==
+
 "@bazel/rollup@^2.2.0":
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/@bazel/rollup/-/rollup-2.2.2.tgz#1abfc5cbf5eb65db2aa145e584d225684d961055"
@@ -1154,6 +1159,11 @@ globby@^11.0.1:
     ignore "^5.1.4"
     merge2 "^1.3.0"
     slash "^3.0.0"
+
+google-protobuf@^3.13.0:
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.13.0.tgz#909c5983d75dd6101ed57c79e0528d000cdc3251"
+  integrity sha512-ZIf3qfLFayVrPvAjeKKxO5FRF1/NwRxt6Dko+fWEMuHwHbZx8/fcaAao9b0wCM6kr8qeg2te8XTpyuvKuD9aKw==
 
 got@^9.6.0:
   version "9.6.0"

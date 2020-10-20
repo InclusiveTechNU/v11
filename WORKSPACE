@@ -107,6 +107,10 @@ yarn_modules(
     },
 )
 
+# Install @bazel/labs modules
+load("@npm//@bazel/labs:package.bzl", "npm_bazel_labs_dependencies")
+npm_bazel_labs_dependencies()
+
 ##################################
 # Third Party Bazel Dependencies #
 ##################################
