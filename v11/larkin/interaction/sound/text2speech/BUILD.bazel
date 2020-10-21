@@ -28,6 +28,9 @@ cross_cc_library(
         "text2speech_synthesizer.cc",
         "voice.cc"
     ],
+    macos_hdrs = [
+        ":sound_text2speech_lib_macos_hdrs",
+    ],
     macos_srcs = [
         ":sound_text2speech_lib_macos_srcs",
     ],
@@ -58,10 +61,19 @@ filegroup(
 # Core Sound Text2Speech Lib MacOS Platform Resources
 
 filegroup(
+    name = "sound_text2speech_lib_macos_hdrs",
+    srcs = [
+        "text2speech_delegate_mac.h",
+    ],
+    visibility = ["//visibility:private"],
+)
+
+filegroup(
     name = "sound_text2speech_lib_macos_srcs",
     srcs = [
         "text2speech_synthesizer_bridge_mac.mm",
         "voice_bridge_mac.mm",
+        "text2speech_delegate_mac.mm",
     ],
     visibility = ["//visibility:private"],
 )

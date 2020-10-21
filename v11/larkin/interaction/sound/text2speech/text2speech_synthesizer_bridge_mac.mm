@@ -18,6 +18,7 @@
 #include <Cocoa/Cocoa.h>
 #include "utils/definitions.h"
 #include "larkin/interaction/sound/text2speech/text2speech_synthesizer_bridge.h"
+#include "larkin/interaction/sound/text2speech/text2speech_delegate_mac.h"
 
 namespace sound {
 namespace voice {
@@ -25,6 +26,9 @@ namespace voice {
 Text2SpeechSynthesizerBridge::Text2SpeechSynthesizerBridge() {
     NSSpeechSynthesizer* ns_speech_synth = [[NSSpeechSynthesizer alloc]
                                                                  initWithVoice: nil];
+    Text2SpeechDelegate* t2s_delegate = [[Text2SpeechDelegate alloc] init];
+    [ns_speech_synth setDelegate: t2s_delegate];
+    delegate = (__bridge_retained void*) t2s_delegate;
     synthesizer = (__bridge_retained native_t2s_synthesizer)
                   ns_speech_synth;
 }
@@ -73,6 +77,13 @@ const Voice* Text2SpeechSynthesizerBridge::get_current_voice() {
     return Voice::get_voice_by_id(voice_name_raw);
 }
 
+void Text2SpeechSynthesizerBridge::set_callback(std::function<void()>* callback) {
+    Text2SpeechDelegate* t2s_delegate = (__bridge Text2SpeechDelegate*)
+                                            delegate;
+    [t2s_delegate attachDidFinishCallback:callback];
+    callback_ = callback;
+}
+
 void Text2SpeechSynthesizerBridge::set_rate(double rate) {
     NSSpeechSynthesizer* ns_speech_synth = (__bridge NSSpeechSynthesizer*)
                                            synthesizer;
@@ -116,6 +127,8 @@ void Text2SpeechSynthesizerBridge::resume_speaking() {
 }
 
 Text2SpeechSynthesizerBridge::~Text2SpeechSynthesizerBridge() {
+    delete callback_;
+    __lk_unused__ (__bridge_transfer Text2SpeechDelegate*) delegate;
     __lk_unused__ (__bridge_transfer NSSpeechSynthesizer*) synthesizer;
 }
 

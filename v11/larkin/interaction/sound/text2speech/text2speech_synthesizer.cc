@@ -31,6 +31,10 @@ Text2SpeechSynthesizer::Text2SpeechSynthesizer(Voice* default_voice) :
     init_bridge();
 }
 
+Text2SpeechSynthesizerBridge* Text2SpeechSynthesizer::get_bridge() {
+    return bridge;
+}
+
 void Text2SpeechSynthesizer::init_bridge() {
     bridge = new Text2SpeechSynthesizerBridge;
 }

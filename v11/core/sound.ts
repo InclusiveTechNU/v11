@@ -20,7 +20,7 @@ import * as larkin from '../larkin/larkin';
 // v11.speech is a replica of the larkin speech synthesis API. The
 // implementation of the API is just an export of the larkin component
 interface PrivateSpeechAPI {
-  speak(text: string, voiceId?: string): void;
+  speak(text: string, voiceId?: string, callback?: () => void): void;
 }
 
 interface SpeechAPI {
@@ -33,14 +33,14 @@ interface SpeechAPI {
   getVoices(): Array<larkin.Types.Voice>;
 
   // Speech Synthesis methods
-  speak(text: string, voice?: larkin.Types.Voice): void;
+  speak(text: string, voice?: larkin.Types.Voice): Promise<void>;
 }
 
 // Private Speech API
 const _speech: PrivateSpeechAPI = {
-  speak: (text: string, voiceId?: string) => {
+  speak: (text: string, voiceId?: string, callback?: () => void) => {
     const guaranteedVoiceId = voiceId ?? speech.getDefaultVoice().id;
-    larkin.speech.speak(text, guaranteedVoiceId);
+    larkin.speech.speak(text, guaranteedVoiceId, callback);
   },
 };
 
@@ -73,7 +73,11 @@ export const speech: SpeechAPI = {
     });
   },
 
-  speak: (text: string, voice?: larkin.Types.Voice) => {
-    _speech.speak(text, voice?.id ?? undefined);
+  speak: async (text: string, voice?: larkin.Types.Voice): Promise<void> => {
+    return new Promise((resolve, _) => {
+      _speech.speak(text, voice?.id ?? undefined, () => {
+        resolve();
+      });
+    });
   },
 };

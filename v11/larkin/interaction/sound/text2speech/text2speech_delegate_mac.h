@@ -15,14 +15,17 @@
  */
 
 #pragma once
+
+#include <AppKit/AppKit.h>
+#include <Foundation/Foundation.h>
 #include <functional>
+#include "larkin/interaction/sound/text2speech/text2speech_synthesizer.h"
 
-namespace utils {
+using sound::voice::SpeechDidFinishCallback;
 
-void call_from_main(const std::function<void()>& func);
-void create_main_app();
-void send_event(int time);
-void run_main_loop();
-void pause_main_loop();
+@interface Text2SpeechDelegate : NSObject <NSSpeechSynthesizerDelegate>
 
-}  // namespace utils
+- (id) init;
+- (void)attachDidFinishCallback:(SpeechDidFinishCallback *)callback;
+
+@end

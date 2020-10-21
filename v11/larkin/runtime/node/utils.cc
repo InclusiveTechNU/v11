@@ -184,10 +184,7 @@ void element_to_object(napi_env env,
 }
 
 void run_non_block_loop(uv_loop_t* node_loop) {
-    create_main_app();
-    while (true) {
-        send_event();
-        uv_run(node_loop, uv_run_mode::UV_RUN_NOWAIT);
-    }
+    int timeout_length = uv_backend_timeout(node_loop);
+    send_event(timeout_length);
 }
 }  // namespace utils

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include <iostream>
 #include <functional>
 #include <vector>
 #include "larkin/runtime/node/interaction.h"
@@ -21,6 +22,7 @@
 #include "larkin/runtime/node/utils.h"
 #include "larkin/interaction/sound/text2speech/voice.h"
 #include "larkin/interaction/sound/text2speech/text2speech_synthesizer.h"
+#include "larkin/interaction/sound/text2speech/text2speech_synthesizer_bridge.h"
 #include "larkin/interaction/keyboard/keyboard_simulator.h"
 #include "larkin/interaction/keyboard/keycode.h"
 
@@ -28,6 +30,7 @@ using utils::string_from_value;
 using keyboard::keycode;
 using keyboard::KeyboardSimulator;
 using sound::voice::Text2SpeechSynthesizer;
+using sound::voice::Text2SpeechSynthesizerBridge;
 using sound::voice::Voice;
 using interaction::utils::sound::voice_to_object;
 
@@ -119,8 +122,8 @@ napi_status sound(napi_env env, napi_value exports) {
         // TODO(tommymchugh): Evoke error on failed to collect arguments
         napi_status status;
         // Collect text and voice_id from info
-        size_t args_count = 2;
-        napi_value args[2];
+        size_t args_count = 3;
+        napi_value args[3];
         status = napi_get_cb_info(env, info, &args_count, args, nullptr, 0);
         if (status != napi_ok) return nullptr;
 
@@ -130,17 +133,52 @@ napi_status sound(napi_env env, napi_value exports) {
         char* voice_id_ptr = string_from_value(env, voice_id_object);
         if (!text_ptr || !voice_id_ptr) return nullptr;
 
+        // TODO(tommymchugh): Figure out how to check for null for callback
+        // Create async thread-safe callback function
+        // Handle the threadsafe call by sending Notification into callback
+        typedef napi_threadsafe_function_call_js ts_callback;
+        ts_callback speech_cb = [](napi_env env,
+                                   napi_value js_cb,
+                                   void* context,
+                                   void* data) {
+            napi_value undefined;
+            a_ok(napi_get_undefined(env, &undefined));
+            a_ok(napi_call_function(env,
+                                    undefined,
+                                    js_cb,
+                                    0, nullptr,
+                                    nullptr));
+        };
+        napi_value listener_callback_object = args[2];
+        napi_threadsafe_function listener_callback;
+        napi_value res_name;
+        napi_create_string_utf8(env, "resource", NAPI_AUTO_LENGTH, &res_name);
+        if (status != napi_ok) return nullptr;
+        status = napi_create_threadsafe_function(env, listener_callback_object,
+                                                 nullptr, res_name,
+                                                 0, 2,
+                                                 nullptr, nullptr, nullptr,
+                                                 speech_cb,
+                                                 &listener_callback);
+        if (status != napi_ok) return nullptr;
+
         // Send speech request to the native larkin interface
         const Voice* speaking_voice = Voice::get_voice_by_id(voice_id_ptr);
         if (speaking_voice != nullptr) {
             Text2SpeechSynthesizer* speech_synth = new Text2SpeechSynthesizer();
+            Text2SpeechSynthesizerBridge* speech_bridge = speech_synth->get_bridge();
+            speech_bridge->set_callback(new std::function<void()>([listener_callback, speech_synth, speaking_voice]() {
+                napi_acquire_threadsafe_function(listener_callback);
+                napi_call_threadsafe_function(listener_callback,
+                                              nullptr,
+                                              napi_tsfn_blocking);
+                delete speaking_voice;
+                delete speech_synth;
+            }));
             speech_synth->speak(text_ptr, speaking_voice);
-            delete speech_synth;
         } else {
             // TODO(tommymchugh): throw error for no speaking
         }
-
-        delete speaking_voice;
         return nullptr;
     }, nullptr, &speak);
     if (status != napi_ok) return status;

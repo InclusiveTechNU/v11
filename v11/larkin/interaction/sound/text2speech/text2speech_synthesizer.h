@@ -24,6 +24,8 @@
 namespace sound {
 namespace voice {
 
+typedef std::function<void()> SpeechDidFinishCallback;
+
 class Text2SpeechSynthesizer {
  private:
     // Interface to the native text to speech synthesizer
@@ -92,6 +94,8 @@ class Text2SpeechSynthesizer {
     bool speak(const char* text, const Voice* voice);
 
     bool speak(const char* text);
+
+    Text2SpeechSynthesizerBridge* get_bridge();
 
     // Deallocates the native memory objects
     ~Text2SpeechSynthesizer();

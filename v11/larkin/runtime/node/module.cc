@@ -14,49 +14,84 @@
  * limitations under the License.
  */
 
-#include <functional>
 #include <node/node_api.h>
 #include <uv.h>
+#include <sys/event.h>
+#include <functional>
+#include <thread>
+#include <future>
+#include <iostream>
+#include <chrono>
 #include "get_uv_event_loop/include/get-uv-event-loop-napi.h"
 #include "larkin/runtime/node/interaction.h"
 #include "larkin/runtime/node/accessibility.h"
 #include "larkin/runtime/node/utils.h"
 #include "larkin/runtime/node/environment.h"
 #include "larkin/environment/system/system.h"
+#include "utils/run_main.h"
 
 using utils::run_non_block_loop;
 using sys::System;
+using utils::pause_main_loop;
+using utils::create_main_app;
 
 namespace larkin {
 
+napi_value create_set_immediate_func(napi_env env);
+
+void check_for_node_event(int backend_fd) {
+    while (true) {
+        struct kevent events;
+        while (kevent(backend_fd, nullptr, 0, &events, 1, nullptr) <= 0) {}
+        pause_main_loop();
+    }
+}
+
+napi_value process_event_loop(napi_env env, napi_callback_info info) {
+    napi_value global, process, next_tick;
+    a_ok(napi_get_global(env, &global));
+    a_ok(napi_get_named_property(env, global, "process", &process));
+    a_ok(napi_get_named_property(env, process, "nextTick", &next_tick));
+
+    // Identify the timeout period of the event loop
+    uv_loop_t* node_loop = get_uv_event_loop(env);
+    run_non_block_loop(node_loop);
+
+    napi_value callback_func = create_set_immediate_func(env);
+    a_ok(napi_call_function(env, process, next_tick, 1, &callback_func, nullptr));
+    return nullptr;
+}
+
+napi_value set_immediate_func(napi_env env, napi_callback_info info) {
+    size_t argc = 1;
+    napi_value global, set_immediate, proc_loop;
+    a_ok(napi_get_global(env, &global));
+    a_ok(napi_get_named_property(env, global, "setImmediate", &set_immediate));
+    a_ok(napi_create_function(env, nullptr, 0, process_event_loop, nullptr, &proc_loop));
+    napi_value* argv = &proc_loop;
+    a_ok(napi_call_function(env, global, set_immediate, argc, argv, nullptr));
+    return nullptr;
+}
+
+napi_value create_set_immediate_func(napi_env env) {
+    napi_value set_immediate;
+    a_ok(napi_create_function(env, nullptr, 0, set_immediate_func, nullptr, &set_immediate));
+    return set_immediate;
+}
+
 void setup_event_loop(napi_env env, napi_value exports) {
-    napi_status status;
-    napi_value utils;
-    status = napi_create_object(env, &utils);
-    if (status != napi_ok) {
-        napi_throw_error(env, nullptr, "Failed to init utils object");
-    }
+    create_main_app();
+    // Check for new events
+    uv_loop_t* node_loop = get_uv_event_loop(env);
+    int backend_fd = uv_backend_fd(node_loop);
+    std::thread node_events = std::thread(check_for_node_event, backend_fd);
+    node_events.detach();
 
-    napi_value run_func;
-    status = napi_create_function(env, nullptr, 0,
-                                  [](napi_env env,
-                                     napi_callback_info info) -> napi_value {
-        uv_loop_t* node_loop = get_uv_event_loop(env);
-        run_non_block_loop(node_loop);
-        return nullptr;
-    }, nullptr, &run_func);
-    if (status != napi_ok) {
-        napi_throw_error(env, nullptr, "Failed to init utils/run function");
-    }
-
-    status = napi_set_named_property(env, utils, "run", run_func);
-    if (status != napi_ok) {
-        napi_throw_error(env, nullptr, "Failed to set utils/run function");
-    }
-    status = napi_set_named_property(env, exports, "utils", utils);
-    if (status != napi_ok) {
-        napi_throw_error(env, nullptr, "Failed to set utils object");
-    }
+    // Setup non-blocking recursive process.nextTick
+    napi_value global;
+    napi_value event_loop_func = create_set_immediate_func(env);
+    a_ok(napi_get_global(env, &global));
+    a_ok(napi_call_function(env, global, event_loop_func, 0, nullptr, nullptr));
 }
 
 napi_value init(napi_env env, napi_value exports) {

@@ -14,15 +14,27 @@
  * limitations under the License.
  */
 
-#pragma once
-#include <functional>
+#include "larkin/interaction/sound/text2speech/text2speech_delegate_mac.h"
 
-namespace utils {
+@implementation Text2SpeechDelegate {
+    SpeechDidFinishCallback* did_finish_callback;
+}
 
-void call_from_main(const std::function<void()>& func);
-void create_main_app();
-void send_event(int time);
-void run_main_loop();
-void pause_main_loop();
+- (id) init {
+    self = [super init];
+    did_finish_callback = nullptr;
+    return self;
+}
 
-}  // namespace utils
+- (void)attachDidFinishCallback:(SpeechDidFinishCallback *)callback {
+    did_finish_callback = callback;
+}
+
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender
+        didFinishSpeaking:(BOOL)finishedSpeaking {
+    if (did_finish_callback) {
+        (*did_finish_callback)();
+    }
+}
+
+@end

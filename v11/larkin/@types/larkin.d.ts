@@ -96,6 +96,6 @@ declare module 'larkin' {
   interface SpeechAPI {
     getVoices(): Array<Voice>;
     getDefaultVoice(): Voice;
-    speak(text: string, voiceId: string): void;
+    speak(text: string, voiceId: string, callback?: () => void): void;
   }
 }

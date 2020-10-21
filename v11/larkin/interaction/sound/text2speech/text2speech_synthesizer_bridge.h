@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <functional>
 #include "larkin/interaction/sound/text2speech/voice.h"
 #include "larkin/interaction/sound/text2speech/speech_request.h"
 
@@ -31,6 +32,8 @@ class Text2SpeechSynthesizerBridge {
     // when it is released back to the native memory
     // management system
     native_t2s_synthesizer synthesizer;
+    void* delegate = nullptr;
+    std::function<void()>* callback_ = nullptr;
 
     // Marks if a user has spoken yet. May be used
     // on some platforms for marking whether the synthesis
@@ -59,6 +62,7 @@ class Text2SpeechSynthesizerBridge {
     const bool is_speaking();
     void stop_speaking();
     void resume_speaking();
+    void set_callback(std::function<void()>* callback);
 
 
     // Transfers ownership of the native system synthesizer

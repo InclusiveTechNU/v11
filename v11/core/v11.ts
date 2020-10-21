@@ -16,7 +16,6 @@
 
 import * as larkin from '../larkin/larkin';
 
-export const start = larkin.utils.run;
 export {system} from './system';
 export {speech} from './sound';
 export {keyboard} from './keyboard';

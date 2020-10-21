@@ -31,20 +31,21 @@ void create_main_app() {
     [NSApplication sharedApplication];
 }
 
-void send_event() {
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, false);
-    NSApplication* app = [NSApplication sharedApplication];
-    NSEvent* event = [app nextEventMatchingMask:NSAnyEventMask
-                          untilDate:[NSDate distantPast]
-                          inMode:NSEventTrackingRunLoopMode
-                          dequeue:YES];
-    [app sendEvent:event];
+void send_event(int time) {
+    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:time];
+    NSEvent* event = [NSApp nextEventMatchingMask:NSEventMaskAny
+                                        untilDate:date
+                                           inMode:NSDefaultRunLoopMode
+                                          dequeue:YES];
+    if (event) {
+        [NSApp sendEvent:event];
+    }
 }
 
 void run_main_loop() {
     NSApplication* app = [NSApplication sharedApplication];
     while (true) {
-        NSEvent* event = [app nextEventMatchingMask:NSAnyEventMask
+        NSEvent* event = [app nextEventMatchingMask:NSEventMaskAny
                               untilDate:[NSDate distantFuture]
                               inMode:NSDefaultRunLoopMode
                               dequeue:YES];
@@ -53,9 +54,18 @@ void run_main_loop() {
 }
 
 void pause_main_loop() {
-    if ([NSApplication sharedApplication].running) {
-        [[NSApplication sharedApplication] stop: nil];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSEvent* event = [NSEvent otherEventWithType:NSEventTypeApplicationDefined
+                                        location:NSMakePoint(0, 0)
+                                   modifierFlags:0
+                                       timestamp:0
+                                    windowNumber:0
+                                         context:nil
+                                         subtype:0
+                                           data1:0
+                                           data2:0];
+        [NSApp postEvent:event atStart:YES];
+    });
 }
 
 }  // namespace utils
