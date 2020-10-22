@@ -16,4 +16,4 @@
 
 export {system} from './system';
 export {speech} from './sound';
-export {keyboard, KeyboardAction} from './keyboard';
+export {keyboard, KeyboardAction, KeyboardEvent} from './keyboard';

@@ -51,12 +51,12 @@ register_global_observer(const global_observer* observer) {
                             if (event_native.type == NSEventTypeKeyUp) {
                                 event_type = event::event_type::KEY_UP;
                             }
-                            const keycode_index event_active = keycode_activated(event_code);
+                            /*const keycode_index event_active = keycode_activated(event_code);
                             if (event_active.activated) {
                                 activated_keycodes_.erase(event_active.index);
                             } else {
                                 activated_keycodes_.push_back(event_code);
-                            }
+                            }*/
                             KeyboardEvent* event = new KeyboardEvent(event_type,
                                                                      event_code);
                             (*observer_)(event);
