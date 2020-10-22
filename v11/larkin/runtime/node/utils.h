@@ -23,6 +23,7 @@
 #include "larkin/environment/application/application.h"
 #include "larkin/accessibility/accessibility_window.h"
 #include "larkin/accessibility/accessibility_element.h"
+#include "larkin/interaction/keyboard/keyboard_event.h"
 
 #define a_ok(call) assert(call == napi_ok)
 
@@ -30,8 +31,14 @@ using sys::Notification;
 using app::Application;
 using a11y::AccessibilityWindow;
 using a11y::AccessibilityElement;
+using keyboard::event::KeyboardEvent;
+using keyboard::event::event_type;
 
 namespace utils {
+
+void keyboard_event_to_object(napi_env env,
+                    KeyboardEvent* event,
+                    napi_value* value);
 
 char* string_from_value(napi_env env, napi_value value);
 void notification_to_object(napi_env env,

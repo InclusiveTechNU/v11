@@ -36,6 +36,11 @@ declare module 'larkin' {
     name: string;
   }
 
+  interface KeyboardEvent {
+    type: string;
+    key: number;
+  }
+
   interface NotificationsAPI {
     addEventListener(type: string, callback: (event?: Event) => void): void;
   }
@@ -91,7 +96,7 @@ declare module 'larkin' {
 
   interface KeyboardAPI {
     simulation: KeyboardSimulationAPI;
-    addEventListener(type: string, callback: () => void): void;
+    addEventListener(type: string, callback: (event?: KeyboardEvent) => void): void;
   }
 
   interface SpeechAPI {

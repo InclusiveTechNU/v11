@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
+#include <stdint.h>
 #include <string>
 #include <map>
 #include <utility>
 #include "absl/container/flat_hash_set.h"
 #include "larkin/runtime/node/utils.h"
 #include "larkin/environment/system/notifications/notification.h"
+#include "larkin/interaction/keyboard/keycode.h"
 #include "utils/run_main.h"
 
 using utils::create_main_app;
 using utils::send_event;
 using sys::NotificationData;
+using keyboard::keycode_to_uint;
 
 namespace utils {
 
@@ -119,6 +122,25 @@ void window_to_object(napi_env env,
                    nullptr,
                    nullptr));
     a_ok(napi_set_named_property(env, *value, "native", native_wrap_object));
+}
+
+void keyboard_event_to_object(napi_env env,
+                      KeyboardEvent* event,
+                      napi_value* value) {
+    a_ok(napi_create_object(env, value));
+
+    napi_value type_value, key_value;
+    std::string type_str;
+    if (event->get_event_type() == event_type::KEY_DOWN) {
+        type_str = "press";
+    } else {
+        type_str = "release";
+    }
+    uint32_t code = keycode_to_uint(event->get_event_target_key());
+    a_ok(napi_create_string_utf8(env, type_str.c_str(), NAPI_AUTO_LENGTH, &type_value));
+    a_ok(napi_create_int32(env, code, &key_value));
+    a_ok(napi_set_named_property(env, *value, "type", type_value));
+    a_ok(napi_set_named_property(env, *value, "key", key_value));
 }
 
 void element_to_object(napi_env env,

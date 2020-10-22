@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include <stdio.h>
 #include "larkin/interaction/keyboard/keyboard_listener.h"
 #include "utils/definitions.h"
 

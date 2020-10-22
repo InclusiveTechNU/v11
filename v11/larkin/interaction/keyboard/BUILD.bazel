@@ -31,6 +31,7 @@ cross_cc_library(
         "keyboard_listener.cc",
         "keyboard_manager.cc",
         "keyboard_simulator.cc",
+        "keycode.cc",
     ],
     macos_hdrs = [
         ":keyboard_lib_macos_hdrs",

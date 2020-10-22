@@ -15,6 +15,7 @@
  */
 
 #pragma once
+#include <stdint.h>
 
 namespace keyboard {
 
@@ -145,6 +146,11 @@ enum keycode {
     F17_KEY,
     F18_KEY,
     F19_KEY,
-    F20_KEY
+    F20_KEY,
+    UNKNOWN_KEY,
 };
+
+uint32_t keycode_to_uint(keycode code);
+keycode uint_to_keycode(uint32_t num);
+
 }  // namespace keyboard

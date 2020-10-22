@@ -29,6 +29,7 @@
 #include "larkin/interaction/keyboard/keycode.h"
 
 using utils::string_from_value;
+using utils::keyboard_event_to_object;
 using keyboard::keycode;
 using keyboard::KeyboardSimulator;
 using sound::voice::Text2SpeechSynthesizer;
@@ -299,19 +300,19 @@ napi_status keyboard(napi_env env, napi_value exports, System* sys_ptr) {
                                          napi_value js_cb,
                                          void* context,
                                          void* data) {
-            // Convert data to notification type
-            //Notification* notif = reinterpret_cast<Notification*>(data);
+            // Convert data to KeyboardEvent type
+            KeyboardEvent* event = reinterpret_cast<KeyboardEvent*>(data);
 
             // TODO(tommymchugh): determine proper context not undef
-            napi_value undefined;//, notif_object;
-            //notification_to_object(env, notif, &notif_object);
+            napi_value undefined, event_object;
+            keyboard_event_to_object(env, event, &event_object);
             a_ok(napi_get_undefined(env, &undefined));
             a_ok(napi_call_function(env,
                                     undefined,
                                     js_cb,
-                                    0, nullptr,
-                                    //1, nullptr, //&notif_object,
+                                    1, &event_object,
                                     nullptr));
+            delete event;
         };
 
         napi_value listener_callback_object = args[1];
@@ -331,14 +332,14 @@ napi_status keyboard(napi_env env, napi_value exports, System* sys_ptr) {
             keyboard_listener->add_event_listener(event_type::KEY_DOWN, [listener_callback](KeyboardEvent* event) {
                 napi_acquire_threadsafe_function(listener_callback);
                 napi_call_threadsafe_function(listener_callback,
-                                              nullptr,//(void*) notification,
+                                              (void*) event,
                                               napi_tsfn_blocking);
             });
         } else if (listener_type_str == "release") {
             keyboard_listener->add_event_listener(event_type::KEY_UP, [listener_callback](KeyboardEvent* event) {
                 napi_acquire_threadsafe_function(listener_callback);
                 napi_call_threadsafe_function(listener_callback,
-                                              nullptr,//(void*) notification,
+                                              (void*) event,
                                               napi_tsfn_blocking);
             });
         } else {

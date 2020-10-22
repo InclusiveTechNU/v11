@@ -48,18 +48,18 @@ register_global_observer(const global_observer* observer) {
                                                   event_code_raw];
                             event::event_type event_type = event::
                                                            event_type::KEY_DOWN;
-
+                            if (event_native.type == NSEventTypeKeyUp) {
+                                event_type = event::event_type::KEY_UP;
+                            }
                             const keycode_index event_active = keycode_activated(event_code);
                             if (event_active.activated) {
                                 activated_keycodes_.erase(event_active.index);
-                                event_type = event::event_type::KEY_UP;
                             } else {
                                 activated_keycodes_.push_back(event_code);
                             }
                             KeyboardEvent* event = new KeyboardEvent(event_type,
                                                                      event_code);
                             (*observer_)(event);
-                            delete event;
                         }
                    }];
     monitoring_event_ = (__bridge_retained monitor_event) key_event;
