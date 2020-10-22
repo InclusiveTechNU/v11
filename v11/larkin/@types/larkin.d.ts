@@ -89,14 +89,9 @@ declare module 'larkin' {
     releaseKey(): void;
   }
 
-  enum KeyboardAction {
-    press = 'press',
-    release = 'release'
-  }
-
   interface KeyboardAPI {
     simulation: KeyboardSimulationAPI;
-    addEventListener(action: KeyboardAction, callback: () => void): void;
+    addEventListener(type: string, callback: () => void): void;
   }
 
   interface SpeechAPI {

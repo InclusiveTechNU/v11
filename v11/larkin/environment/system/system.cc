@@ -15,8 +15,10 @@
  */
 
 #include "larkin/environment/system/system.h"
+#include "larkin/interaction/keyboard/keyboard_listener.h"
 
 using sound::sound_type;
+using keyboard::KeyboardListener;
 
 namespace sys {
 
@@ -25,8 +27,12 @@ System::System() {
     platform_ = bridge->GetPlatform();
     notification_center = bridge->GetNotificationManager();
     pending_actions = bridge->get_pending_actions();
-    keyboard_listener = bridge->get_keyboard_listener();
+    keyboard_listener = new KeyboardListener;
     _sound_manager = new SoundManager({sound_type::TEXT2SPEECH});
+}
+
+KeyboardListener* System::get_keyboard_listener() {
+    return keyboard_listener;
 }
 
 NotificationManager* System::get_notification_center() {
@@ -66,6 +72,7 @@ System::~System() {
         bridge->remove_all_pending_actions();
     }
     delete _sound_manager;
+    delete keyboard_listener;
     delete bridge;
 }
 

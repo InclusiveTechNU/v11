@@ -20,5 +20,4 @@ const v11 = require('../../bazel-bin/v11/core/v11.js');
 const notes = v11.system.getApplicationByName("TextEdit");
 notes.getElementsByType("textarea")[0].addEventListener('value', () => {
     console.log("hey");
-})
-v11.start();
+});

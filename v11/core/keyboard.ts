@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
+import * as larkin from '../larkin/larkin';
+
+export enum KeyboardAction {
+  press = 'press',
+  release = 'release'
+}
+
 // * v11.keyboard
 // v11.keyboard provides resources and methods for simulating and listening
 // for system keyboard events
 interface KeyboardAPI {
   pressKey(key: string, modifier?: string): void;
+  addEventListener(type: KeyboardAction, callback: () => void): void;
 }
 
 // Public Speech API
@@ -27,4 +35,7 @@ export const keyboard: KeyboardAPI = {
     // robot.keyToggle(key, 'down', modifier);
     // robot.keyToggle(key, 'up', modifier);
   },
+  addEventListener: (type: KeyboardAction, callback: () => void) => {
+    larkin.keyboard.addEventListener(type.toString(), callback);
+  }
 };

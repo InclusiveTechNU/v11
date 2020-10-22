@@ -47,6 +47,7 @@ class System {
     const Platform* GetPlatform();
     NotificationManager* get_notification_center();
     SoundManager* get_sound_manager();
+    KeyboardListener* get_keyboard_listener();
 
     // Forwards the event listener to the proper system event
     // service after all notification systems have been instantiated.

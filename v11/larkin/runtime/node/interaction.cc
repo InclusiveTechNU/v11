@@ -24,6 +24,8 @@
 #include "larkin/interaction/sound/text2speech/text2speech_synthesizer.h"
 #include "larkin/interaction/sound/text2speech/text2speech_synthesizer_bridge.h"
 #include "larkin/interaction/keyboard/keyboard_simulator.h"
+#include "larkin/interaction/keyboard/keyboard_listener.h"
+#include "larkin/interaction/keyboard/keyboard_event.h"
 #include "larkin/interaction/keyboard/keycode.h"
 
 using utils::string_from_value;
@@ -32,6 +34,9 @@ using keyboard::KeyboardSimulator;
 using sound::voice::Text2SpeechSynthesizer;
 using sound::voice::Text2SpeechSynthesizerBridge;
 using sound::voice::Voice;
+using keyboard::KeyboardListener;
+using keyboard::event::event_type;
+using keyboard::event::KeyboardEvent;
 using interaction::utils::sound::voice_to_object;
 
 namespace interaction {
@@ -191,7 +196,7 @@ napi_status sound(napi_env env, napi_value exports) {
     return status;
 }
 
-napi_status keyboard(napi_env env, napi_value exports) {
+napi_status keyboard(napi_env env, napi_value exports, System* sys_ptr) {
     napi_status status;
     napi_value keyboard;
     status = napi_create_object(env, &keyboard);
@@ -257,6 +262,94 @@ napi_status keyboard(napi_env env, napi_value exports) {
     status = napi_set_named_property(env, keyboard, "simulation", simulate);
     if (status != napi_ok) return status;
 
+    // *****************************
+    // *  KEY LISTENER API Interface
+    // *****************************
+    napi_value listener_key;
+    status = napi_create_function(env, nullptr, 0,
+                                  [](napi_env env,
+                                     napi_callback_info info) -> napi_value {
+        // Retrieve sys_ptr data
+        napi_status status;
+        void* sys_void_ptr = nullptr;
+        napi_get_cb_info(env, info, nullptr, nullptr, nullptr, &sys_void_ptr);
+        if (!sys_void_ptr) {
+            // TODO(tommymchugh): Faill on system pointer cannot be found
+            return nullptr;
+        }
+        System* sys_ptr = reinterpret_cast<System*>(sys_void_ptr);
+        KeyboardListener* keyboard_listener = sys_ptr->get_keyboard_listener();
+
+        // TODO(tommymchugh): Evoke error on failed to collect arguments
+        // Collect text and voice_id from info
+        size_t args_count = 2;
+        napi_value args[2];
+        status = napi_get_cb_info(env, info, &args_count, args, nullptr, 0);
+        if (status != napi_ok) return nullptr;
+
+        napi_value listener_type_object = args[0];
+        char* listener_type_ptr = string_from_value(env, listener_type_object);
+        std::string listener_type_str = std::string(listener_type_ptr);
+        delete listener_type_ptr;
+        // TODO(tommymchugh): Figure out how to check for null for callback
+        // Create async thread-safe callback function
+        // Handle the threadsafe call by sending Notification into callback
+        typedef napi_threadsafe_function_call_js ts_callback;
+        ts_callback notification_cb = [](napi_env env,
+                                         napi_value js_cb,
+                                         void* context,
+                                         void* data) {
+            // Convert data to notification type
+            //Notification* notif = reinterpret_cast<Notification*>(data);
+
+            // TODO(tommymchugh): determine proper context not undef
+            napi_value undefined;//, notif_object;
+            //notification_to_object(env, notif, &notif_object);
+            a_ok(napi_get_undefined(env, &undefined));
+            a_ok(napi_call_function(env,
+                                    undefined,
+                                    js_cb,
+                                    0, nullptr,
+                                    //1, nullptr, //&notif_object,
+                                    nullptr));
+        };
+
+        napi_value listener_callback_object = args[1];
+        napi_threadsafe_function listener_callback;
+        napi_value res_name;
+        napi_create_string_utf8(env, "resource", NAPI_AUTO_LENGTH, &res_name);
+        if (status != napi_ok) return nullptr;
+
+        status = napi_create_threadsafe_function(env, listener_callback_object,
+                                                 nullptr, res_name,
+                                                 0, 2,
+                                                 nullptr, nullptr, nullptr,
+                                                 notification_cb,
+                                                 &listener_callback);
+        if (status != napi_ok) return nullptr;
+        if (listener_type_str == "press") {
+            keyboard_listener->add_event_listener(event_type::KEY_DOWN, [listener_callback](KeyboardEvent* event) {
+                napi_acquire_threadsafe_function(listener_callback);
+                napi_call_threadsafe_function(listener_callback,
+                                              nullptr,//(void*) notification,
+                                              napi_tsfn_blocking);
+            });
+        } else if (listener_type_str == "release") {
+            keyboard_listener->add_event_listener(event_type::KEY_UP, [listener_callback](KeyboardEvent* event) {
+                napi_acquire_threadsafe_function(listener_callback);
+                napi_call_threadsafe_function(listener_callback,
+                                              nullptr,//(void*) notification,
+                                              napi_tsfn_blocking);
+            });
+        } else {
+            // TODO(tommymchugh): Handle unknown listener type
+        }
+        return nullptr;
+    }, sys_ptr, &listener_key);
+    if (status != napi_ok) return status;
+    status = napi_set_named_property(env, keyboard, "addEventListener", listener_key);
+    if (status != napi_ok) return status;
+
     // Declare and place keyboards apis binding within v11.keyboard
     status = napi_set_named_property(env, exports, "keyboard", keyboard);
     if (status != napi_ok) return status;
@@ -274,7 +367,7 @@ void init(napi_env env, napi_value exports, System* sys_ptr) {
         return;
     }
 
-    napi_status keyboard_status = keyboard(env, exports);
+    napi_status keyboard_status = keyboard(env, exports, sys_ptr);
     if (keyboard_status != napi_ok) {
         napi_throw_error(env,
                          nullptr,

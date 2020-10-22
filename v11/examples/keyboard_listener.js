@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
-export {system} from './system';
-export {speech} from './sound';
-export {keyboard, KeyboardAction} from './keyboard';
+// A simple example that uses the Speech API to say "Hello World"
+const v11 = require('../../bazel-bin/v11/core/v11.js');
+v11.keyboard.addEventListener('press', () => {
+    console.log('Key was pressed!');
+});
