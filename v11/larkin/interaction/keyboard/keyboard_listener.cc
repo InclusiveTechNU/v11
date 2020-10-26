@@ -24,10 +24,15 @@ KeyboardListener::KeyboardListener() {
     native_bridge = new KeyboardListenerBridge;
     global_event_observer = new global_observer(
                             [&](event::KeyboardEvent* event) {
+        const listener* last_listener = nullptr;
         for (const listener& event_listener : event_listeners) {
             if (event->get_event_type() == event_listener.type) {
-                event_listener.callback(event);
+                last_listener = &event_listener;
+                // TODO(tommymchugh): Handle this better
             }
+        }
+        if (last_listener) {
+            (*last_listener).callback(event);
         }
     });
     native_bridge->register_global_observer(global_event_observer);
