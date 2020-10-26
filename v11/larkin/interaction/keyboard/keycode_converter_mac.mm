@@ -168,7 +168,7 @@ using keyboard::uint_to_keycode;
 +(CGKeyCode) keycodeAsNativeCode:(keycode)key {
     NSDictionary<NSNumber*, NSNumber*>* key_map = [KeycodeConverter
                                                    fetchConversionMap];
-    NSNumber* converted_key = @(key);
+    NSNumber* converted_key = @(keycode_to_uint(key));
     return (CGKeyCode) [key_map[converted_key] unsignedIntValue];
 }
 

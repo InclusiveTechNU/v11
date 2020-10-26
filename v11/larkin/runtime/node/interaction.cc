@@ -223,12 +223,11 @@ napi_status keyboard(napi_env env, napi_value exports, System* sys_ptr) {
         if (status != napi_ok) return nullptr;
 
         napi_value key_to_press_obj = args[0];
-        char* key_to_press = string_from_value(env, key_to_press_obj);
-        if (!key_to_press) return nullptr;
-
+        int32_t key_code = 0;
+        a_ok(napi_get_value_int32(env, key_to_press_obj, &key_code));
+        uint32_t conv_key_code = (uint32_t) key_code;
         KeyboardSimulator simulator = KeyboardSimulator();
-        simulator.press_key(keyboard::SPACE_KEY);
-
+        simulator.press_key(keyboard::uint_to_keycode(conv_key_code));
         return nullptr;
     }, nullptr, &hold_key);
     if (status != napi_ok) return status;
@@ -248,12 +247,11 @@ napi_status keyboard(napi_env env, napi_value exports, System* sys_ptr) {
         if (status != napi_ok) return nullptr;
 
         napi_value key_to_press_obj = args[0];
-        char* key_to_press = string_from_value(env, key_to_press_obj);
-        if (!key_to_press) return nullptr;
-
+        int32_t key_code = 0;
+        a_ok(napi_get_value_int32(env, key_to_press_obj, &key_code));
+        uint32_t conv_key_code = (uint32_t) key_code;
         KeyboardSimulator simulator = KeyboardSimulator();
-        simulator.release_keys({keycode::COMMAND_KEY, keycode::N_KEY});
-
+        simulator.release_key(keyboard::uint_to_keycode(conv_key_code));
         return nullptr;
     }, nullptr, &release_key);
     if (status != napi_ok) return status;

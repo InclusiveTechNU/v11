@@ -90,8 +90,8 @@ declare module 'larkin' {
   }
 
   interface KeyboardSimulationAPI {
-    holdKey(): void;
-    releaseKey(): void;
+    holdKey(key: number): void;
+    releaseKey(key: number): void;
   }
 
   interface KeyboardAPI {

@@ -27,15 +27,39 @@ export type KeyboardEvent = larkin.Types.KeyboardEvent;
 // v11.keyboard provides resources and methods for simulating and listening
 // for system keyboard events
 interface KeyboardAPI {
-  pressKey(key: string, modifier?: string): void;
+  pressKey(key: number): void;
+  pressKeys(keys: Array<number>): void;
+  holdKey(key: number): void;
+  releaseKey(key: number): void;
+  sendKeyEvent(key: number, action: KeyboardAction): void;
   addEventListener(type: KeyboardAction, callback: (event: KeyboardEvent) => void): void;
 }
 
 // Public Speech API
 export const keyboard: KeyboardAPI = {
-  pressKey: (key: string, modifier?: string) => {
-    // robot.keyToggle(key, 'down', modifier);
-    // robot.keyToggle(key, 'up', modifier);
+  pressKey: (key: number) => {
+    keyboard.holdKey(key);
+    keyboard.releaseKey(key);    
+  },
+  pressKeys: (keys: Array<number>) => {
+    keys.forEach((key) => {
+      keyboard.pressKey(key);
+    });
+  },
+  holdKey: (key: number) => {
+    keyboard.sendKeyEvent(key, KeyboardAction.press);
+  },
+  releaseKey: (key: number) => {
+    keyboard.sendKeyEvent(key, KeyboardAction.release);
+  },
+  sendKeyEvent: (key: number, action: KeyboardAction) => {
+    if (action === KeyboardAction.press) {
+      larkin.keyboard.simulation.holdKey(key);
+    } else if (action === KeyboardAction.release) {
+      larkin.keyboard.simulation.releaseKey(key);
+    } else {
+      // TODO(tommymchugh): Manage error failure
+    }
   },
   addEventListener: (type: KeyboardAction, callback: (event: KeyboardEvent) => void) => {
     larkin.keyboard.addEventListener(type.toString(), (e: KeyboardEvent | undefined) => {

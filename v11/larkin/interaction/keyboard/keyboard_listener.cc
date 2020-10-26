@@ -27,12 +27,8 @@ KeyboardListener::KeyboardListener() {
         const listener* last_listener = nullptr;
         for (const listener& event_listener : event_listeners) {
             if (event->get_event_type() == event_listener.type) {
-                last_listener = &event_listener;
-                // TODO(tommymchugh): Handle this better
+                event_listener.callback(event);
             }
-        }
-        if (last_listener) {
-            (*last_listener).callback(event);
         }
     });
     native_bridge->register_global_observer(global_event_observer);
