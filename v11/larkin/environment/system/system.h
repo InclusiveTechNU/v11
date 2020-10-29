@@ -32,7 +32,8 @@ namespace sys {
 typedef absl::btree_set<Application*> ApplicationSet;
 
 // A container class that holds major system event listener managers, platform
-// information, and updateable application data.
+// information, and updateable application data. Instantiation follows the
+// singleton pattern, with one pointer to the system created from GetInstance()
 class System {
  public:
     virtual ~System();

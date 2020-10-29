@@ -19,10 +19,12 @@ cross_cc_library(
     hdrs = [
         "system.h",
         "system_base.h",
+        "system_instance.h",
     ],
     srcs = [
         "system.cc",
         "system_base.cc",
+        "system_instance.cc",
     ],
     #linux_srcs = [
     #    ":sys_lib_linux_srcs",

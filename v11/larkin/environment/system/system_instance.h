@@ -16,21 +16,20 @@
 
 #pragma once
 
-#ifndef __lk_unused__
-    #define __lk_unused__ (void)
-#endif
+#include "larkin/environment/system/system.h"
 
-#define new_space(obj) reinterpret_cast<obj*>(::operator new (sizeof(obj)))
+namespace sys {
 
-#define print(text) fprintf(stderr, "%s\n", text)
-#define print_string(text) fprintf(stderr, "%s\n", text.c_str())
+class SystemInstance {
+ private:
+    // Singleton variable holding shared system instance pointer.
+    static System* instance_;
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-    #define OS_WINDOWS 1
-#elif defined(__APPLE__)
-    #define OS_APPLE 1
-#elif defined(__linux__)
-    #define OS_LINUX 1
-#else
-    #error "Unknown Operating System Compilation Target"
-#endif
+ public:
+    // Creates a new system object and stores it within the native
+    // implementation for later use or returns an already created system
+    // pointer.
+    static System* GetInstance();
+};
+
+}  // namespace sys

@@ -24,11 +24,24 @@
 
 namespace sys {
 
+std::string* GetApplicationPath(const std::string& name,
+                                const std::string& start_path) {
+    
+    return nullptr;
+}
+
 SystemMac::SystemMac() : SystemBase() {
     notification_manager_ = new SystemNotificationManagerMac();
     platform_ = new PlatformMac();
     LoadRunningApplications();
     AddApplicationChangeListener();
+}
+
+SystemMac* SystemMac::GetInstance() {
+    if (!instance_) {
+        instance_ = new SystemMac();
+    }
+    return instance_;
 }
 
 void SystemMac::LoadRunningApplications() {
@@ -47,7 +60,18 @@ const void* SystemMac::GetRunningScreenReader() const {
 }
 
 void SystemMac::StartApplicationNamed(const std::string& name) const {
-
+    NSFileManager* file_manager = [NSFileManager defaultManager];
+    NSSearchPathDirectory search_path = NSApplicationDirectory;
+    NSSearchPathDomainMask search_domain = NSAllDomainsMask;
+    NSArray<NSURL*>* app_dirs = [file_manager URLsForDirectory: search_path
+                                              inDomains: search_domain];
+    for (NSURL* app_dir : app_dirs) {
+        NSString* app_dir_path = app_dir.path;
+        if ([file_manager fileExistsAtPath: app_dir_path
+                          isDirectory: true]) {
+            
+        }
+    }
 }
 
 void SystemMac::StartApplicationAtPath(const std::string& path) const {
