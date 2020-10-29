@@ -15,65 +15,31 @@
  */
 
 #include "larkin/environment/system/system.h"
-#include "larkin/interaction/keyboard/keyboard_listener.h"
-
-using sound::sound_type;
-using keyboard::KeyboardListener;
 
 namespace sys {
 
-System::System() {
-    bridge = new SystemBridge;
-    platform_ = bridge->GetPlatform();
-    notification_center = bridge->GetNotificationManager();
-    pending_actions = bridge->get_pending_actions();
-    keyboard_listener = new KeyboardListener;
-    _sound_manager = new SoundManager({sound_type::TEXT2SPEECH});
+bool System::IsScreenReaderRunning() const {
+    return GetRunningScreenReader() == nullptr;
 }
 
-KeyboardListener* System::get_keyboard_listener() {
-    return keyboard_listener;
-}
+bool System::IsApplicationRunning(const std::string& bundle_id) const {
+    const absl::btree_set<Application*>* apps = GetRunningApplications();
+    if (!apps) {
+        return false;
+    }
 
-NotificationManager* System::get_notification_center() {
-    return notification_center;
-}
-
-SoundManager* System::get_sound_manager() {
-    return _sound_manager;
-}
-
-const Platform* System::GetPlatform() {
-    return platform_;
-}
-
-void System::add_event_listener(const keyboard::event::
-                                      event_type& action,
-                                const keyboard::callback& callback) {
-    if (keyboard_listener) {
-        keyboard_listener->add_event_listener(action, callback);
-    } else {
-        if (pending_actions) {
-            (*pending_actions).push_back(new std::function<void(void*)>(
-            [&](void* kb_listener) {
-                reinterpret_cast<KeyboardListener*>
-                (kb_listener)->add_event_listener(action, callback);
-            }));
+    absl::btree_set<Application*>::const_iterator apps_iter = apps->begin();
+    while (apps_iter != apps->end()) {
+        const Application* running_app = (*apps_iter);
+        std::string app_bid = std::string(running_app->get_bundle_id());
+        if (app_bid == bundle_id) {
+            return true;
         }
+        apps_iter++;
     }
-}
-void System::add_event_listener(const NotificationType& action,
-                                NotificationCallback* callback) {
-    notification_center->AddEventListener(action, callback);
+    return false;
 }
 
-System::~System() {
-    if (bridge) {
-        bridge->remove_all_pending_actions();
-    }
-    delete _sound_manager;
-    delete keyboard_listener;
-    delete bridge;
-}
+System::~System() { }
 
 }  // namespace sys

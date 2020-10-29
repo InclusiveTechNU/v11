@@ -30,6 +30,10 @@ class NotificationBuilder : public Notification {
  private:
      NotificationBuilder();
 
+    // Deallocates any preserved memory from the data_ object and the objetcs
+    // corresponding stored data.
+    void FreeStoredData();
+
     // The specific supported type of system/custom notification that
     // this particular notification is linked to.
     NotificationType type_ = NotificationType::kUnknownNotification;

@@ -20,16 +20,16 @@
 #include <map>
 #include <functional>
 #include "larkin/environment/application/application_observer_bridge.h"
-#include "larkin/environment/system/notifications/notification.h"
+//#include "larkin/environment/system/notifications/notification.h"
 
-using sys::NotificationType;
+//using sys::NotificationType;
 
 namespace app {
 
 class ApplicationObserver {
  private:
-    std::function<void(NotificationType)>* _callback_handler = nullptr;
-    std::map<NotificationType, std::function<void()>*> _callbacks;
+    //std::function<void(NotificationType)>* _callback_handler = nullptr;
+    //std::map<NotificationType, std::function<void()>*> _callbacks;
     ApplicationObserverBridge* _native_bridge = nullptr;
     explicit ApplicationObserver(pid_t identifier);
 
@@ -38,8 +38,8 @@ class ApplicationObserver {
     // and passes the ownership of the observer to the
     // caller, i.e. the given application.
     static ApplicationObserver* create_observer(pid_t identifier);
-    void add_observer_callback(NotificationType type,
-                               std::function<void()>* callback);
+    // void add_observer_callback(NotificationType type,
+                               // std::function<void()>* callback);
     ~ApplicationObserver();
     ApplicationObserverBridge* get_native_bridge();
 };

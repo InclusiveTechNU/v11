@@ -19,6 +19,7 @@
 #include "larkin/environment/system/notifications/workspace_input_source_mac.h"
 #include "larkin/environment/system/notifications/notification.h"
 #include "larkin/environment/system/notifications/notification_builder.h"
+#include "larkin/environment/system/notifications/notification_data_builder.h"
 
 namespace sys {
 
@@ -73,24 +74,19 @@ void WorkspaceInputSourceMac::RegisterNotificationObserver() {
             }
             notif_builder->SetType(notification_type);
 
-            /*if (notification_type == kApplicationDidLaunch ||
+            if (notification_type == kApplicationDidLaunch ||
                 notification_type == kApplicationDidTerminate ||
                 notification_type == kApplicationDidHide ||
                 notification_type == kApplicationDidUnhide) {
+                NotificationDataBuilder* data_builder = NotificationDataBuilder::Create();
                 NSDictionary* notification_data = [native_notification userInfo];
-                // TODO(tommymchugh): Turn this application into larkin app instance
                 NSRunningApplication* native_app = notification_data[@"NSWorkspaceApplicationKey"];
                 Application* app = new Application([native_app processIdentifier]);
-                // TODO(tommymchugh): Add all application instance objects to map
-                sys_notification->put_data_with_key("processId", std::to_string(app->get_process_id()));
-                if (app->get_bundle_id() != nullptr) {
-                    sys_notification->put_data_with_key("id", std::string(app->get_bundle_id()));
-                }
-                if (app->get_name() != nullptr) {
-                    sys_notification->put_data_with_key("name", std::string(app->get_name()));
-                }
-                delete app;
-            }*/
+                data_builder->PutData(NotificationDataType::kApplicationType, (void*) app);
+                NotificationData* app_data = data_builder->Build();
+                notif_builder->PutData(std::string(kApplicationDataTypeKey),
+                                       app_data);
+            }
 
             // Push the notification to the input source callback
             Notification* notification = notif_builder->Build();

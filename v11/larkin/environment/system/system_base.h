@@ -18,6 +18,7 @@
 
 #include <string>
 #include "absl/container/btree_set.h"
+#include "larkin/environment/system/system.h"
 #include "larkin/environment/system/platform/platform.h"
 #include "larkin/environment/system/notifications/notification_manager.h"
 #include "larkin/environment/application/application.h"
@@ -28,18 +29,25 @@ using app::Application;
 
 namespace sys {
 
-class System {
+class SystemBase : public System {
+ private:
+    void FreeRunningApplications();    
+    SystemBase();
+
+ protected:
+    Platform* platform_ = nullptr;
+    NotificationManager* notification_manager_ = nullptr;
+    absl::btree_set<Application*>* runnings_apps_ = nullptr;
+
  public:
-    virtual ~System();
-    virtual const Platform* GetPlatform() const = 0;
-    virtual NotificationManager* const GetNotificationManager() const = 0;
-    virtual const absl::btree_set<Application*>* GetRunningApplications() const = 0;
+    virtual ~SystemBase();
+
+    // Inherited From System Abstract Base Class
+    const Platform* GetPlatform() const;
+    NotificationManager* const GetNotificationManager() const;
+    const absl::btree_set<Application*>* GetRunningApplications() const;
     // TODO(tommymchugh): Change type to ScreenReader class
     virtual const void* GetRunningScreenReader() const = 0;
-    bool IsScreenReaderRunning() const;
-    bool IsApplicationRunning(const std::string& bundle_id) const;
-    // TODO(tommymchugh): Create launch options for applications
-    // like nsworkspace allows
     virtual void StartApplicationNamed(const std::string& name) const = 0;
     virtual void StartApplicationAtPath(const std::string& path) const = 0;
     virtual void HideOtherApplications() const = 0;

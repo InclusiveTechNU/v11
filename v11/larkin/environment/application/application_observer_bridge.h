@@ -17,9 +17,6 @@
 #pragma once
 
 #include <sys/types.h>
-#include "larkin/environment/system/notifications/notification.h"
-
-using sys::NotificationType;
 
 namespace app {
 

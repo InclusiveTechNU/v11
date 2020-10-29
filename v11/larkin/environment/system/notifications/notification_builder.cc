@@ -24,8 +24,22 @@ NotificationBuilder::NotificationBuilder() {
 }
 
 NotificationBuilder::~NotificationBuilder() {
+    FreeStoredData();
     delete data_;
     delete keys_;
+}
+
+void NotificationBuilder::FreeStoredData() {
+    if (!data_) {
+        return;
+    }
+    absl::flat_hash_map<std::string,
+                        NotificationData*>::iterator data_iter = data_->begin();
+    while (data_iter != data_->end()) {
+        delete data_iter->second;
+        data_->erase(data_iter);
+        data_iter++;
+    }
 }
 
 NotificationBuilder* NotificationBuilder::Create() {
@@ -47,7 +61,7 @@ const absl::flat_hash_set<std::string>* NotificationBuilder::
 }
 
 void NotificationBuilder::
-     PutData(const std::string& key, NotificationData* value) {
+    PutData(const std::string& key, NotificationData* value) {
     data_->insert({key, value});
     keys_->insert({key});
 }

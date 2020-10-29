@@ -16,31 +16,34 @@
 
 #pragma once
 
-#include <vector>
+#include <string>
+#include "absl/container/btree_set.h"
+#include "larkin/environment/system/system_base.h"
 #include "larkin/environment/system/platform/platform.h"
-#include "larkin/environment/system/system_initializer.h"
-#include "larkin/interaction/keyboard/keyboard_listener.h"
 #include "larkin/environment/system/notifications/notification_manager.h"
+#include "larkin/environment/application/application.h"
+
+using sys::NotificationManager;
+using sys::Platform;
+using app::Application;
 
 namespace sys {
 
-typedef void* system_delegate;
+class SystemMac : public SystemBase {
+ private:
+    void LoadRunningApplications();
+    void AddApplicationChangeListener();
 
-class SystemBridge {
-    initializer native_initializer = nullptr;
-    system_delegate delegate = nullptr;
-    keyboard::KeyboardListener* keyboard_listener = nullptr;
-    std::vector<std::function<void(void*)>*>* pending_actions = nullptr;
-    Platform* platform_ = nullptr;
-    NotificationManager* notifications_ = nullptr;
  public:
-    SystemBridge();
-    Platform* GetPlatform();
-    NotificationManager* GetNotificationManager();
-    keyboard::KeyboardListener* get_keyboard_listener();
-    std::vector<std::function<void(void*)>*>* get_pending_actions();
-    void remove_all_pending_actions();
-    ~SystemBridge();
+    SystemMac();
+    ~SystemMac();
+
+    // Inherited From System Base Class
+    // TODO(tommymchugh): Change type to ScreenReader class
+    const void* GetRunningScreenReader() const;
+    void StartApplicationNamed(const std::string& name) const;
+    void StartApplicationAtPath(const std::string& path) const;
+    void HideOtherApplications() const;
 };
 
 }  // namespace sys

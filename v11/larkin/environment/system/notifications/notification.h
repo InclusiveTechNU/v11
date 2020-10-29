@@ -21,6 +21,8 @@
 
 namespace sys {
 
+const char kApplicationDataTypeKey[] = "ApplicationDataKey";
+
 // Platform indepdent notification identifier names
 enum NotificationType {
     kUnknownNotification,
@@ -66,6 +68,7 @@ enum NotificationType {
 enum NotificationDataType {
     kNone,
     kStringType,
+    kApplicationType,
 };
 
 // A storage container for a variable object types. These objects are then
