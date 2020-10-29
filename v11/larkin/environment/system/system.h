@@ -28,20 +28,49 @@ using app::Application;
 
 namespace sys {
 
+// Simple shortcut for stored collections of applications
+typedef absl::btree_set<Application*> ApplicationSet;
+
+// A container class that holds major system event listener managers, platform
+// information, and updateable application data.
 class System {
  public:
     virtual ~System();
+
+    // Returns a read-only pointer to a Platform object that contains
+    // information about the native system platform.
     virtual const Platform* GetPlatform() const = 0;
+
+    // Returns a read-only pointer to a pre-allocated notification manager
+    // to attach callbacks for system level notification events.
     virtual NotificationManager* const GetNotificationManager() const = 0;
-    virtual const absl::btree_set<Application*>* GetRunningApplications() const = 0;
+
+    // Returns a set container of current applications. The container updates
+    // as applications are launched and terminated on the system.
+    virtual const ApplicationSet* GetRunningApplications() const = 0;
+
     // TODO(tommymchugh): Change type to ScreenReader class
+    // Returns a read-only pointer to the current active screen reader
+    // application that is controlling the system.
     virtual const void* GetRunningScreenReader() const = 0;
+
+    // Returns a boolean value representing whether there is a screen reader
+    // software active on the native system.
     bool IsScreenReaderRunning() const;
+
+    // Given a bundle ID, the method returns whether a certain application with
+    // the gie bundle ID is currently running on the system.
     bool IsApplicationRunning(const std::string& bundle_id) const;
+
     // TODO(tommymchugh): Create launch options for applications
-    // like nsworkspace allows
+    // Given an Application name, will search for and try to start an
+    // application on the system with the given name.
     virtual void StartApplicationNamed(const std::string& name) const = 0;
+
+    // Will start an application on the native system located at a given path.
     virtual void StartApplicationAtPath(const std::string& path) const = 0;
+
+    // Will hide all applications on the native system besides the caller.
     virtual void HideOtherApplications() const = 0;
 };
 
