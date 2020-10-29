@@ -55,6 +55,7 @@ cross_cc_library(
         "@abseil_cpp//absl/container:flat_hash_map",
         "@abseil_cpp//absl/container:flat_hash_set",
         "//v11/utils:v11_utils_lib",
+        "//v11/larkin/environment/application:larkin_application_lib",
     ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:public"],

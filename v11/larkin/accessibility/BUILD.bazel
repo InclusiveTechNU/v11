@@ -37,6 +37,7 @@ cross_cc_library(
 
     ],
     deps = [
+        "//v11/larkin/environment/system/notifications:sys_notifications_lib",
         "//v11/larkin/environment/application:larkin_application_lib",
     ],
     strip_include_prefix = "//v11",

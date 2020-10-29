@@ -17,7 +17,7 @@
 #include <Foundation/Foundation.h>
 #include <Cocoa/Cocoa.h>
 #include "larkin/environment/system/system_mac.h"
-#include "larkin/environment/system/notifications/system_notification_manager.h"
+#include "larkin/environment/system/notifications/system_notification_manager_mac.h"
 #include "larkin/environment/system/platform/platform_mac.h"
 #include "larkin/environment/system/notifications/notification.h"
 #include "larkin/environment/system/notifications/notification_manager.h"
@@ -35,8 +35,9 @@ void SystemMac::LoadRunningApplications() {
     NSArray<NSRunningApplication*>* apps = [[NSWorkspace sharedWorkspace]
                                                          runningApplications];
     for (NSRunningApplication* app : apps) {
-        Application* app = new Application(running_app.processIdentifier);
-        runnings_apps_.insert(app);
+        pid_t process_id = app.processIdentifier;
+        Application* app_instance = new Application(process_id);
+        runnings_apps_->insert(app_instance);
     }
 }
 
@@ -67,8 +68,9 @@ void SystemMac::StartApplicationNamed(const std::string& name) const {
 void SystemMac::StartApplicationAtPath(const std::string& path) const {
     NSString* path_str = [NSString stringWithUTF8String: path.c_str()];
     NSURL* path_url = [NSURL fileURLWithPath: path_str];
+    NSWorkspaceOpenConfiguration* config = [NSWorkspaceOpenConfiguration configuration];
     [[NSWorkspace sharedWorkspace] openApplicationAtURL: path_url
-                                   configuration: nil
+                                   configuration: config
                                    completionHandler: nil];
 }
 

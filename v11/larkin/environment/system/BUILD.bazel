@@ -18,18 +18,18 @@ cross_cc_library(
     name = "larkin_sys_lib",
     hdrs = [
         "system.h",
-        "system_bridge.h",
-        "system_initializer.h",
+        "system_base.h",
     ],
     srcs = [
         "system.cc",
+        "system_base.cc",
     ],
-    linux_srcs = [
-        ":sys_lib_linux_srcs",
-    ],
-    windows_srcs = [
-        ":sys_lib_windows_srcs",
-    ],
+    #linux_srcs = [
+    #    ":sys_lib_linux_srcs",
+    #],
+    #windows_srcs = [
+    #    ":sys_lib_windows_srcs",
+    #],
     macos_hdrs = [
         ":sys_lib_macos_hdrs",
     ],
@@ -37,7 +37,9 @@ cross_cc_library(
         ":sys_lib_macos_srcs",
     ],
     deps = [
+        "@abseil_cpp//absl/container:btree",
         "//v11/utils:v11_utils_lib",
+        "//v11/larkin/environment/application:larkin_application_lib",
         "//v11/larkin/environment/system/platform:sys_platform_lib",
         "//v11/larkin/environment/system/notifications:sys_notifications_lib",
         "//v11/larkin/interaction/sound:larkin_sound_lib",
@@ -62,7 +64,7 @@ filegroup(
 filegroup(
     name = "sys_lib_macos_hdrs",
     srcs = [
-        "system_delegate_mac.h",
+        "system_mac.h",
     ],
     visibility = ["//visibility:private"],
 )
@@ -70,8 +72,7 @@ filegroup(
 filegroup(
     name = "sys_lib_macos_srcs",
     srcs = [
-        "system_bridge_mac.mm",
-        "system_delegate_mac.mm",
+        "system_mac.mm",
     ],
     visibility = ["//visibility:private"],
 )

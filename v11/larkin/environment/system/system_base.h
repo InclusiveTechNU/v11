@@ -31,10 +31,10 @@ namespace sys {
 
 class SystemBase : public System {
  private:
-    void FreeRunningApplications();    
-    SystemBase();
+    void FreeRunningApplications();
 
  protected:
+    SystemBase();
     Platform* platform_ = nullptr;
     NotificationManager* notification_manager_ = nullptr;
     absl::btree_set<Application*>* runnings_apps_ = nullptr;

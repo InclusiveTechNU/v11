@@ -20,6 +20,9 @@
 #include "larkin/environment/system/notifications/notification.h"
 #include "larkin/environment/system/notifications/notification_builder.h"
 #include "larkin/environment/system/notifications/notification_data_builder.h"
+#include "larkin/environment/application/application.h"
+
+using app::Application;
 
 namespace sys {
 
