@@ -31,15 +31,30 @@ namespace sys {
 
 class SystemBase : public System {
  private:
+    // Deallocates all Application pointers from memory stored in the
+    // running applications set. Usually called on class destruction.
     void FreeRunningApplications();
 
  protected:
     SystemBase();
+
+    // Initially called on class construction, will fill the running
+    // applications set with the current active and running applications.
     virtual void LoadRunningApplications() = 0;
+
+    // Adds listeners to the system notification manager for when applications
+    // are launched are terminated. When the callbacks for the respective
+    // notifications are triggered, the result updates the running applications
+    // set container.
     void AddApplicationChangeListener();
 
+    // Native system platform information.
     Platform* platform_ = nullptr;
+
+    // A system-level notification manager.
     NotificationManager* notification_manager_ = nullptr;
+
+    // A container for active running applications to be stored.
     absl::btree_set<Application*>* running_apps_ = nullptr;
 
  public:
@@ -49,7 +64,6 @@ class SystemBase : public System {
     const Platform* GetPlatform() const;
     NotificationManager* const GetNotificationManager() const;
     const absl::btree_set<Application*>* GetRunningApplications() const;
-    // TODO(tommymchugh): Change type to ScreenReader class
     virtual const void* GetRunningScreenReader() const = 0;
     virtual void StartApplicationNamed(const std::string& name) const = 0;
     virtual void StartApplicationAtPath(const std::string& path) const = 0;

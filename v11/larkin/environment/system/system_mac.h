@@ -31,6 +31,7 @@ namespace sys {
 
 class SystemMac : public SystemBase {
  private:
+    // Inherited From System Base Class
     void LoadRunningApplications();
 
  public:
@@ -38,7 +39,6 @@ class SystemMac : public SystemBase {
     ~SystemMac();
 
     // Inherited From System Base Class
-    // TODO(tommymchugh): Change type to ScreenReader class
     const void* GetRunningScreenReader() const;
     void StartApplicationNamed(const std::string& name) const;
     void StartApplicationAtPath(const std::string& path) const;
