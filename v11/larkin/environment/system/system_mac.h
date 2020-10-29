@@ -32,7 +32,6 @@ namespace sys {
 class SystemMac : public SystemBase {
  private:
     void LoadRunningApplications();
-    void AddApplicationChangeListener();
 
  public:
     SystemMac();

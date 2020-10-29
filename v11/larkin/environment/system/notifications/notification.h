@@ -22,6 +22,7 @@
 namespace sys {
 
 const char kApplicationDataTypeKey[] = "ApplicationDataKey";
+const char kProcessIdentifierDataTypeKey[] = "ProcessIdentifierDataKey";
 
 // Platform indepdent notification identifier names
 enum NotificationType {
@@ -69,6 +70,7 @@ enum NotificationDataType {
     kNone,
     kStringType,
     kApplicationType,
+    kProcessIdentifierType,
 };
 
 // A storage container for a variable object types. These objects are then

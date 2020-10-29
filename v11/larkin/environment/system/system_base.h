@@ -35,9 +35,12 @@ class SystemBase : public System {
 
  protected:
     SystemBase();
+    virtual void LoadRunningApplications() = 0;
+    void AddApplicationChangeListener();
+
     Platform* platform_ = nullptr;
     NotificationManager* notification_manager_ = nullptr;
-    absl::btree_set<Application*>* runnings_apps_ = nullptr;
+    absl::btree_set<Application*>* running_apps_ = nullptr;
 
  public:
     virtual ~SystemBase();

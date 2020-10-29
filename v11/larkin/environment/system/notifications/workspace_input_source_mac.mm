@@ -78,7 +78,6 @@ void WorkspaceInputSourceMac::RegisterNotificationObserver() {
             notif_builder->SetType(notification_type);
 
             if (notification_type == kApplicationDidLaunch ||
-                notification_type == kApplicationDidTerminate ||
                 notification_type == kApplicationDidHide ||
                 notification_type == kApplicationDidUnhide) {
                 NotificationDataBuilder* data_builder = NotificationDataBuilder::Create();
@@ -88,6 +87,16 @@ void WorkspaceInputSourceMac::RegisterNotificationObserver() {
                 data_builder->PutData(NotificationDataType::kApplicationType, (void*) app);
                 NotificationData* app_data = data_builder->Build();
                 notif_builder->PutData(std::string(kApplicationDataTypeKey),
+                                       app_data);
+            } else if (notification_type == kApplicationDidTerminate) {
+                NotificationDataBuilder* data_builder = NotificationDataBuilder::Create();
+                NSDictionary* notification_data = [native_notification userInfo];
+                NSRunningApplication* native_app = notification_data[@"NSWorkspaceApplicationKey"];
+                pid_t* process_id = new pid_t([native_app processIdentifier]);
+                data_builder->PutData(NotificationDataType::kProcessIdentifierType,
+                                      (void*) process_id);
+                NotificationData* app_data = data_builder->Build();
+                notif_builder->PutData(std::string(kProcessIdentifierDataTypeKey),
                                        app_data);
             }
 

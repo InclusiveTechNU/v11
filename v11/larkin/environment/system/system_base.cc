@@ -19,19 +19,57 @@
 namespace sys {
 
 SystemBase::SystemBase() {
-    runnings_apps_ = new absl::btree_set<Application*>();
+    running_apps_ = new absl::btree_set<Application*>();
 }
 
 void SystemBase::FreeRunningApplications() {
-    if (!runnings_apps_) {
+    if (!running_apps_) {
         return;
     }
-    absl::btree_set<Application*>::iterator apps_iter = runnings_apps_->begin();
-    while (apps_iter != runnings_apps_->end()) {
+    absl::btree_set<Application*>::iterator apps_iter = running_apps_->begin();
+    while (apps_iter != running_apps_->end()) {
         delete (*apps_iter);
-        runnings_apps_->erase(apps_iter);
+        running_apps_->erase(apps_iter);
         apps_iter++;
     }
+}
+
+void SystemBase::AddApplicationChangeListener() {
+    NotificationType launch_type = NotificationType::kApplicationDidLaunch;
+    NotificationType exit_type = NotificationType::kApplicationDidTerminate;
+    NotificationCallback* launch_cb = new NotificationCallback(
+                                        [&](const Notification* notif) {
+        std::string data_key = std::string(kApplicationDataTypeKey);
+        const NotificationData* data = notif->GetData(data_key);
+        if (!data) {
+            return;
+        }
+        const Application* app = (const Application*) data->GetData();
+        Application* app_instance = new Application(app->get_process_id());
+        running_apps_->insert(app_instance);
+    });
+    NotificationCallback* exit_cb = new NotificationCallback(
+                                        [&](const Notification* notif) {
+        std::string data_key = std::string(kProcessIdentifierDataTypeKey);
+        const NotificationData* data = notif->GetData(data_key);
+        if (!data) {
+            return;
+        }
+        const pid_t* process_id = (const pid_t*) data->GetData();
+        absl::btree_set<Application*>::iterator apps_iter = running_apps_->begin();
+        while (apps_iter != running_apps_->end()) {
+            Application* app = (*apps_iter);
+            const pid_t app_pid = app->get_process_id();
+            if (app_pid == (*process_id)) {
+                delete app;
+                running_apps_->erase(apps_iter);
+                break;
+            }
+            apps_iter++;
+        }
+    });
+    notification_manager_->AddEventListener(launch_type, launch_cb);
+    notification_manager_->AddEventListener(exit_type, exit_cb);
 }
 
 const Platform* SystemBase::GetPlatform() const {
@@ -43,14 +81,14 @@ NotificationManager* const SystemBase::GetNotificationManager() const {
 }
 
 const absl::btree_set<Application*>* SystemBase::GetRunningApplications() const {
-    return runnings_apps_;
+    return running_apps_;
 }
 
 SystemBase::~SystemBase() {
     FreeRunningApplications();
     delete platform_;
     delete notification_manager_;
-    delete runnings_apps_;
+    delete running_apps_;
 }
 
 }  // namespace sys

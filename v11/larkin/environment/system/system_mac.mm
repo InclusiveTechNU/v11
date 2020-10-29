@@ -37,23 +37,8 @@ void SystemMac::LoadRunningApplications() {
     for (NSRunningApplication* app : apps) {
         pid_t process_id = app.processIdentifier;
         Application* app_instance = new Application(process_id);
-        runnings_apps_->insert(app_instance);
+        running_apps_->insert(app_instance);
     }
-}
-
-void SystemMac::AddApplicationChangeListener() {
-    NotificationType launch_type = NotificationType::kApplicationDidLaunch;
-    NotificationType exit_type = NotificationType::kApplicationDidTerminate;
-    NotificationCallback* launch_cb = new NotificationCallback(
-                                        [&](const Notification* notif) {
-        
-    });
-    NotificationCallback* exit_cb = new NotificationCallback(
-                                        [&](const Notification* notif) {
-        
-    });
-    notification_manager_->AddEventListener(launch_type, launch_cb);
-    notification_manager_->AddEventListener(exit_type, exit_cb);
 }
 
 const void* SystemMac::GetRunningScreenReader() const {
