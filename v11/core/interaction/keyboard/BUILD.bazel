@@ -1,0 +1,95 @@
+#  Copyright 2020 Northwestern Inclusive Technology Lab
+# 
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
+
+cross_cc_library(
+    name = "core_keyboard_lib",
+    hdrs = [
+        "keyboard_event.h",
+        "keyboard_listener.h",
+        "keyboard_listener_bridge.h",
+        "keyboard_manager.h",
+        "keyboard_simulator.h",
+        "keyboard_simulator_bridge.h",
+        "keycode.h",
+        "listener.h",
+    ],
+    srcs = [
+        "keyboard_event.cc",
+        "keyboard_listener.cc",
+        "keyboard_manager.cc",
+        "keyboard_simulator.cc",
+        "keycode.cc",
+    ],
+    macos_hdrs = [
+        ":keyboard_lib_macos_hdrs",
+    ],
+    macos_srcs = [
+        ":keyboard_lib_macos_srcs",
+    ],
+    linux_srcs = [
+        ":keyboard_lib_linux_srcs",
+    ],
+    windows_srcs = [
+        ":keyboard_lib_windows_srcs",
+    ],
+    deps = [
+        "//v11/utils:v11_utils_lib",
+    ],
+    strip_include_prefix = "//v11",
+    visibility = ["//visibility:public"],
+)
+
+# Core Keyboard Interaction Lib Linux Platform Resources
+
+filegroup(
+    name = "keyboard_lib_linux_srcs",
+    srcs = [
+        "keyboard_listener_bridge_linux.cc",
+        "keyboard_simulator_bridge_linux.cc",
+    ],
+    visibility = ["//visibility:private"],
+)
+
+# Core Keyboard Interaction Lib MacOS Platform Resources
+
+filegroup(
+    name = "keyboard_lib_macos_hdrs",
+    srcs = [
+        "keycode_converter_mac.h",
+    ],
+    visibility = ["//visibility:private"],
+)
+
+filegroup(
+    name = "keyboard_lib_macos_srcs",
+    srcs = [
+        "keyboard_listener_bridge_mac.mm",
+        "keyboard_simulator_bridge_mac.mm",
+        "keycode_converter_mac.mm",
+    ],
+    visibility = ["//visibility:private"],
+)
+
+# Core Keyboard Interaction Lib Windows Platform Resources
+
+filegroup(
+    name = "keyboard_lib_windows_srcs",
+    srcs = [
+        "keyboard_listener_bridge_windows.cc",
+        "keyboard_simulator_bridge_windows.cc",
+    ],
+    visibility = ["//visibility:private"],
+)

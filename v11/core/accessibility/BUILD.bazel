@@ -1,0 +1,72 @@
+#  Copyright 2020 Northwestern Inclusive Technology Lab
+# 
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
+
+cross_cc_library(
+    name = "core_accessibility_lib",
+    hdrs = [
+        "accessibility.h",
+        "accessibility_tree.h",
+        "accessibility_window.h",
+        "accessibility_element.h",
+    ],
+    srcs = [
+        "accessibility_tree.cc",
+        "accessibility_window.cc",
+        "accessibility_element.cc",
+    ],
+    macos_srcs = [
+        ":accessibility_lib_macos_srcs",
+    ],
+    linux_srcs = [
+        ":accessibility_lib_linux_srcs",
+    ],
+    windows_srcs = [
+
+    ],
+    deps = [
+        "//v11/core/environment/system/notifications:sys_notifications_lib",
+        "//v11/core/environment/application:core_application_lib",
+    ],
+    strip_include_prefix = "//v11",
+    visibility = ["//visibility:public"],
+)
+
+# Core Accessibility Lib Linux Platform Resources
+
+filegroup(
+    name = "accessibility_lib_linux_srcs",
+    srcs = [
+        "accessibility_element_linux.cc",
+        "accessibility_tree_linux.cc",
+        "accessibility_window_linux.cc",
+    ],
+    visibility = ["//visibility:private"],
+)
+
+# Core Accessibility Lib MacOS Platform Resources
+
+filegroup(
+    name = "accessibility_lib_macos_srcs",
+    srcs = [
+        "accessibility_element_mac.mm",
+        "accessibility_tree_mac.mm",
+        "accessibility_window_mac.mm",
+    ],
+    visibility = ["//visibility:private"],
+)
+
+
+# Core Accessibility Lib Windows Platform Resources
