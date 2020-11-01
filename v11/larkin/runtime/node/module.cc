@@ -28,6 +28,7 @@
 #include "larkin/runtime/node/utils.h"
 #include "larkin/runtime/node/environment.h"
 #include "larkin/environment/system/system.h"
+#include "larkin/environment/system/system_instance.h"
 #include "utils/run_main.h"
 
 using utils::run_non_block_loop;
@@ -95,12 +96,10 @@ void setup_event_loop(napi_env env, napi_value exports) {
 }
 
 napi_value init(napi_env env, napi_value exports) {
-    System* main_sys = new System();
-
     // Add sub platform APIs
-    interaction::init(env, exports, main_sys);
-    environment::init(env, exports, main_sys);
-    a11y::init(env, exports, main_sys);
+    interaction::init(env, exports);
+    environment::init(env, exports);
+    a11y::init(env, exports);
 
     setup_event_loop(env, exports);
     return exports;

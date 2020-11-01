@@ -17,12 +17,9 @@
 #pragma once
 
 #include <node/node_api.h>
-#include "larkin/environment/system/system.h"
-
-using sys::System;
 
 namespace a11y {
 
-void init(napi_env env, napi_value exports, System* sys_ptr);
+void init(napi_env env, napi_value exports);
 
 }  // namespace environment

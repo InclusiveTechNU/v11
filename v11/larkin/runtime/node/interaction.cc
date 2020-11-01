@@ -20,6 +20,8 @@
 #include "larkin/runtime/node/interaction.h"
 #include "larkin/runtime/node/sound_utils.h"
 #include "larkin/runtime/node/utils.h"
+#include "larkin/environment/system/system_instance.h"
+#include "larkin/environment/system/system.h"
 #include "larkin/interaction/sound/text2speech/voice.h"
 #include "larkin/interaction/sound/text2speech/text2speech_synthesizer.h"
 #include "larkin/interaction/sound/text2speech/text2speech_synthesizer_bridge.h"
@@ -39,6 +41,8 @@ using keyboard::KeyboardListener;
 using keyboard::event::event_type;
 using keyboard::event::KeyboardEvent;
 using interaction::utils::sound::voice_to_object;
+using sys::SystemInstance;
+using sys::System;
 
 namespace interaction {
 
@@ -197,7 +201,7 @@ napi_status sound(napi_env env, napi_value exports) {
     return status;
 }
 
-napi_status keyboard(napi_env env, napi_value exports, System* sys_ptr) {
+napi_status keyboard(napi_env env, napi_value exports) {
     napi_status status;
     napi_value keyboard;
     status = napi_create_object(env, &keyboard);
@@ -344,7 +348,7 @@ napi_status keyboard(napi_env env, napi_value exports, System* sys_ptr) {
             // TODO(tommymchugh): Handle unknown listener type
         }
         return nullptr;
-    }, sys_ptr, &listener_key);
+    }, SystemInstance::GetInstance(), &listener_key);
     if (status != napi_ok) return status;
     status = napi_set_named_property(env, keyboard, "addEventListener", listener_key);
     if (status != napi_ok) return status;
@@ -357,7 +361,7 @@ napi_status keyboard(napi_env env, napi_value exports, System* sys_ptr) {
 
 
 // Initialize all variables and functions
-void init(napi_env env, napi_value exports, System* sys_ptr) {
+void init(napi_env env, napi_value exports) {
     napi_status sound_status = sound(env, exports);
     if (sound_status != napi_ok) {
         napi_throw_error(env,
@@ -366,7 +370,7 @@ void init(napi_env env, napi_value exports, System* sys_ptr) {
         return;
     }
 
-    napi_status keyboard_status = keyboard(env, exports, sys_ptr);
+    napi_status keyboard_status = keyboard(env, exports);
     if (keyboard_status != napi_ok) {
         napi_throw_error(env,
                          nullptr,

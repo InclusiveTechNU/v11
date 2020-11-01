@@ -21,6 +21,7 @@
 #include "larkin/runtime/node/utils.h"
 #include "utils/run_main.h"
 #include "larkin/environment/system/system.h"
+#include "larkin/environment/system/system_instance.h"
 #include "larkin/environment/system/platform/platform.h"
 #include "larkin/environment/system/notifications/notification.h"
 #include "larkin/environment/application/application.h"
@@ -34,6 +35,7 @@ using utils::application_to_object;
 using utils::notification_to_object;
 using utils::string_from_value;
 using sys::System;
+using sys::SystemInstance;
 using sys::Notification;
 using sys::NotificationType;
 using sys::NotificationCallback;
@@ -83,7 +85,7 @@ NotificationType convert_string_to_notification_type(std::string type_str) {
     }
 }
 
-napi_status system(napi_env env, napi_value exports, System* sys_ptr) {
+napi_status system(napi_env env, napi_value exports) {
     // Create system APIS for larkin
     // APIS within system include:
     //     - platform: platform specific information
@@ -153,7 +155,7 @@ napi_status system(napi_env env, napi_value exports, System* sys_ptr) {
     // i.e. Apple, Windows, Linux, or Unknown
     napi_value platform_type;
     std::string platform_str;
-
+    System* sys_ptr = SystemInstance::GetInstance();
     const Platform* platform = sys_ptr->GetPlatform();
     OperatingSystem sys_platform = platform->GetOperatingSystem();
     Version sys_version = platform->GetVersion();
@@ -209,7 +211,7 @@ napi_status system(napi_env env, napi_value exports, System* sys_ptr) {
     return status;
 }
 
-napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
+napi_status notifications(napi_env env, napi_value exports) {
     // Create system APIS for larkin
     // APIS within system include:
     //     - platform: platform specific information
@@ -294,8 +296,9 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
             NotificationType listener_type = NotificationType::kUnknownNotification;
             std::string type_str = std::string(listener_type_ptr);
             listener_type = convert_string_to_notification_type(type_str);
-            sys_ptr->add_event_listener(listener_type,
-                                        new NotificationCallback([listener_callback] (const Notification* notification) {
+            NotificationManager* manager = sys_ptr->GetNotificationManager();
+            manager->AddEventListener(listener_type,
+                                      new NotificationCallback([listener_callback] (const Notification* notification) {
                 napi_acquire_threadsafe_function(listener_callback);
                 napi_call_threadsafe_function(listener_callback,
                                               (void*) notification,
@@ -304,7 +307,7 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
         }
         delete listener_type_ptr;
         return nullptr;
-    }, sys_ptr, &add_event_listener);
+    }, SystemInstance::GetInstance(), &add_event_listener);
 
     status = napi_set_named_property(env,
                                      notifications_object,
@@ -322,8 +325,8 @@ napi_status notifications(napi_env env, napi_value exports, System* sys_ptr) {
 }
 
 // Initialize all variables and functions
-void init(napi_env env, napi_value exports, System* sys_ptr) {
-    napi_status system_status = system(env, exports, sys_ptr);
+void init(napi_env env, napi_value exports) {
+    napi_status system_status = system(env, exports);
     if (system_status != napi_ok) {
         napi_throw_error(env,
                          nullptr,
@@ -331,7 +334,7 @@ void init(napi_env env, napi_value exports, System* sys_ptr) {
         return;
     }
 
-    napi_status notifications_status = notifications(env, exports, sys_ptr);
+    napi_status notifications_status = notifications(env, exports);
     if (notifications_status != napi_ok) {
         napi_throw_error(env,
                          nullptr,

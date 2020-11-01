@@ -146,7 +146,8 @@ void listeners(napi_env env, napi_value exports) {
             reinterpret_cast<AccessibilityElement*>(native_wrapper_ptr);
 
         napi_value listener_type_object = args[1];
-        const char* listener_type_ptr = string_from_value(env, listener_type_object);
+        const char* listener_type_ptr = string_from_value(env,
+                                                          listener_type_object);
         if (!listener_type_ptr) {
             // TODO(tommymchugh): Handle failed string
             return nullptr;
@@ -158,14 +159,19 @@ void listeners(napi_env env, napi_value exports) {
         napi_value listener_callback_object = args[2];
         napi_threadsafe_function listener_callback;
         napi_value res_name;
-        a_ok(napi_create_string_utf8(env, "resource", NAPI_AUTO_LENGTH, &res_name));
+        a_ok(napi_create_string_utf8(env,
+                                     "resource",
+                                     NAPI_AUTO_LENGTH,
+                                     &res_name));
         a_ok(napi_create_threadsafe_function(env, listener_callback_object,
                                                  nullptr, res_name,
                                                  0, 2,
                                                  nullptr, nullptr, nullptr,
                                                  nullptr,
                                                  &listener_callback));
-        element->add_notification_listener(listener_type, new std::function<void()>([listener_callback]() {
+        element->add_notification_listener(listener_type,
+                                           new std::function<void()>(
+                                               [listener_callback]() {
             napi_acquire_threadsafe_function(listener_callback);
             napi_call_threadsafe_function(listener_callback,
                                             nullptr,
@@ -258,7 +264,8 @@ void actions(napi_env env, napi_value exports) {
         napi_value native_wrapper = args[0];
         void* native_wrapper_ptr = nullptr;
         a_ok(napi_unwrap(env, native_wrapper, &native_wrapper_ptr));
-        AccessibilityElement* element = reinterpret_cast<AccessibilityElement*>(native_wrapper_ptr);
+        AccessibilityElement* element = reinterpret_cast<AccessibilityElement*>
+                                        (native_wrapper_ptr);
         std::vector<std::string> actions = element->get_actions();
 
         for (std::size_t i = 0; i < actions.size(); i++) {
@@ -289,7 +296,8 @@ void actions(napi_env env, napi_value exports) {
         napi_value native_wrapper = args[0];
         void* native_wrapper_ptr = nullptr;
         a_ok(napi_unwrap(env, native_wrapper, &native_wrapper_ptr));
-        AccessibilityElement* element = reinterpret_cast<AccessibilityElement*>(native_wrapper_ptr);
+        AccessibilityElement* element = reinterpret_cast<AccessibilityElement*>
+                                        (native_wrapper_ptr);
 
         napi_value text_value = args[1];
         char* text = string_from_value(env, text_value);
@@ -304,7 +312,7 @@ void actions(napi_env env, napi_value exports) {
 }
 
 // Initialize all variables and functions
-void init(napi_env env, napi_value exports, System* sys_ptr) {
+void init(napi_env env, napi_value exports) {
     napi_value accessibility_object;
     a_ok(napi_create_object(env, &accessibility_object));
 
