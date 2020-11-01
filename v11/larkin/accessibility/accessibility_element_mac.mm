@@ -123,7 +123,7 @@ void AccessibilityElement::add_notification_listener(NotificationType type, std:
         return;
     }
     // Add observer to the Node.JS Run Loop
-    //app_observer->add_observer_callback(type, callback);
+    app_observer->add_observer_callback(type, callback);
 }
 
 }  // namespace a11y
