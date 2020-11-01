@@ -29,6 +29,8 @@ using app::Application;
 
 namespace sys {
 
+// Base class implementation of System. Defines the structure and
+// implementation for the non-native specific details of the System class.
 class SystemBase : public System {
  private:
     // Deallocates all Application pointers from memory stored in the
@@ -36,6 +38,15 @@ class SystemBase : public System {
     void FreeRunningApplications();
 
  protected:
+    // Native system platform information.
+    Platform* platform_ = nullptr;
+
+    // A system-level notification manager.
+    NotificationManager* notification_manager_ = nullptr;
+
+    // A container for active running applications to be stored.
+    absl::btree_set<Application*>* running_apps_ = nullptr;
+
     SystemBase();
 
     // Initially called on class construction, will fill the running
@@ -47,15 +58,6 @@ class SystemBase : public System {
     // notifications are triggered, the result updates the running applications
     // set container.
     void AddApplicationChangeListener();
-
-    // Native system platform information.
-    Platform* platform_ = nullptr;
-
-    // A system-level notification manager.
-    NotificationManager* notification_manager_ = nullptr;
-
-    // A container for active running applications to be stored.
-    absl::btree_set<Application*>* running_apps_ = nullptr;
 
  public:
     virtual ~SystemBase();

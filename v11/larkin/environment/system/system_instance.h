@@ -20,6 +20,9 @@
 
 namespace sys {
 
+// SystemInstance is a factory class for creating a native System class object.
+// The platform is determined at compile time and the returns native System
+// implementation is casted to a System pointer.
 class SystemInstance {
  private:
     // Singleton variable holding shared system instance pointer.
