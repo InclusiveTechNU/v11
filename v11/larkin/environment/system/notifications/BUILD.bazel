@@ -18,12 +18,13 @@ load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
 cc_library(
     name = "sys_notifications_base_lib",
     hdrs = [
+        "system_notification.h",
         "notification.h",
         "notification_builder.h",
+        "notification_builder_inl.h",
         "notification_data_builder.h",
     ],
     srcs = [
-        "notification_builder.cc",
         "notification_data_builder.cc",
     ],
     deps = [
@@ -38,11 +39,9 @@ cc_library(
     name = "sys_notifications_input_source_base_lib",
     hdrs = [
         "input_source.h",
+        "input_source_inl.h",
         "input_source_base.h",
-    ],
-    srcs = [
-        "input_source.cc",
-        "input_source_base.cc",
+        "input_source_base_inl.h",
     ],
     deps = [
         ":sys_notifications_base_lib",
@@ -56,12 +55,12 @@ cc_library(
     hdrs = [
         "notification_manager.h",
         "notification_manager_base.h",
+        "notification_manager_base_inl.h",
         "notification_manager_builder.h",
+        "notification_manager_builder_inl.h",
         "system_notification_manager.h",
     ],
     srcs = [
-        "notification_manager_base.cc",
-        "notification_manager_builder.cc",
         "system_notification_manager.cc",
     ],
     deps = [
@@ -81,7 +80,7 @@ cc_library(
         "input_source_mock.cc",
     ],
     deps = [
-        ":sys_notifications_lib",
+        ":sys_notifications_input_source_base_lib",
     ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:private"],

@@ -16,26 +16,25 @@
 
 #pragma once
 
-#include <string>
-#include "larkin/environment/system/notifications/input_source_base.h"
-#include "larkin/environment/system/notifications/system_notification.h"
+#include "larkin/environment/system/notifications/input_source.h"
 
 namespace sys {
 
-const char kWorkspaceInputSourceMacName[] = "workspace_mac";
+template <typename Type>
+void InputSource<Type>::SendCallback(Notification<Type>* notification) {
+    if (!IsEnabled()) {
+        return;
+    }
 
-class WorkspaceInputSourceMac : public InputSourceBase
-                                       <SystemNotificationType> {
- private:
-    const std::string name_ = std::string(kWorkspaceInputSourceMacName);
-    void* notification_center_ = nullptr;
-
-    void RegisterNotificationObserver();
-
- public:
-    WorkspaceInputSourceMac();
-    ~WorkspaceInputSourceMac();
-    const std::string& GetInputSourceName() const;
-};
+    const InputSourceCallback<Type>* callback = GetCallback();
+    if (callback) {
+        (*callback)(notification);
+    }
+    if (IsStoringMemory()) {
+        StoreNotification(notification);
+    } else {
+        delete notification;
+    }
+}
 
 }  // namespace sys

@@ -14,24 +14,30 @@
  * limitations under the License.
  */
 
-#include "larkin/environment/system/notifications/input_source.h"
+#pragma once
 
 namespace sys {
 
-void InputSource::SendCallback(Notification* notification) {
-    if (!IsEnabled()) {
-        return;
-    }
+// Platform indepdent notification identifier names for core system
+// notifications.
+enum SystemNotificationType {
+    // Application Lifecycle Notifications
+    kApplicationDidLaunch,
+    kApplicationDidTerminate,
+    kApplicationDidHide,
+    kApplicationDidUnhide,
 
-    const InputSourceCallback* callback = GetCallback();
-    if (callback) {
-        (*callback)(notification);
-    }
-    if (IsStoringMemory()) {
-        StoreNotification(notification);
-    } else {
-        delete notification;
-    }
-}
+    // Hardware Notifications
+    kDeviceDidMount,
+    kDeviceDidUnmount,
+
+    // System Notifications
+    kSystemDidWake,
+    kSystemWillPowerOff,
+    kSystemDidSleep,
+
+    // Accessibility Notifications
+    kAccessibilityDidChange,
+};
 
 }  // namespace sys

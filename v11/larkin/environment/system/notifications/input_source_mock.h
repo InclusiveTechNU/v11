@@ -27,13 +27,13 @@ namespace tests {
 
 const char kMockInputSourceName[] = "mock";
 
-class MockInputSource : public InputSourceBase {
+class MockInputSource : public InputSourceBase<NotificationType> {
  private:
     std::string name_ = std::string(kMockInputSourceName);
 
  public:
     MockInputSource() = default;
-    void CallCallbackMethod(Notification* notification);
+    void CallCallbackMethod(Notification<NotificationType>* notification);
     const std::string& GetInputSourceName() const;
 };
 

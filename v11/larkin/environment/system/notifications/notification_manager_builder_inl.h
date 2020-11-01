@@ -14,27 +14,33 @@
  * limitations under the License.
  */
 
+#pragma once
+
 #include <functional>
 #include "larkin/environment/system/notifications/notification_manager_builder.h"
 
 namespace sys {
 
-NotificationManagerBuilder* NotificationManagerBuilder::Create() {
-    return new NotificationManagerBuilder;
+template <typename Type>
+NotificationManagerBuilder<Type>* NotificationManagerBuilder<Type>::Create() {
+    return new NotificationManagerBuilder<Type>;
 }
 
-NotificationManager* NotificationManagerBuilder::Build() {
+template <typename Type>
+NotificationManager<Type>* NotificationManagerBuilder<Type>::Build() {
     return this;
 }
 
-ManagerType NotificationManagerBuilder::GetManagerType() const {
+template <typename Type>
+ManagerType NotificationManagerBuilder<Type>::GetManagerType() const {
     return type_;
 }
 
-void NotificationManagerBuilder::AttachInputSource(InputSource* source) {
+template <typename Type>
+void NotificationManagerBuilder<Type>::AttachInputSource(InputSource<Type>* source) {
     sources_.push_back(source);
-    source->SetCallback(new InputSourceCallback([&](const Notification*
-                                                    notification) {
+    source->SetCallback(new InputSourceCallback<Type>([&](const Notification<Type>*
+                                                          notification) {
         auto present_callback = listeners_->find(notification->GetType());
         if (present_callback != listeners_->end()) {
             (*present_callback->second)(notification);

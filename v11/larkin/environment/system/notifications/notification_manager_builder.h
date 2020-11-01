@@ -21,18 +21,21 @@
 
 namespace sys {
 
-class NotificationManagerBuilder : public NotificationManagerBase {
+template <typename Type>
+class NotificationManagerBuilder : public NotificationManagerBase<Type> {
  private:
-    using NotificationManagerBase::NotificationManagerBase;
+    using NotificationManagerBase<Type>::NotificationManagerBase;
     ManagerType type_ = ManagerType::kCustom;
 
  public:
-    static NotificationManagerBuilder* Create();
-    NotificationManager* Build();
-    void AttachInputSource(InputSource* source);
+    static NotificationManagerBuilder<Type>* Create();
+    NotificationManager<Type>* Build();
+    void AttachInputSource(InputSource<Type>* source);
 
     // From NotificationManagerBase class
     ManagerType GetManagerType() const;
 };
 
 }  // namespace sys
+
+#include "larkin/environment/system/notifications/notification_manager_base_inl.h"

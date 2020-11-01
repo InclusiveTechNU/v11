@@ -20,10 +20,12 @@
 #include "larkin/environment/system/notifications/notification_manager.h"
 #include "larkin/environment/system/notifications/notification_manager_base.h"
 #include "larkin/environment/system/notifications/input_source.h"
+#include "larkin/environment/system/notifications/system_notification.h"
 
 namespace sys {
 
-class SystemNotificationManager : public NotificationManagerBase {
+class SystemNotificationManager : public NotificationManagerBase
+                                         <SystemNotificationType> {
  protected:
     SystemNotificationManager();
     ManagerType type_ = ManagerType::kSystem;

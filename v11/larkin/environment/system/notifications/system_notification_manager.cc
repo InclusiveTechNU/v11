@@ -19,14 +19,14 @@
 namespace sys {
 
 SystemNotificationManager::SystemNotificationManager() :
-                           NotificationManagerBase() { }
+                           NotificationManagerBase<SystemNotificationType>() { }
 
 ManagerType SystemNotificationManager::GetManagerType() const {
     return type_;
 }
 
 SystemNotificationManager::~SystemNotificationManager() {
-    for (InputSource* source : sources_) {
+    for (InputSource<SystemNotificationType>* source : sources_) {
         delete source;
     }
 }

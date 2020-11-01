@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-#include "larkin/environment/system/notifications/input_source_mock.h"
+#pragma once
 
-namespace sys {
-namespace tests {
+#include "larkin/interaction/device.h"
 
-void MockInputSource::CallCallbackMethod(Notification<NotificationType>* notification) {
-    SendCallback(notification);
-}
+namespace interaction {
 
-const std::string& MockInputSource::GetInputSourceName() const {
-    return name_;
-}
+template <typename Listener, typename Dispatcher>
+Device<Listener, Dispatcher>::~Device() { }
 
-}  // namespace tests
-}  // namespace sys
+}  // namepsace interaction

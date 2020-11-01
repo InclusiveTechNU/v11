@@ -26,7 +26,8 @@ namespace sys {
 // A factory class for generating a Notification class object. Provides
 // methods for customizing the inner objects of the Notification class
 // and exposing those values to a Notification object.
-class NotificationBuilder : public Notification {
+template <typename Type>
+class NotificationBuilder : public Notification<Type> {
  private:
      NotificationBuilder();
 
@@ -36,7 +37,7 @@ class NotificationBuilder : public Notification {
 
     // The specific supported type of system/custom notification that
     // this particular notification is linked to.
-    NotificationType type_ = NotificationType::kUnknownNotification;
+    Type type_ = NotificationType::kUnknownNotification;
 
     // An unsorted map of NotificationData objects stored with the
     // notification. Data objects are owned by the Notification and
@@ -58,7 +59,7 @@ class NotificationBuilder : public Notification {
     // Clones the current builder object as a new Notification object and
     // returns this object as a pointer. Transfers ownership of this object
     // to the caller.
-    Notification* Build();
+    Notification<Type>* Build();
 
     // Returns a pointer to the notification's data object. This does not
     // transfer ownership of the data object. This is always owned by the
@@ -70,12 +71,14 @@ class NotificationBuilder : public Notification {
     void PutData(const std::string& key, NotificationData* value);
 
     // Changes the built notification type to the value of 'type'
-    void SetType(NotificationType type);
+    void SetType(Type type);
 
     // From Notification class
-    NotificationType GetType() const;
+    Type GetType() const;
     const absl::flat_hash_set<std::string>* GetDataKeys() const;
     const NotificationData* GetData(const std::string& key) const;
 };
 
 }  // namespace sys
+
+#include "larkin/environment/system/notifications/notification_builder_inl.h"

@@ -14,23 +14,28 @@
  * limitations under the License.
  */
 
+#pragma once
+
 #include <utility>
 #include "larkin/environment/system/notifications/notification_manager_base.h"
 
 namespace sys {
 
-NotificationManagerBase::NotificationManagerBase() {
-    listeners_ = new absl::flat_hash_map<NotificationType,
-                                         NotificationCallback*>;
+template <typename Type>
+NotificationManagerBase<Type>::NotificationManagerBase() {
+    listeners_ = new absl::flat_hash_map<Type,
+                                         NotificationCallback<Type>*>;
 }
 
-const std::vector<InputSource*>* NotificationManagerBase::
+template <typename Type>
+const std::vector<InputSource<Type>*>* NotificationManagerBase<Type>::
                                  GetInputSources() const {
     return &sources_;
 }
 
-void NotificationManagerBase::AddEventListener(NotificationType type,
-                                               NotificationCallback* callback) {
+template <typename Type>
+void NotificationManagerBase<Type>::AddEventListener(Type type,
+                                                     NotificationCallback<Type>* callback) {
     auto present_callback = listeners_->find(type);
     if (present_callback != listeners_->end()) {
         delete present_callback->second;
@@ -38,9 +43,10 @@ void NotificationManagerBase::AddEventListener(NotificationType type,
     (*listeners_)[type] = callback;
 }
 
-NotificationManagerBase::~NotificationManagerBase() {
-    for (std::pair<NotificationType,
-                   NotificationCallback*> listener : *listeners_) {
+template <typename Type>
+NotificationManagerBase<Type>::~NotificationManagerBase() {
+    for (std::pair<Type,
+                   NotificationCallback<Type>*> listener : *listeners_) {
         delete listener.second;
     }
     delete listeners_;

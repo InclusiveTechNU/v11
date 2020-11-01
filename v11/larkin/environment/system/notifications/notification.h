@@ -24,27 +24,12 @@ namespace sys {
 const char kApplicationDataTypeKey[] = "ApplicationDataKey";
 const char kProcessIdentifierDataTypeKey[] = "ProcessIdentifierDataKey";
 
+// TODO(tommymchugh): DEPRECATE THIS IN FAVOR OF TEMPLATE NOTIFICATION TYPES.
 // Platform indepdent notification identifier names
 enum NotificationType {
     kUnknownNotification,
 
-    // Hardware Notifications
-    kDeviceDidMount,
-    kDeviceDidUnmount,
-
-    // System Notifications
-    kSystemDidWake,
-    kSystemDidSleep,
-    kSystemWillPowerOff,
-
-    // Accessibility Notifications
-    kAccessibilityDidChange,
-
     // Application Lifecycle Notifications
-    kApplicationDidLaunch,
-    kApplicationDidTerminate,
-    kApplicationDidHide,
-    kApplicationDidUnhide,
     kApplicationDidChangeMainWindow,
     kApplicationDidChangeFocusedWindow,
     kApplicationDidChangeFocusedUIElement,
@@ -92,13 +77,14 @@ class NotificationData {
 
 // A platform indepdent structure containining the
 // details of the observed notification.
+template <typename Type>
 class Notification {
  public:
     virtual ~Notification() {}
 
     // Returns the specific type of action identifier that the notification
     // is linked to.
-    virtual NotificationType GetType() const = 0;
+    virtual Type GetType() const = 0;
 
     // Returns a pointer to the objects data object of key 'key'. Ownership
     // is not transferred and remains owned by the notification data map.

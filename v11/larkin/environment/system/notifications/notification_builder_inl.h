@@ -14,22 +14,27 @@
  * limitations under the License.
  */
 
+#pragma once
+
 #include "larkin/environment/system/notifications/notification_builder.h"
 
 namespace sys {
 
-NotificationBuilder::NotificationBuilder() {
+template <typename Type>
+NotificationBuilder<Type>::NotificationBuilder() {
     data_ = new absl::flat_hash_map<std::string, NotificationData*>;
     keys_ = new absl::flat_hash_set<std::string>;
 }
 
-NotificationBuilder::~NotificationBuilder() {
+template <typename Type>
+NotificationBuilder<Type>::~NotificationBuilder() {
     FreeStoredData();
     delete data_;
     delete keys_;
 }
 
-void NotificationBuilder::FreeStoredData() {
+template <typename Type>
+void NotificationBuilder<Type>::FreeStoredData() {
     if (!data_) {
         return;
     }
@@ -42,31 +47,37 @@ void NotificationBuilder::FreeStoredData() {
     }
 }
 
-NotificationBuilder* NotificationBuilder::Create() {
+template <typename Type>
+NotificationBuilder<Type>* NotificationBuilder<Type>::Create() {
     return new NotificationBuilder;
 }
 
-Notification* NotificationBuilder::Build() {
+template <typename Type>
+Notification<Type>* NotificationBuilder<Type>::Build() {
     return this;
 }
 
+template <typename Type>
 const absl::flat_hash_map<std::string, NotificationData*>*
-      NotificationBuilder::GetDataMap() const {
+      NotificationBuilder<Type>::GetDataMap() const {
     return data_;
 }
 
-const absl::flat_hash_set<std::string>* NotificationBuilder::
+template <typename Type>
+const absl::flat_hash_set<std::string>* NotificationBuilder<Type>::
                                         GetDataKeys() const {
     return keys_;
 }
 
-void NotificationBuilder::
+template <typename Type>
+void NotificationBuilder<Type>::
     PutData(const std::string& key, NotificationData* value) {
     data_->insert({key, value});
     keys_->insert({key});
 }
 
-const NotificationData* NotificationBuilder::
+template <typename Type>
+const NotificationData* NotificationBuilder<Type>::
                         GetData(const std::string& key) const {
     auto key_result = data_->find(key);
     if (key_result == data_->end()) {
@@ -75,11 +86,13 @@ const NotificationData* NotificationBuilder::
     return key_result->second;
 }
 
-void NotificationBuilder::SetType(NotificationType type) {
+template <typename Type>
+void NotificationBuilder<Type>::SetType(Type type) {
     type_ = type;
 }
 
-NotificationType NotificationBuilder::GetType() const {
+template <typename Type>
+Type NotificationBuilder<Type>::GetType() const {
     return type_;
 }
 

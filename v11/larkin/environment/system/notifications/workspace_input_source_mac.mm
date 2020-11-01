@@ -39,17 +39,17 @@ NSArray *const kNativeNotificationTypes = @[
     NSWorkspaceAccessibilityDisplayOptionsDidChangeNotification
 ];
 
-const NotificationType kLarkinNotificationTypes[] = {
-    NotificationType::kApplicationDidLaunch,
-    NotificationType::kApplicationDidTerminate,
-    NotificationType::kApplicationDidHide,
-    NotificationType::kApplicationDidUnhide,
-    NotificationType::kDeviceDidMount,
-    NotificationType::kDeviceDidUnmount,
-    NotificationType::kSystemDidWake,
-    NotificationType::kSystemWillPowerOff,
-    NotificationType::kSystemDidSleep,
-    NotificationType::kAccessibilityDidChange,
+const SystemNotificationType kLarkinNotificationTypes[] = {
+    SystemNotificationType::kApplicationDidLaunch,
+    SystemNotificationType::kApplicationDidTerminate,
+    SystemNotificationType::kApplicationDidHide,
+    SystemNotificationType::kApplicationDidUnhide,
+    SystemNotificationType::kDeviceDidMount,
+    SystemNotificationType::kDeviceDidUnmount,
+    SystemNotificationType::kSystemDidWake,
+    SystemNotificationType::kSystemWillPowerOff,
+    SystemNotificationType::kSystemDidSleep,
+    SystemNotificationType::kAccessibilityDidChange,
 };
 
 WorkspaceInputSourceMac::WorkspaceInputSourceMac() {
@@ -66,9 +66,9 @@ void WorkspaceInputSourceMac::RegisterNotificationObserver() {
                    object: nil
                    queue: nil
                    usingBlock: ^(NSNotification *native_notification){
-            NotificationBuilder* notif_builder = NotificationBuilder::Create();
+            NotificationBuilder<SystemNotificationType>* notif_builder = NotificationBuilder::Create();
             NSNotificationName native_name = [native_notification name];
-            NotificationType notification_type = NotificationType::kUnknownNotification;
+            SystemNotificationType notification_type = SystemNotificationType::kUnknownNotification;
             for (int i = 0; i < [kNativeNotificationTypes count]; i++) {
                 if (native_name == kNativeNotificationTypes[i]) {
                     notification_type = kLarkinNotificationTypes[i];
@@ -101,7 +101,7 @@ void WorkspaceInputSourceMac::RegisterNotificationObserver() {
             }
 
             // Push the notification to the input source callback
-            Notification* notification = notif_builder->Build();
+            Notification<SystemNotificationType>* notification = notif_builder->Build();
             SendCallback(notification);
         }];
     }

@@ -29,7 +29,8 @@ namespace sys {
 // Listener callback function that is called when
 // event is triggered. Returns the notification that was observed.
 // ! After performing callback on notification it is released
-typedef const std::function<void(const Notification*)> NotificationCallback;
+template <typename Type>
+using NotificationCallback = InputSourceCallback<Type>;
 
 // Notification managers can support a default
 // system manager type or a custom type for group
@@ -41,13 +42,14 @@ enum ManagerType {
     kCustom
 };
 
+template <typename Type>
 class NotificationManager {
  public:
     virtual ~NotificationManager() {}
-    virtual const std::vector<InputSource*>* GetInputSources() const = 0;
+    virtual const std::vector<InputSource<Type>*>* GetInputSources() const = 0;
     virtual ManagerType GetManagerType() const = 0;
-    virtual void AddEventListener(NotificationType type,
-                                  NotificationCallback* callback) = 0;
+    virtual void AddEventListener(Type type,
+                                  NotificationCallback<Type>* callback) = 0;
 };
 
 }  // namespace sys

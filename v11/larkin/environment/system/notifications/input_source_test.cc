@@ -26,20 +26,21 @@ using sys::InputSourceSettings;
 using sys::tests::MockInputSource;
 using sys::Notification;
 using sys::NotificationBuilder;
+using sys::NotificationType;
 
 // Tests that input source's enable method initially match the default input
 // source settings value for enabled.
 TEST(V11LarkinSysNotificationsInputSourceTest, EnableMatchesDefault) {
     InputSourceSettings settings;
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     EXPECT_EQ(source->IsEnabled(), settings.enabled);
 }
 
 // Tests that the enabled switch does not just flip every IsEnabled() call
 TEST(V11LarkinSysNotificationsInputSourceTest, EnableDoesNotFlip) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     source->SetEnabled(false);
     EXPECT_FALSE(source->IsEnabled());
     source->SetEnabled(false);
@@ -54,7 +55,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, EnableDoesNotFlip) {
 // source enabling or disabling.
 TEST(V11LarkinSysNotificationsInputSourceTest, EnableChangesPropogate) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     source->SetEnabled(false);
     EXPECT_FALSE(source->IsEnabled());
     source->SetEnabled(true);
@@ -68,14 +69,14 @@ TEST(V11LarkinSysNotificationsInputSourceTest, EnableChangesPropogate) {
 TEST(V11LarkinSysNotificationsInputSourceTest, StoreMemoryMatchesDefault) {
     InputSourceSettings settings;
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     EXPECT_EQ(source->IsStoringMemory(), settings.store_memory);
 }
 
 // Tests that the store memory switch does not just flip every call
 TEST(V11LarkinSysNotificationsInputSourceTest, StoreMemoryDoesNotFlip) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     source->SetStoringMemory(false);
     EXPECT_FALSE(source->IsStoringMemory());
     source->SetStoringMemory(false);
@@ -90,7 +91,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, StoreMemoryDoesNotFlip) {
 // source enabling or disabling.
 TEST(V11LarkinSysNotificationsInputSourceTest, StoreMemoryChangesPropogate) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     source->SetStoringMemory(false);
     EXPECT_FALSE(source->IsStoringMemory());
     source->SetStoringMemory(true);
@@ -102,7 +103,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, StoreMemoryChangesPropogate) {
 // Tests that internal memory system is null when memory is not being stored 
 TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWhenNotStoringMemory) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     source->SetStoringMemory(false);
     EXPECT_FALSE(source->IsStoringMemory());
     EXPECT_EQ(source->GetMemory(), nullptr);
@@ -112,7 +113,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWhenNotStoringMemory) {
 // if input source is enabled.
 TEST(V11LarkinSysNotificationsInputSourceTest, EnabledWhenNotStoringMemory) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     source->SetEnabled(true);
     source->SetStoringMemory(false);
     EXPECT_FALSE(source->IsStoringMemory());
@@ -123,7 +124,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, EnabledWhenNotStoringMemory) {
 // if input source is disabled.
 TEST(V11LarkinSysNotificationsInputSourceTest, DisabledWhenNotStoringMemory) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     source->SetEnabled(false);
     source->SetStoringMemory(false);
     EXPECT_FALSE(source->IsStoringMemory());
@@ -133,7 +134,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, DisabledWhenNotStoringMemory) {
 // Tests that internal memory system is not null when memory is being stored 
 TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWhenStoringMemory) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     source->SetStoringMemory(true);
     EXPECT_TRUE(source->IsStoringMemory());
     EXPECT_NE(source->GetMemory(), nullptr);
@@ -142,7 +143,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWhenStoringMemory) {
 // Tests that internal memory system size is 0 when empty
 TEST(V11LarkinSysNotificationsInputSourceTest, MemoryZeroEmptyMemoryStore) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     source->SetStoringMemory(true);
     EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
 }
@@ -150,7 +151,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemoryZeroEmptyMemoryStore) {
 // Tests that empty internal memory system size is 0 even when disabled.
 TEST(V11LarkinSysNotificationsInputSourceTest, MemoryZeroDisabledInput) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     source->SetEnabled(false);
     source->SetStoringMemory(true);
     EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
@@ -159,7 +160,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemoryZeroDisabledInput) {
 // Tests that empty internal memory system size is 0 even when enabled.
 TEST(V11LarkinSysNotificationsInputSourceTest, MemoryZeroEnabledInput) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     source->SetEnabled(true);
     source->SetStoringMemory(true);
     EXPECT_EQ(source->GetMemory()->size(), (std::size_t) 0);
@@ -169,9 +170,9 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemoryZeroEnabledInput) {
 // even when delivered a notification.
 TEST(V11LarkinSysNotificationsInputSourceTest, NoMemoryStoreRemainsEmpty) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
-    NotificationBuilder* builder = NotificationBuilder::Create();
-    Notification* notification = builder->Build();
+    InputSource<NotificationType>* source = &mock_source;
+    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification = builder->Build();
 
     source->SetStoringMemory(false);
     mock_source.CallCallbackMethod(notification);
@@ -182,9 +183,9 @@ TEST(V11LarkinSysNotificationsInputSourceTest, NoMemoryStoreRemainsEmpty) {
 // the input source is not enabled.
 TEST(V11LarkinSysNotificationsInputSourceTest, DisabledSourceRemainsEmpty) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
-    NotificationBuilder* builder = NotificationBuilder::Create();
-    Notification* notification = builder->Build();
+    InputSource<NotificationType>* source = &mock_source;
+    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification = builder->Build();
 
     source->SetEnabled(false);
     source->SetStoringMemory(true);
@@ -196,11 +197,11 @@ TEST(V11LarkinSysNotificationsInputSourceTest, DisabledSourceRemainsEmpty) {
 // before memory was enabled and then afterwards.
 TEST(V11LarkinSysNotificationsInputSourceTest, FlippedEnableMemoryIsOne) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
-    NotificationBuilder* builder_one = NotificationBuilder::Create();
-    Notification* notification_one = builder_one->Build();
-    NotificationBuilder* builder_two = NotificationBuilder::Create();
-    Notification* notification_two = builder_two->Build();
+    InputSource<NotificationType>* source = &mock_source;
+    NotificationBuilder<NotificationType>* builder_one = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification_one = builder_one->Build();
+    NotificationBuilder<NotificationType>* builder_two = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification_two = builder_two->Build();
 
     source->SetEnabled(true);
     source->SetStoringMemory(false);
@@ -215,11 +216,11 @@ TEST(V11LarkinSysNotificationsInputSourceTest, FlippedEnableMemoryIsOne) {
 // before input source was enabled and then afterwards.
 TEST(V11LarkinSysNotificationsInputSourceTest, FlippedEnableSourceIsOne) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
-    NotificationBuilder* builder_one = NotificationBuilder::Create();
-    Notification* notification_one = builder_one->Build();
-    NotificationBuilder* builder_two = NotificationBuilder::Create();
-    Notification* notification_two = builder_two->Build();
+    InputSource<NotificationType>* source = &mock_source;
+    NotificationBuilder<NotificationType>* builder_one = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification_one = builder_one->Build();
+    NotificationBuilder<NotificationType>* builder_two = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification_two = builder_two->Build();
 
     source->SetEnabled(false);
     source->SetStoringMemory(true);
@@ -234,9 +235,9 @@ TEST(V11LarkinSysNotificationsInputSourceTest, FlippedEnableSourceIsOne) {
 // and delivered a notification.
 TEST(V11LarkinSysNotificationsInputSourceTest, EnabledNotEmpty) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
-    NotificationBuilder* builder = NotificationBuilder::Create();
-    Notification* notification = builder->Build();
+    InputSource<NotificationType>* source = &mock_source;
+    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification = builder->Build();
 
     source->SetEnabled(true);
     source->SetStoringMemory(true);
@@ -248,11 +249,11 @@ TEST(V11LarkinSysNotificationsInputSourceTest, EnabledNotEmpty) {
 // notifications after being delivered the first notification.
 TEST(V11LarkinSysNotificationsInputSourceTest, MemorySizeWillIncrease) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
-    NotificationBuilder* builder_one = NotificationBuilder::Create();
-    Notification* notification_one = builder_one->Build();
-    NotificationBuilder* builder_two = NotificationBuilder::Create();
-    Notification* notification_two = builder_two->Build();
+    InputSource<NotificationType>* source = &mock_source;
+    NotificationBuilder<NotificationType>* builder_one = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification_one = builder_one->Build();
+    NotificationBuilder<NotificationType>* builder_two = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification_two = builder_two->Build();
 
     source->SetEnabled(true);
     source->SetStoringMemory(true);
@@ -265,9 +266,9 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemorySizeWillIncrease) {
 // Tests that internal memory system is cleared when memory disabled
 TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWillClearWhenDisabled) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
-    NotificationBuilder* builder = NotificationBuilder::Create();
-    Notification* notification = builder->Build();
+    InputSource<NotificationType>* source = &mock_source;
+    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification = builder->Build();
 
     source->SetEnabled(true);
     source->SetStoringMemory(true);
@@ -283,9 +284,9 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWillClearWhenDisabled) {
 // is disabled.
 TEST(V11LarkinSysNotificationsInputSourceTest, MemoryExistsForDisabledSource) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
-    NotificationBuilder* builder = NotificationBuilder::Create();
-    Notification* notification = builder->Build();
+    InputSource<NotificationType>* source = &mock_source;
+    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification = builder->Build();
 
     source->SetEnabled(true);
     source->SetStoringMemory(true);
@@ -298,9 +299,9 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemoryExistsForDisabledSource) {
 // Tests that internal memory system is cleared when ClearMemory is called
 TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWillClearFromMethod) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
-    NotificationBuilder* builder = NotificationBuilder::Create();
-    Notification* notification = builder->Build();
+    InputSource<NotificationType>* source = &mock_source;
+    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification = builder->Build();
 
     source->SetEnabled(true);
     source->SetStoringMemory(true);
@@ -314,9 +315,9 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemoryWillClearFromMethod) {
 // is disabled.
 TEST(V11LarkinSysNotificationsInputSourceTest, DisabledSoureceWillClear) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
-    NotificationBuilder* builder = NotificationBuilder::Create();
-    Notification* notification = builder->Build();
+    InputSource<NotificationType>* source = &mock_source;
+    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    Notification<NotificationType>* notification = builder->Build();
 
     source->SetEnabled(true);
     source->SetStoringMemory(true);
@@ -330,7 +331,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, DisabledSoureceWillClear) {
 // Tests that ClearMemory does nothing with empty storage.
 TEST(V11LarkinSysNotificationsInputSourceTest, ClearMemoryNoActionEmpty) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
 
     source->SetEnabled(true);
     source->SetStoringMemory(true);
@@ -343,7 +344,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, ClearMemoryNoActionEmpty) {
 // disabled input source storage.
 TEST(V11LarkinSysNotificationsInputSourceTest, ClearMemoryNoActionDisabled) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
 
     source->SetEnabled(false);
     source->SetStoringMemory(false);
@@ -355,7 +356,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, ClearMemoryNoActionDisabled) {
 // Tests that internal memory system returns correct pointer on instantiation
 TEST(V11LarkinSysNotificationsInputSourceTest, MemoryDefaultStoringMemory) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     if (source->IsStoringMemory()) {
         EXPECT_NE(source->GetMemory(), nullptr);
     } else {
@@ -366,7 +367,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, MemoryDefaultStoringMemory) {
 // Tests that input source name for mock type is not base
 TEST(V11LarkinSysNotificationsInputSourceTest, NameIsOverridenFromBase) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     EXPECT_NE(source->GetInputSourceName(), sys::kBaseInputSourceName);
     EXPECT_EQ(source->GetInputSourceName(), sys::tests::kMockInputSourceName);
 }
@@ -374,7 +375,7 @@ TEST(V11LarkinSysNotificationsInputSourceTest, NameIsOverridenFromBase) {
 // Tests that input source settings struct updates with changes through methods
 TEST(V11LarkinSysNotificationsInputSourceTest, SettingsMatchGetterMethods) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     const InputSourceSettings& settings = source->GetSettings();
     EXPECT_EQ(source->IsEnabled(), settings.enabled);
     EXPECT_EQ(source->IsStoringMemory(), settings.store_memory);
@@ -387,6 +388,6 @@ TEST(V11LarkinSysNotificationsInputSourceTest, SettingsMatchGetterMethods) {
 // Tests that empty callback is null
 TEST(V11LarkinSysNotificationsInputSourceTest, EmptyCallbackIsNull) {
     MockInputSource mock_source = MockInputSource();
-    InputSource* source = &mock_source;
+    InputSource<NotificationType>* source = &mock_source;
     EXPECT_EQ(source->GetCallback(), nullptr);
 }

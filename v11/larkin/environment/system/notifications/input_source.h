@@ -25,7 +25,8 @@ namespace sys {
 
 // Callback function passed back when an input source recevies
 // a new notification
-typedef std::function<void(const Notification*)> InputSourceCallback;
+template <typename Type>
+using InputSourceCallback = std::function<void(const Notification<Type>*)>;
 
 // Settings that control notification input management procedures.
 // Used primarily by InputSource classes.
@@ -41,17 +42,18 @@ struct InputSourceSettings {
 // Transformer for abstract notifications into structured data that can be
 // processed by a NotificationManager class. Most managers have one or more
 // InputSources attached to them to handle event listeners.
+template <typename Type>
 class InputSource {
  protected:
     // TODO(tommymchugh): Document
     // TODO(tommymchugh): Test
-    void SendCallback(Notification* notification);
+    void SendCallback(Notification<Type>* notification);
 
     // Transfers ownership of the notification to an internal storage system
     // for notifications. Will be deallocated on class deallocation or when
     // ClearMemory() is called.
     // TODO(tommymchugh): Test
-    virtual void StoreNotification(Notification* notification) = 0;
+    virtual void StoreNotification(Notification<Type>* notification) = 0;
 
  public:
     virtual ~InputSource() {}
@@ -60,11 +62,11 @@ class InputSource {
     // whenever a new notification is received and the notification is passed
     // through the callback before being released from memory.
     // TODO(tommymchugh): test
-    virtual void SetCallback(InputSourceCallback* callback) = 0;
+    virtual void SetCallback(InputSourceCallback<Type>* callback) = 0;
 
     // Returns a pointer to the input source callback function. Pointer is
     // constant and is immutable and not transferred to the caller.
-    virtual const InputSourceCallback* GetCallback() const = 0;
+    virtual const InputSourceCallback<Type>* GetCallback() const = 0;
 
     // Returns the settings that control how and when notifications are
     // received and handled by the InputSource object.
@@ -91,10 +93,12 @@ class InputSource {
 
     // Returns a constant pointer to the object's internal notification
     // memory vector.
-    virtual const std::vector<Notification*>* GetMemory() const = 0;
+    virtual const std::vector<Notification<Type>*>* GetMemory() const = 0;
 
     // Returns the name of the InputSource object's notification source.
     virtual const std::string& GetInputSourceName() const = 0;
 };
 
 }  // namespace sys
+
+#include "larkin/environment/system/notifications/input_source_inl.h"

@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
+#pragma once
+
 #include "larkin/environment/system/notifications/input_source_base.h"
 
 namespace sys {
 
-InputSourceBase::~InputSourceBase() {
+template <typename Type>
+InputSourceBase<Type>::~InputSourceBase() {
     ClearMemory();
     delete callback_;
 }
 
-void InputSourceBase::StoreNotification(Notification* notification) {
+template <typename Type>
+void InputSourceBase<Type>::StoreNotification(Notification<Type>* notification) {
     if (IsStoringMemory()) {
         memory_.push_back(notification);
     } else {
@@ -31,52 +35,62 @@ void InputSourceBase::StoreNotification(Notification* notification) {
     }
 }
 
-void InputSourceBase::SetCallback(InputSourceCallback* callback) {
+template <typename Type>
+void InputSourceBase<Type>::SetCallback(InputSourceCallback<Type>* callback) {
     callback_ = callback;
 }
 
-const InputSourceCallback* InputSourceBase::GetCallback() const {
+template <typename Type>
+const InputSourceCallback<Type>* InputSourceBase<Type>::GetCallback() const {
     return callback_;
 }
 
-const InputSourceSettings& InputSourceBase::GetSettings() const {
+template <typename Type>
+const InputSourceSettings& InputSourceBase<Type>::GetSettings() const {
     return settings_;
 }
 
-bool InputSourceBase::IsEnabled() const {
+template <typename Type>
+bool InputSourceBase<Type>::IsEnabled() const {
     return settings_.enabled;
 }
 
-void InputSourceBase::SetEnabled(bool enabled) {
+template <typename Type>
+void InputSourceBase<Type>::SetEnabled(bool enabled) {
     settings_.enabled = enabled;
 }
 
-void InputSourceBase::SetStoringMemory(bool storing) {
+template <typename Type>
+void InputSourceBase<Type>::SetStoringMemory(bool storing) {
     settings_.store_memory = storing;
     if (!storing) {
         ClearMemory();
     }
 }
 
-bool InputSourceBase::IsStoringMemory() const {
+template <typename Type>
+bool InputSourceBase<Type>::IsStoringMemory() const {
     return settings_.store_memory;
 }
 
-void InputSourceBase::ClearMemory() {
+template <typename Type>
+void InputSourceBase<Type>::ClearMemory() {
     while (memory_.size() != 0) {
         delete memory_.back();
         memory_.pop_back();
     }
 }
 
-const std::vector<Notification*>* InputSourceBase::GetMemory() const {
+template <typename Type>
+const std::vector<Notification<Type>*>* InputSourceBase<Type>::GetMemory() const {
     if (IsStoringMemory()) {
         return &memory_;
     }
     return nullptr;
 }
 
-const std::string& InputSourceBase::GetInputSourceName() const {
+template <typename Type>
+const std::string& InputSourceBase<Type>::GetInputSourceName() const {
     return name_;
 }
 

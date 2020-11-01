@@ -17,25 +17,29 @@
 #pragma once
 
 #include <string>
-#include "larkin/environment/system/notifications/input_source_base.h"
-#include "larkin/environment/system/notifications/system_notification.h"
 
-namespace sys {
+namespace interaction {
 
-const char kWorkspaceInputSourceMacName[] = "workspace_mac";
-
-class WorkspaceInputSourceMac : public InputSourceBase
-                                       <SystemNotificationType> {
- private:
-    const std::string name_ = std::string(kWorkspaceInputSourceMacName);
-    void* notification_center_ = nullptr;
-
-    void RegisterNotificationObserver();
-
- public:
-    WorkspaceInputSourceMac();
-    ~WorkspaceInputSourceMac();
-    const std::string& GetInputSourceName() const;
+enum DeviceType {
+    kKeyboardDevice,
+    kSoundOutputDevice,
+    kUnknownDevice,
 };
 
-}  // namespace sys
+template <typename Listener, typename Dispatcher>
+class Device {
+ public:
+    virtual ~Device();
+
+    virtual DeviceType GetType() const = 0;
+
+    virtual const std::string* GetIdentifier() const = 0;
+
+    virtual Listener* const GetListener() const = 0;
+
+    virtual Dispatcher* const GetDispatcher() const = 0;
+};
+
+}  // namepsace interaction
+
+#include "larkin/interaction/device_inl.h"

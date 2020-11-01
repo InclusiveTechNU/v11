@@ -24,22 +24,25 @@
 
 namespace sys {
 
-class NotificationManagerBase : public NotificationManager {
+template <typename Type>
+class NotificationManagerBase : public NotificationManager<Type> {
  protected:
     NotificationManagerBase();
     // TODO(tommymchugh): Determine whether managers own input sources
-    std::vector<InputSource*> sources_;
-    absl::flat_hash_map<NotificationType,
-                        NotificationCallback*>* listeners_ = nullptr;
+    std::vector<InputSource<Type>*> sources_;
+    absl::flat_hash_map<Type,
+                        NotificationCallback<Type>*>* listeners_ = nullptr;
 
  public:
     virtual ~NotificationManagerBase();
 
     // From NotificationManager class
     virtual ManagerType GetManagerType() const = 0;
-    const std::vector<InputSource*>* GetInputSources() const;
-    void AddEventListener(NotificationType type,
-                          NotificationCallback* callback);
+    const std::vector<InputSource<Type>*>* GetInputSources() const;
+    void AddEventListener(Type type,
+                          NotificationCallback<Type>* callback);
 };
 
 }  // namespace sys
+
+#include "larkin/environment/system/notifications/notification_manager_base_inl.h"
