@@ -16,14 +16,26 @@
 
 #pragma once
 
-#include "larkin/environment/system/notifications/notification.h"
-
-using sys::NotificationType;
+#include <string>
+#include <functional>
+#include "larkin/notifications/input_source_base.h"
+#include "larkin/notifications/input_source.h"
+#include "larkin/notifications/notification.h"
 
 namespace sys {
-namespace utils {
+namespace tests {
 
-void* convert_notification_type_to_native(NotificationType type);
+const char kMockInputSourceName[] = "mock";
 
-}  // namespace utils
+class MockInputSource : public InputSourceBase<NotificationType> {
+ private:
+    std::string name_ = std::string(kMockInputSourceName);
+
+ public:
+    MockInputSource() = default;
+    void CallCallbackMethod(Notification<NotificationType>* notification);
+    const std::string& GetInputSourceName() const;
+};
+
+}  // namespace tests
 }  // namespace sys

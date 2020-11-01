@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "larkin/environment/system/notifications/notification.h"
+#include "larkin/notifications/notification.h"
 
 namespace sys {
 

@@ -17,7 +17,7 @@
 #pragma once
 
 #include <functional>
-#include "larkin/environment/system/notifications/notification_manager_builder.h"
+#include "larkin/notifications/notification_manager_builder.h"
 
 namespace sys {
 

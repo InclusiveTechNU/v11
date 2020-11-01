@@ -17,10 +17,10 @@
 #pragma once
 
 #include <vector>
-#include "larkin/environment/system/notifications/notification_manager.h"
-#include "larkin/environment/system/notifications/notification_manager_base.h"
-#include "larkin/environment/system/notifications/input_source.h"
 #include "larkin/environment/system/notifications/system_notification.h"
+#include "larkin/notifications/notification_manager.h"
+#include "larkin/notifications/notification_manager_base.h"
+#include "larkin/notifications/input_source.h"
 
 namespace sys {
 

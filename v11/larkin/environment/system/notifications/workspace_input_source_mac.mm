@@ -17,10 +17,10 @@
 #include <AppKit/AppKit.h>
 #include <Foundation/Foundation.h>
 #include "larkin/environment/system/notifications/workspace_input_source_mac.h"
-#include "larkin/environment/system/notifications/notification.h"
-#include "larkin/environment/system/notifications/notification_builder.h"
-#include "larkin/environment/system/notifications/notification_data_builder.h"
 #include "larkin/environment/application/application.h"
+#include "larkin/notifications/notification.h"
+#include "larkin/notifications/notification_builder.h"
+#include "larkin/notifications/notification_data_builder.h"
 
 using app::Application;
 

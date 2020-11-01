@@ -19,7 +19,7 @@
 #include <string>
 #include "absl/container/flat_hash_map.h"
 #include "absl/container/flat_hash_set.h"
-#include "larkin/environment/system/notifications/notification.h"
+#include "larkin/notifications/notification.h"
 
 namespace sys {
 
@@ -81,4 +81,4 @@ class NotificationBuilder : public Notification<Type> {
 
 }  // namespace sys
 
-#include "larkin/environment/system/notifications/notification_builder_inl.h"
+#include "larkin/notifications/notification_builder_inl.h"

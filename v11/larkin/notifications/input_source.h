@@ -19,7 +19,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "larkin/environment/system/notifications/notification.h"
+#include "larkin/notifications/notification.h"
 
 namespace sys {
 
@@ -101,4 +101,4 @@ class InputSource {
 
 }  // namespace sys
 
-#include "larkin/environment/system/notifications/input_source_inl.h"
+#include "larkin/notifications/input_source_inl.h"

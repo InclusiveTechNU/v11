@@ -18,8 +18,8 @@
 
 #include <string>
 #include <vector>
-#include "larkin/environment/system/notifications/input_source.h"
-#include "larkin/environment/system/notifications/notification.h"
+#include "larkin/notifications/input_source.h"
+#include "larkin/notifications/notification.h"
 
 namespace sys {
 
@@ -69,4 +69,4 @@ class InputSourceBase : public InputSource<Type> {
 
 }  // namespace sys
 
-#include "larkin/environment/system/notifications/input_source_base_inl.h"
+#include "larkin/notifications/input_source_base_inl.h"

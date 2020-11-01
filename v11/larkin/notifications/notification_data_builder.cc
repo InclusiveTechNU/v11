@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "larkin/environment/system/notifications/notification_data_builder.h"
+#include "larkin/notifications/notification_data_builder.h"
 
 namespace sys {
 

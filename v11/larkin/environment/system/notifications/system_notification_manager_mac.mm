@@ -15,9 +15,9 @@
  */
 
 #include "larkin/environment/system/notifications/system_notification_manager_mac.h"
-#include "larkin/environment/system/notifications/input_source.h"
-#include "larkin/environment/system/notifications/notification_manager_base.h"
 #include "larkin/environment/system/notifications/workspace_input_source_mac.h"
+#include "larkin/notifications/input_source.h"
+#include "larkin/notifications/notification_manager_base.h"
 
 namespace sys {
 

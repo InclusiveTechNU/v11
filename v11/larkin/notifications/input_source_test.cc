@@ -15,11 +15,11 @@
  */
 
 #include "googletest/include/gtest/gtest.h"
-#include "larkin/environment/system/notifications/input_source.h"
-#include "larkin/environment/system/notifications/input_source_mock.h"
-#include "larkin/environment/system/notifications/input_source_base.h"
-#include "larkin/environment/system/notifications/notification_builder.h"
-#include "larkin/environment/system/notifications/notification.h"
+#include "larkin/notifications/input_source.h"
+#include "larkin/notifications/input_source_mock.h"
+#include "larkin/notifications/input_source_base.h"
+#include "larkin/notifications/notification_builder.h"
+#include "larkin/notifications/notification.h"
 
 using sys::InputSource;
 using sys::InputSourceSettings;

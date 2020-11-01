@@ -16,14 +16,25 @@
 
 #pragma once
 
-#include "larkin/environment/system/notifications/notification.h"
-
-using sys::NotificationType;
+#include "larkin/notifications/input_source.h"
 
 namespace sys {
-namespace utils {
 
-void* __convert_notification_type_to_native(NotificationType type);
+template <typename Type>
+void InputSource<Type>::SendCallback(Notification<Type>* notification) {
+    if (!IsEnabled()) {
+        return;
+    }
 
-}  // namespace utils
+    const InputSourceCallback<Type>* callback = GetCallback();
+    if (callback) {
+        (*callback)(notification);
+    }
+    if (IsStoringMemory()) {
+        StoreNotification(notification);
+    } else {
+        delete notification;
+    }
+}
+
 }  // namespace sys

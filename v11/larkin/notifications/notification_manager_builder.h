@@ -16,8 +16,8 @@
 
 #pragma once
 
-#include "larkin/environment/system/notifications/notification_manager_base.h"
-#include "larkin/environment/system/notifications/input_source.h"
+#include "larkin/notifications/notification_manager_base.h"
+#include "larkin/notifications/input_source.h"
 
 namespace sys {
 
@@ -38,4 +38,4 @@ class NotificationManagerBuilder : public NotificationManagerBase<Type> {
 
 }  // namespace sys
 
-#include "larkin/environment/system/notifications/notification_manager_base_inl.h"
+#include "larkin/notifications/notification_manager_base_inl.h"

@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-#include "larkin/environment/system/notifications/notification_utils.h"
-#include "larkin/environment/system/notifications/notification_utils_bridge.h"
+#include "larkin/notifications/input_source_mock.h"
 
 namespace sys {
-namespace utils {
+namespace tests {
 
-void* convert_notification_type_to_native(NotificationType type) {
-    return __convert_notification_type_to_native(type);
+void MockInputSource::CallCallbackMethod(Notification<NotificationType>* notification) {
+    SendCallback(notification);
 }
 
-}  // namespace utils
+const std::string& MockInputSource::GetInputSourceName() const {
+    return name_;
+}
+
+}  // namespace tests
 }  // namespace sys

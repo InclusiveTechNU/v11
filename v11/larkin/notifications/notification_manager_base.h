@@ -18,9 +18,9 @@
 
 #include <vector>
 #include "absl/container/flat_hash_map.h"
-#include "larkin/environment/system/notifications/notification_manager.h"
-#include "larkin/environment/system/notifications/notification.h"
-#include "larkin/environment/system/notifications/input_source.h"
+#include "larkin/notifications/notification_manager.h"
+#include "larkin/notifications/notification.h"
+#include "larkin/notifications/input_source.h"
 
 namespace sys {
 
@@ -45,4 +45,4 @@ class NotificationManagerBase : public NotificationManager<Type> {
 
 }  // namespace sys
 
-#include "larkin/environment/system/notifications/notification_manager_base_inl.h"
+#include "larkin/notifications/notification_manager_base_inl.h"

@@ -17,8 +17,8 @@
 #pragma once
 
 #include <string>
-#include "larkin/environment/system/notifications/input_source_base.h"
 #include "larkin/environment/system/notifications/system_notification.h"
+#include "larkin/notifications/input_source_base.h"
 
 namespace sys {
 
