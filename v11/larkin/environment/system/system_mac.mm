@@ -47,18 +47,22 @@ std::string* SystemMac::GetApplicationPath(const std::string& name,
     for (NSString* file_path : dir_contents) {
         if ([file_path isEqualToString: encoded_file_name]) {
             return new std::string(
-                std::string([app_path UTF8String]) +
+                std::string([dir_path UTF8String]) +
                 std::string(kNativeFileSeperator) +
                 name +
                 std::string(kApplicationFileExt)
             );
-        } else if ([file_manager fileExistsAtPath: dir_path
-                                 isDirectory: true] &&
-                   ![file_path hasSuffix: @".app"]) {
-            NSString* sub_path = [NSString stringWithFormat:@"%@/%@",
-                                            dir_path,
-                                            file_path];
-            [subdirs addObject: sub_path];
+        } else {
+            BOOL isDir = NO;
+            BOOL exists = [file_manager fileExistsAtPath: dir_path
+                                        isDirectory: &isDir];
+            if ((exists && isDir) &&
+                ![file_path hasSuffix: @".app"]) {
+                NSString* sub_path = [NSString stringWithFormat:@"%@/%@",
+                                                dir_path,
+                                                file_path];
+                [subdirs addObject: sub_path];
+            }
         }
     }
 
@@ -82,10 +86,9 @@ SystemMac* SystemMac::GetInstance() {
     return instance_;
 }
 
-void SystemMac::() {
-    NSArray<NSRunningApplLoadRunningApplicationsication*>*
-        apps = [[NSWorkspacesharedWorkspace]
-                runningApplications];
+void SystemMac::LoadRunningApplications() {
+    NSArray<NSRunningApplication*>*
+        apps = [[NSWorkspace sharedWorkspace] runningApplications];
     for (NSRunningApplication* app : apps) {
         pid_t process_id = app.processIdentifier;
         Application* app_instance = new Application(process_id);
@@ -106,8 +109,10 @@ void SystemMac::StartApplicationNamed(const std::string& name) const {
                                               inDomains: search_domain];
     for (NSURL* app_dir : app_dirs) {
         NSString* dir_path = app_dir.path;
-        if ([file_manager fileExistsAtPath: dir_path
-                          isDirectory: true]) {
+        BOOL isDir = NO;
+        BOOL exists = [file_manager fileExistsAtPath: dir_path
+                                    isDirectory: &isDir];
+        if (exists && isDir) {
             std::string rel_path = std::string([dir_path UTF8String]);
             std::string* app_path = SystemMac::GetApplicationPath(name,
                                                                   rel_path);
