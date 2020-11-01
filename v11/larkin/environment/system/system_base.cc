@@ -35,10 +35,10 @@ void SystemBase::FreeRunningApplications() {
 }
 
 void SystemBase::AddApplicationChangeListener() {
-    NotificationType launch_type = NotificationType::kApplicationDidLaunch;
-    NotificationType exit_type = NotificationType::kApplicationDidTerminate;
-    NotificationCallback* launch_cb = new NotificationCallback(
-                                        [&](const Notification* notif) {
+    SystemNotificationType launch_type = SystemNotificationType::kApplicationDidLaunch;
+    SystemNotificationType exit_type = SystemNotificationType::kApplicationDidTerminate;
+    SystemNotificationCallback* launch_cb = new SystemNotificationCallback(
+                                        [&](const SystemNotification* notif) {
         std::string data_key = std::string(kApplicationDataTypeKey);
         const NotificationData* data = notif->GetData(data_key);
         if (!data) {
@@ -48,8 +48,8 @@ void SystemBase::AddApplicationChangeListener() {
         Application* app_instance = new Application(app->get_process_id());
         running_apps_->insert(app_instance);
     });
-    NotificationCallback* exit_cb = new NotificationCallback(
-                                        [&](const Notification* notif) {
+    SystemNotificationCallback* exit_cb = new SystemNotificationCallback(
+                                        [&](const SystemNotification* notif) {
         std::string data_key = std::string(kProcessIdentifierDataTypeKey);
         const NotificationData* data = notif->GetData(data_key);
         if (!data) {
@@ -76,7 +76,7 @@ const Platform* SystemBase::GetPlatform() const {
     return platform_;
 }
 
-NotificationManager* const SystemBase::GetNotificationManager() const {
+SystemNotificationManager* const SystemBase::GetNotificationManager() const {
     return notification_manager_;
 }
 

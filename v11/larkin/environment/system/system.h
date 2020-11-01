@@ -19,10 +19,10 @@
 #include <string>
 #include "absl/container/btree_set.h"
 #include "larkin/environment/system/platform/platform.h"
-#include "larkin/environment/system/notifications/notification_manager.h"
+#include "larkin/environment/system/notifications/system_notification_manager.h"
 #include "larkin/environment/application/application.h"
 
-using sys::NotificationManager;
+using sys::SystemNotificationManager;
 using sys::Platform;
 using app::Application;
 
@@ -44,7 +44,7 @@ class System {
 
     // Returns a read-only pointer to a pre-allocated notification manager
     // to attach callbacks for system level notification events.
-    virtual NotificationManager* const GetNotificationManager() const = 0;
+    virtual SystemNotificationManager* const GetNotificationManager() const = 0;
 
     // Returns a set container of current applications. The container updates
     // as applications are launched and terminated on the system.

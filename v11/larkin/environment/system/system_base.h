@@ -20,10 +20,10 @@
 #include "absl/container/btree_set.h"
 #include "larkin/environment/system/system.h"
 #include "larkin/environment/system/platform/platform.h"
-#include "larkin/environment/system/notifications/notification_manager.h"
+#include "larkin/environment/system/notifications/system_notification_manager.h"
 #include "larkin/environment/application/application.h"
 
-using sys::NotificationManager;
+using sys::SystemNotificationManager;
 using sys::Platform;
 using app::Application;
 
@@ -42,7 +42,7 @@ class SystemBase : public System {
     Platform* platform_ = nullptr;
 
     // A system-level notification manager.
-    NotificationManager* notification_manager_ = nullptr;
+    SystemNotificationManager* notification_manager_ = nullptr;
 
     // A container for active running applications to be stored.
     absl::btree_set<Application*>* running_apps_ = nullptr;
@@ -64,7 +64,7 @@ class SystemBase : public System {
 
     // Inherited From System Abstract Base Class
     const Platform* GetPlatform() const;
-    NotificationManager* const GetNotificationManager() const;
+    SystemNotificationManager* const GetNotificationManager() const;
     const absl::btree_set<Application*>* GetRunningApplications() const;
     virtual const void* GetRunningScreenReader() const = 0;
     virtual void StartApplicationNamed(const std::string& name) const = 0;

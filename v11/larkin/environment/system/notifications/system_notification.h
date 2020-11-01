@@ -16,7 +16,11 @@
 
 #pragma once
 
+#include "larkin/environment/system/notifications/notification.h"
+
 namespace sys {
+
+using SystemNotification = Notification<SystemNotificationType>;
 
 // Platform indepdent notification identifier names for core system
 // notifications.

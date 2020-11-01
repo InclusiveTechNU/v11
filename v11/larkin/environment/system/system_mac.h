@@ -19,13 +19,6 @@
 #include <string>
 #include "absl/container/btree_set.h"
 #include "larkin/environment/system/system_base.h"
-#include "larkin/environment/system/platform/platform.h"
-#include "larkin/environment/system/notifications/notification_manager.h"
-#include "larkin/environment/application/application.h"
-
-using sys::NotificationManager;
-using sys::Platform;
-using app::Application;
 
 namespace sys {
 

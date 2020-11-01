@@ -21,6 +21,9 @@
 #include "larkin/environment/system/platform/platform_mac.h"
 #include "larkin/environment/system/notifications/notification.h"
 #include "larkin/environment/system/notifications/notification_manager.h"
+#include "larkin/environment/application/application.h"
+
+using app::Application;
 
 namespace sys {
 
