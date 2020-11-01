@@ -12,31 +12,103 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+load("@rules_cc//cc:defs.bzl", "cc_library")
 load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
 
-cross_cc_library(
-    name = "sys_notifications_lib",
+cc_library(
+    name = "sys_notifications_base_lib",
     hdrs = [
         "notification.h",
-        "notification_utils.h",
-        "notification_utils_bridge.h",
         "notification_builder.h",
         "notification_data_builder.h",
-        "notification_manager.h",
-        "notification_manager_base.h",
-        "notification_manager_builder.h",
-        "system_notification_manager.h",
+    ],
+    srcs = [
+        "notification_builder.cc",
+        "notification_data_builder.cc",
+    ],
+    deps = [
+        "@abseil_cpp//absl/container:flat_hash_map",
+        "@abseil_cpp//absl/container:flat_hash_set",
+    ],
+    strip_include_prefix = "//v11",
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "sys_notifications_input_source_base_lib",
+    hdrs = [
         "input_source.h",
         "input_source_base.h",
     ],
     srcs = [
         "input_source.cc",
         "input_source_base.cc",
-        "notification_builder.cc",
-        "notification_data_builder.cc",
+    ],
+    deps = [
+        ":sys_notifications_base_lib",
+    ],
+    strip_include_prefix = "//v11",
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "sys_notifications_manager_base_lib",
+    hdrs = [
+        "notification_manager.h",
+        "notification_manager_base.h",
+        "notification_manager_builder.h",
+        "system_notification_manager.h",
+    ],
+    srcs = [
         "notification_manager_base.cc",
         "notification_manager_builder.cc",
         "system_notification_manager.cc",
+    ],
+    deps = [
+        ":sys_notifications_base_lib",
+        ":sys_notifications_input_source_base_lib",
+    ],
+    strip_include_prefix = "//v11",
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "sys_notifications_lib_mock",
+    hdrs = [
+        "input_source_mock.h",
+    ],
+    srcs = [
+        "input_source_mock.cc",
+    ],
+    deps = [
+        ":sys_notifications_lib",
+    ],
+    strip_include_prefix = "//v11",
+    visibility = ["//visibility:private"],
+)
+
+cc_test(
+    name = "sys_notifications_lib_test",
+    srcs = [
+        "input_source_test.cc",
+    ],
+    deps = [
+        ":sys_notifications_base_lib",
+        ":sys_notifications_input_source_base_lib",
+        ":sys_notifications_manager_base_lib",
+        ":sys_notifications_lib_mock",
+        "@gtest//:gtest_main",
+    ],
+    visibility = ["//v11:__subpackages__"],
+)
+
+cross_cc_library(
+    name = "sys_notifications_lib",
+    hdrs = [
+        "notification_utils.h",
+        "notification_utils_bridge.h",
+    ],
+    srcs = [
         "notification_utils.cc",
     ],
     macos_hdrs = [
@@ -52,10 +124,11 @@ cross_cc_library(
 #        ":sys_notifications_lib_windows_srcs",
 #    ],
     deps = [
-        "@abseil_cpp//absl/container:flat_hash_map",
-        "@abseil_cpp//absl/container:flat_hash_set",
         "//v11/utils:v11_utils_lib",
         "//v11/larkin/environment/application:larkin_application_lib",
+        ":sys_notifications_manager_base_lib",
+        ":sys_notifications_input_source_base_lib",
+        ":sys_notifications_base_lib",
     ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:public"],
@@ -98,32 +171,3 @@ filegroup(
     ],
     visibility = ["//visibility:private"],
 )
-
-cc_library(
-    name = "sys_notifications_lib_mock",
-    hdrs = [
-        "input_source_mock.h",
-    ],
-    srcs = [
-        "input_source_mock.cc",
-    ],
-    deps = [
-        ":sys_notifications_lib",
-    ],
-    strip_include_prefix = "//v11",
-    visibility = ["//visibility:private"],
-)
-
-cc_test(
-    name = "sys_notifications_lib_test",
-    srcs = [
-        "input_source_test.cc",
-    ],
-    deps = [
-        ":sys_notifications_lib",
-        ":sys_notifications_lib_mock",
-        "@gtest//:gtest_main",
-    ],
-    visibility = ["//v11:__subpackages__"],
-)
-
