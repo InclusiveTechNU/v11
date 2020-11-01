@@ -38,8 +38,11 @@ const char kApplicationFileExt[] = ".app";
 // within the path of a file.
 const char kNativeFileSeperator[] = "/";
 
+// The MacOS specific implementation of the System class.
 class SystemMac : public SystemBase {
  private:
+    // The singleton SystemMac instance pointer which is allocated when
+    // `GetInstance()` is called.
     static SystemMac* instance_;
 
     SystemMac();
@@ -55,6 +58,9 @@ class SystemMac : public SystemBase {
 
  public:
     ~SystemMac();
+
+    // Returns an existing pointer to the singleton instance
+    // of SystemMac or allocates a new SystemMac object and returns it.
     static SystemMac* GetInstance();
 
     // Inherited From System Base Class
