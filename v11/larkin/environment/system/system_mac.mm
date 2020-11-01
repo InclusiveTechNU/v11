@@ -24,17 +24,55 @@
 
 namespace sys {
 
-std::string* GetApplicationPath(const std::string& name,
-                                const std::string& start_path) {
-    
-    return nullptr;
-}
-
 SystemMac::SystemMac() : SystemBase() {
     notification_manager_ = new SystemNotificationManagerMac();
     platform_ = new PlatformMac();
     LoadRunningApplications();
     AddApplicationChangeListener();
+}
+
+std::string* SystemMac::GetApplicationPath(const std::string& name,
+                                           const std::string& start_path) {
+    NSString* app_name = [NSString stringWithUTF8String: name.c_str()];
+    NSString* dir_path = [NSString stringWithUTF8String: start_path.c_str()];
+    NSString* app_ext = [NSString stringWithUTF8String: kApplicationFileExt];
+    NSString* encoded_file_name = [NSString stringWithFormat:@"%@%@",
+                                            app_name,
+                                            app_ext];
+    NSFileManager* file_manager = [NSFileManager defaultManager];
+    NSArray<NSString*>* dir_contents = [file_manager
+                                        contentsOfDirectoryAtPath: dir_path
+                                        error: nil];
+    NSMutableArray<NSString*>* subdirs = [[NSMutableArray alloc] init];
+    for (NSString* file_path : dir_contents) {
+        if ([file_path isEqualToString: encoded_file_name]) {
+            return new std::string(
+                std::string([app_path UTF8String]) +
+                std::string(kNativeFileSeperator) +
+                name +
+                std::string(kApplicationFileExt)
+            );
+        } else if ([file_manager fileExistsAtPath: dir_path
+                                 isDirectory: true] &&
+                   ![file_path hasSuffix: @".app"]) {
+            NSString* sub_path = [NSString stringWithFormat:@"%@/%@",
+                                            dir_path,
+                                            file_path];
+            [subdirs addObject: sub_path];
+        }
+    }
+
+     // Traverse application subdirectories since application path was
+    // not yet found in standard application directories
+    for (NSString* dir_path : subdirs) {
+        std::string std_dir_path = std::string([dir_path UTF8String]);
+        std::string* app_path = SystemMac::GetApplicationPath(name,
+                                                              std_dir_path);
+        if (app_path) {
+            return app_path; 
+        }
+    }
+    return nullptr;
 }
 
 SystemMac* SystemMac::GetInstance() {
@@ -44,9 +82,10 @@ SystemMac* SystemMac::GetInstance() {
     return instance_;
 }
 
-void SystemMac::LoadRunningApplications() {
-    NSArray<NSRunningApplication*>* apps = [[NSWorkspace sharedWorkspace]
-                                                         runningApplications];
+void SystemMac::() {
+    NSArray<NSRunningApplLoadRunningApplicationsication*>*
+        apps = [[NSWorkspacesharedWorkspace]
+                runningApplications];
     for (NSRunningApplication* app : apps) {
         pid_t process_id = app.processIdentifier;
         Application* app_instance = new Application(process_id);
@@ -66,18 +105,29 @@ void SystemMac::StartApplicationNamed(const std::string& name) const {
     NSArray<NSURL*>* app_dirs = [file_manager URLsForDirectory: search_path
                                               inDomains: search_domain];
     for (NSURL* app_dir : app_dirs) {
-        NSString* app_dir_path = app_dir.path;
-        if ([file_manager fileExistsAtPath: app_dir_path
+        NSString* dir_path = app_dir.path;
+        if ([file_manager fileExistsAtPath: dir_path
                           isDirectory: true]) {
-            
+            std::string rel_path = std::string([dir_path UTF8String]);
+            std::string* app_path = SystemMac::GetApplicationPath(name,
+                                                                  rel_path);
+            if (app_path) {
+                StartApplicationAtPath(*app_path);
+                delete app_path;
+                return;
+            }
+            delete app_path;
         }
     }
+    // TODO(tommymchugh): Throw rejection for not finding and
+    // starting application
 }
 
 void SystemMac::StartApplicationAtPath(const std::string& path) const {
     NSString* path_str = [NSString stringWithUTF8String: path.c_str()];
     NSURL* path_url = [NSURL fileURLWithPath: path_str];
-    NSWorkspaceOpenConfiguration* config = [NSWorkspaceOpenConfiguration configuration];
+    NSWorkspaceOpenConfiguration* config = [NSWorkspaceOpenConfiguration
+                                            configuration];
     [[NSWorkspace sharedWorkspace] openApplicationAtURL: path_url
                                    configuration: config
                                    completionHandler: nil];

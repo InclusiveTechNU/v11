@@ -29,22 +29,33 @@ using app::Application;
 
 namespace sys {
 
+// Mac applications are directories that end with a `.app` extension.
+// This constant allows for this extension to be appended to potential
+// app name strings.
+const char kApplicationFileExt[] = ".app";
+
+// The mac filesystem uses a back slash character to distinguish seperations
+// within the path of a file.
+const char kNativeFileSeperator[] = "/";
+
 class SystemMac : public SystemBase {
  private:
     static SystemMac* instance_;
 
     SystemMac();
+
+    // Returns the native path of the application if it exists, or null if
+    // the path could not be found. Assumes that name does not include
+    // the native `.app` file extension.
+    static std::string* GetApplicationPath(const std::string& name,
+                                           const std::string& start_path);
+
     // Inherited From System Base Class
     void LoadRunningApplications();
 
  public:
     ~SystemMac();
-
     static SystemMac* GetInstance();
-
-    // Returns the native path of the application if it exists, or null if
-    // the path could not be found.
-    static std::string* GetApplicationPath(const std::string& name);
 
     // Inherited From System Base Class
     const void* GetRunningScreenReader() const;
