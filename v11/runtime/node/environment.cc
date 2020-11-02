@@ -25,7 +25,7 @@
 #include "core/system/platform/platform.h"
 #include "core/system/notifications/system_notification.h"
 #include "core/system/notifications/system_notification_manager.h"
-#include "core/application/application.h"
+#include "core/applications/application.h"
 
 #define PLATFORM_TEXT_MAC "apple"
 #define PLATFORM_TEXT_WINDOWS "windows"

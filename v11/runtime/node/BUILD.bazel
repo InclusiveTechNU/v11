@@ -41,7 +41,7 @@ node_native_module(
         "//v11/utils:v11_utils_main_loop_lib",
         "//v11/core/accessibility:core_accessibility_lib",
         "//v11/core/system:core_sys_lib",
-        "//v11/core/application:core_application_lib",
+        "//v11/core/applications:core_application_lib",
         "//v11/core/devices/sound:core_sound_lib",
         "//v11/core/devices/keyboard:core_keyboard_lib",
     ],

@@ -17,7 +17,7 @@
 #include <AppKit/AppKit.h>
 #include <Foundation/Foundation.h>
 #include "core/system/notifications/workspace_input_source_mac.h"
-#include "core/application/application.h"
+#include "core/applications/application.h"
 #include "core/notifications/notification.h"
 #include "core/notifications/notification_builder.h"
 #include "core/notifications/notification_data_builder.h"

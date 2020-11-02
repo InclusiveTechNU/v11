@@ -20,7 +20,7 @@
 #include "absl/container/btree_set.h"
 #include "core/system/platform/platform.h"
 #include "core/system/notifications/system_notification_manager.h"
-#include "core/application/application.h"
+#include "core/applications/application.h"
 
 using sys::SystemNotificationManager;
 using sys::Platform;

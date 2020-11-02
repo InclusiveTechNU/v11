@@ -18,7 +18,7 @@
 #include <Cocoa/Cocoa.h>
 #include <vector>
 #include <string>
-#include "core/application/application.h"
+#include "core/applications/application.h"
 
 namespace app {
 

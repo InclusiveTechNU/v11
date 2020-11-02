@@ -20,7 +20,7 @@
 #include <uv.h>
 #include <node/node_api.h>
 #include "core/notifications/notification.h"
-#include "core/application/application.h"
+#include "core/applications/application.h"
 #include "core/accessibility/accessibility_window.h"
 #include "core/accessibility/accessibility_element.h"
 #include "core/devices/keyboard/keyboard_event.h"

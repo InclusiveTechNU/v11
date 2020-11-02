@@ -40,7 +40,7 @@ cross_cc_library(
 #    ],
     deps = [
         "//v11/utils:v11_utils_lib",
-        "//v11/core/application:core_application_lib",
+        "//v11/core/applications:core_application_lib",
         "//v11/core/notifications:notifications_manager_base_lib",
         "//v11/core/notifications:notifications_input_source_base_lib",
         "//v11/core/notifications:notifications_base_lib",

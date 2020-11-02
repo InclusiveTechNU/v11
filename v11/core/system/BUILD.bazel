@@ -41,7 +41,7 @@ cross_cc_library(
     deps = [
         "@abseil_cpp//absl/container:btree",
         "//v11/utils:v11_utils_lib",
-        "//v11/core/application:core_application_lib",
+        "//v11/core/applications:core_application_lib",
         "//v11/core/system/platform:sys_platform_lib",
         "//v11/core/system/notifications:sys_notifications_lib",
         "//v11/core/devices/sound:core_sound_lib",

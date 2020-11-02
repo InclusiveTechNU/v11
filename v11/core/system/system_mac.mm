@@ -19,7 +19,7 @@
 #include "core/system/system_mac.h"
 #include "core/system/notifications/system_notification_manager_mac.h"
 #include "core/system/platform/platform_mac.h"
-#include "core/application/application.h"
+#include "core/applications/application.h"
 
 using app::Application;
 

@@ -17,7 +17,7 @@
 #include <Foundation/Foundation.h>
 #include <Cocoa/Cocoa.h>
 #include <functional>
-#include "core/application/application_observer_bridge.h"
+#include "core/applications/application_observer_bridge.h"
 
 namespace app {
 

@@ -17,7 +17,7 @@
 #pragma once
 
 #include "core/accessibility/accessibility_element.h"
-#include "core/application/application.h"
+#include "core/applications/application.h"
 
 using app::Application;
 

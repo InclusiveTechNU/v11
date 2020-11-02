@@ -19,7 +19,7 @@
 #include <sys/types.h>
 #include <map>
 #include <functional>
-#include "core/application/application_observer_bridge.h"
+#include "core/applications/application_observer_bridge.h"
 #include "core/notifications/notification.h"
 
 using sys::NotificationType;

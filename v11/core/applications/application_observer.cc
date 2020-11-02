@@ -15,7 +15,7 @@
  */
 
 #include <iostream>
-#include "core/application/application_observer.h"
+#include "core/applications/application_observer.h"
 
 namespace app {
 

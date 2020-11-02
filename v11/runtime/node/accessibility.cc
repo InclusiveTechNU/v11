@@ -20,7 +20,7 @@
 #include "runtime/node/utils.h"
 #include "core/accessibility/accessibility_tree.h"
 #include "core/accessibility/accessibility_element.h"
-#include "core/application/application.h"
+#include "core/applications/application.h"
 #include "core/notifications/notification.h"
 
 using app::Application;
