@@ -17,14 +17,15 @@
 #pragma once
 
 #include "core/notifications/notification.h"
+#include "core/notifications/notification_manager.h"
 
 namespace sys {
-
-using SystemNotification = Notification<SystemNotificationType>;
 
 // Platform indepdent notification identifier names for core system
 // notifications.
 enum SystemNotificationType {
+    kUnknownSystemNotification,
+
     // Application Lifecycle Notifications
     kApplicationDidLaunch,
     kApplicationDidTerminate,
@@ -43,5 +44,8 @@ enum SystemNotificationType {
     // Accessibility Notifications
     kAccessibilityDidChange,
 };
+
+using SystemNotificationCallback = NotificationCallback<SystemNotificationType>;
+using SystemNotification = Notification<SystemNotificationType>;
 
 }  // namespace sys

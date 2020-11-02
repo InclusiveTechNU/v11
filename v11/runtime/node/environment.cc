@@ -23,7 +23,8 @@
 #include "core/environment/system/system.h"
 #include "core/environment/system/system_instance.h"
 #include "core/environment/system/platform/platform.h"
-#include "core/notifications/notification.h"
+#include "core/environment/system/notifications/system_notification.h"
+#include "core/environment/system/notifications/system_notification_manager.h"
 #include "core/environment/application/application.h"
 
 #define PLATFORM_TEXT_MAC "apple"
@@ -36,7 +37,10 @@ using utils::notification_to_object;
 using utils::string_from_value;
 using sys::System;
 using sys::SystemInstance;
-using sys::Notification;
+using sys::SystemNotification;
+using sys::SystemNotificationType;
+using sys::SystemNotificationManager;
+using sys::SystemNotificationCallback;
 using sys::NotificationType;
 using sys::NotificationCallback;
 using sys::Platform;
@@ -59,29 +63,29 @@ using app::Application;
 
 namespace environment {
 
-NotificationType convert_string_to_notification_type(std::string type_str) {
+SystemNotificationType convert_string_to_notification_type(std::string type_str) {
     if (type_str == NOTIF_TYPE_APPLICATION_DID_HIDE) {
-        return NotificationType::kApplicationDidHide;
+        return SystemNotificationType::kApplicationDidHide;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_LAUNCH) {
-        return NotificationType::kApplicationDidLaunch;
+        return SystemNotificationType::kApplicationDidLaunch;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_TERMINATE) {
-        return NotificationType::kApplicationDidTerminate;
+        return SystemNotificationType::kApplicationDidTerminate;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_UNHIDE) {
-        return NotificationType::kApplicationDidUnhide;
+        return SystemNotificationType::kApplicationDidUnhide;
     } else if (type_str == NOTIF_TYPE_DEVICE_DID_MOUNT) {
-        return NotificationType::kDeviceDidMount;
+        return SystemNotificationType::kDeviceDidMount;
     } else if (type_str == NOTIF_TYPE_DEVICE_DID_UNMOUNT) {
-        return NotificationType::kDeviceDidUnmount;
+        return SystemNotificationType::kDeviceDidUnmount;
     } else if (type_str == NOTIF_TYPE_SYSTEM_DID_WAKE) {
-        return NotificationType::kSystemDidWake;
+        return SystemNotificationType::kSystemDidWake;
     } else if (type_str == NOTIF_TYPE_SYSTEM_DID_SLEEP) {
-        return NotificationType::kSystemDidSleep;
+        return SystemNotificationType::kSystemDidSleep;
     } else if (type_str == NOTIF_TYPE_SYSTEM_WILL_POWER_OFF) {
-        return NotificationType::kSystemWillPowerOff;
+        return SystemNotificationType::kSystemWillPowerOff;
     } else if (type_str == NOTIF_TYPE_ACCESSIBILITY_DID_CHANGE) {
-        return NotificationType::kAccessibilityDidChange;
+        return SystemNotificationType::kAccessibilityDidChange;
     } else {
-        return NotificationType::kUnknownNotification;
+        return SystemNotificationType::kUnknownSystemNotification;
     }
 }
 
@@ -261,11 +265,11 @@ napi_status notifications(napi_env env, napi_value exports) {
                                          void* context,
                                          void* data) {
             // Convert data to notification type
-            Notification* notif = reinterpret_cast<Notification*>(data);
+            SystemNotification* notif = reinterpret_cast<SystemNotification*>(data);
 
             // TODO(tommymchugh): determine proper context not undef
             napi_value undefined, notif_object;
-            notification_to_object(env, notif, &notif_object);
+            notification_to_object<SystemNotificationType>(env, notif, &notif_object);
             a_ok(napi_get_undefined(env, &undefined));
             a_ok(napi_call_function(env,
                                     undefined,
@@ -293,12 +297,12 @@ napi_status notifications(napi_env env, napi_value exports) {
             // TODO(tommymchugh): Implement catch all notification callback
             // ! Adds a callback function for all events
         } else {
-            NotificationType listener_type = NotificationType::kUnknownNotification;
+            SystemNotificationType listener_type = SystemNotificationType::kUnknownSystemNotification;
             std::string type_str = std::string(listener_type_ptr);
             listener_type = convert_string_to_notification_type(type_str);
-            NotificationManager* manager = sys_ptr->GetNotificationManager();
+            SystemNotificationManager* manager = sys_ptr->GetNotificationManager();
             manager->AddEventListener(listener_type,
-                                      new NotificationCallback([listener_callback] (const Notification* notification) {
+                                      new SystemNotificationCallback([listener_callback] (const SystemNotification* notification) {
                 napi_acquire_threadsafe_function(listener_callback);
                 napi_call_threadsafe_function(listener_callback,
                                               (void*) notification,

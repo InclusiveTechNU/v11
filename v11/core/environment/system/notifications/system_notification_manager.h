@@ -24,8 +24,6 @@
 
 namespace sys {
 
-using SystemNotificationCallback = NotificationCallback<SystemNotificationType>;
-
 class SystemNotificationManager : public NotificationManagerBase
                                          <SystemNotificationType> {
  protected:

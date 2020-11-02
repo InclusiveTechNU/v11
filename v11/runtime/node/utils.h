@@ -41,8 +41,10 @@ void keyboard_event_to_object(napi_env env,
                     napi_value* value);
 
 char* string_from_value(napi_env env, napi_value value);
+
+template <typename Type>
 void notification_to_object(napi_env env,
-                            const Notification* notification,
+                            const Notification<Type>* notification,
                             napi_value* value);
 
 void application_to_object(napi_env env,
@@ -60,3 +62,5 @@ void element_to_object(napi_env env,
 void run_non_block_loop(uv_loop_t* node_loop);
 
 }  // namespace utils
+
+#include "runtime/node/utils_inl.h"

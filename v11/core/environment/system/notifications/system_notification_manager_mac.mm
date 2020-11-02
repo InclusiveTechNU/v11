@@ -16,6 +16,7 @@
 
 #include "core/environment/system/notifications/system_notification_manager_mac.h"
 #include "core/environment/system/notifications/workspace_input_source_mac.h"
+#include "core/environment/system/notifications/system_notification.h"
 #include "core/notifications/input_source.h"
 #include "core/notifications/notification_manager_base.h"
 
@@ -28,9 +29,9 @@ SystemNotificationManagerMac::SystemNotificationManagerMac() :
 
 void SystemNotificationManagerMac::AttachInputSources() {
     sources_.push_back(new WorkspaceInputSourceMac());
-    for (InputSource* source : sources_) {
-        source->SetCallback(new InputSourceCallback([&](const Notification*
-                                                        notification) {
+    for (InputSource<SystemNotificationType>* source : sources_) {
+        source->SetCallback(new SystemNotificationCallback([&](const SystemNotification*
+                                                                     notification) {
             auto present_callback = listeners_->find(notification->GetType());
             if (present_callback != listeners_->end()) {
                 (*present_callback->second)(notification);

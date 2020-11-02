@@ -19,9 +19,12 @@ cross_cc_library(
     hdrs = [
         "system_notification.h",
         "system_notification_manager.h",
+        "notification_utils.h",
+        "notification_utils_bridge.h",
     ],
     srcs = [
         "system_notification_manager.cc",
+        "notification_utils.cc",
     ],
     macos_hdrs = [
         ":sys_notifications_lib_macos_hdrs",
@@ -70,6 +73,7 @@ filegroup(
     srcs = [
         "workspace_input_source_mac.mm",
         "system_notification_manager_mac.mm",
+        "notification_utils_bridge_mac.mm",
     ],
     visibility = ["//visibility:private"],
 )

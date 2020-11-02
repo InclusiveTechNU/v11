@@ -52,33 +52,6 @@ char* string_from_value(napi_env env, napi_value value) {
     return text_buffer;
 }
 
-void notification_to_object(napi_env env,
-                            const Notification* notification,
-                            napi_value* value) {
-    typedef std::map<std::string, std::string> notification_data;
-    typedef std::pair<std::string, std::string> notification_pair;
-    const absl::flat_hash_set<std::string>* data_keys = notification->GetDataKeys();
-
-    a_ok(napi_create_object(env, value));
-    for (const std::string& key : *data_keys) {
-        const NotificationData* data = notification->GetData(key);
-        // TODO(tommymchugh): Support multiple types of data
-        const std::string* data_str = (const std::string*) data;
-        std::string data_cpy = std::string(*data_str);
-
-        napi_value key_prop, value_prop;
-        a_ok(napi_create_string_utf8(env,
-                                     key.c_str(),
-                                     NAPI_AUTO_LENGTH,
-                                     &key_prop));
-        a_ok(napi_create_string_utf8(env,
-                                     data_cpy.c_str(),
-                                     NAPI_AUTO_LENGTH,
-                                     &value_prop));
-        a_ok(napi_set_property(env, *value, key_prop, value_prop));
-    }
-}
-
 void application_to_object(napi_env env,
                            const Application* application,
                            napi_value* value) {

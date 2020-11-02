@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as core from '../core/core';
+import * as core from '../runtime/core';
 
 interface ApplicationElement {
   type: string;

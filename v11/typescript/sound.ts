@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as core from '../core/core';
+import * as core from '../runtime/core';
 
 // * v11.speech
 // v11.speech is a replica of the core speech synthesis API. The

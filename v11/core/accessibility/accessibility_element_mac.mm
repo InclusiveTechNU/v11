@@ -25,7 +25,7 @@
 
 using app::ApplicationObserver;
 using app::ApplicationObserverBridge;
-using sys::utils::convert_notification_type_to_native;
+using sys::notifications::utils::convert_notification_type_to_native;
 
 namespace a11y {
 

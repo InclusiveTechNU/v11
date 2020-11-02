@@ -281,7 +281,8 @@ napi_status keyboard(napi_env env, napi_value exports) {
             return nullptr;
         }
         System* sys_ptr = reinterpret_cast<System*>(sys_void_ptr);
-        KeyboardListener* keyboard_listener = sys_ptr->get_keyboard_listener();
+        // TODO(tommymchugh): Manage through system devices api
+        KeyboardListener* keyboard_listener = new KeyboardListener;
 
         // TODO(tommymchugh): Evoke error on failed to collect arguments
         // Collect text and voice_id from info

@@ -37,7 +37,7 @@ class NotificationBuilder : public Notification<Type> {
 
     // The specific supported type of system/custom notification that
     // this particular notification is linked to.
-    Type type_ = NotificationType::kUnknownNotification;
+    Type type_;
 
     // An unsorted map of NotificationData objects stored with the
     // notification. Data objects are owned by the Notification and

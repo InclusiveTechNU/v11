@@ -35,7 +35,7 @@ cross_cc_library(
         ":application_lib_windows_srcs",
     ],
     deps = [
-        "//v11/notifications:notifications_base_lib",
+        "//v11/core/notifications:notifications_base_lib",
     ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:public"],
