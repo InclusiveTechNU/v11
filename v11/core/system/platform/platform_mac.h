@@ -16,15 +16,25 @@
 
 #pragma once
 
-#include "core/accessibility/accessibility_element.h"
-#include "core/application/application.h"
+#include <string>
+#include "core/system/platform/platform_info.h"
+#include "core/system/platform/platform.h"
 
-using app::Application;
+namespace sys {
 
-namespace a11y {
-class AccessibilityWindow: public AccessibilityElement  {
+// Platform class implementation for Mac specific environments
+class PlatformMac : public Platform {
+    // Class owned native process spec
+    void* native_process_info_ = nullptr;
+
  public:
-    AccessibilityWindow(Application* app, const void* native_window);
-    const char* get_title() const;
+    PlatformMac();
+    ~PlatformMac();
+
+    // Inherited methods from Platform class
+    OperatingSystem GetOperatingSystem() const;
+    Version GetVersion() const;
+    std::string GetPlatformName() const;
 };
-}  // namespace a11y
+
+}  // namespace sys

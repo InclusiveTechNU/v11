@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "core/system/notifications/system_notification_manager.h"
 
-#include "core/accessibility/accessibility_element.h"
-#include "core/application/application.h"
+namespace sys {
 
-using app::Application;
+SystemNotificationManager::SystemNotificationManager() :
+                           NotificationManagerBase<SystemNotificationType>() { }
 
-namespace a11y {
-class AccessibilityWindow: public AccessibilityElement  {
- public:
-    AccessibilityWindow(Application* app, const void* native_window);
-    const char* get_title() const;
-};
-}  // namespace a11y
+ManagerType SystemNotificationManager::GetManagerType() const {
+    return type_;
+}
+
+SystemNotificationManager::~SystemNotificationManager() {
+    for (InputSource<SystemNotificationType>* source : sources_) {
+        delete source;
+    }
+}
+
+}  // namespace sys

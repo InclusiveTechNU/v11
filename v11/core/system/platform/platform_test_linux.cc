@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "googletest/include/gtest/gtest.h"
+#include "core/system/platform/platform.h"
+#include "core/system/platform/platform_linux.h"
 
-#include "core/accessibility/accessibility_element.h"
-#include "core/application/application.h"
+using sys::Platform;
+using sys::PlatformLinux;
+using sys::Version;
+using sys::OperatingSystem;
 
-using app::Application;
-
-namespace a11y {
-class AccessibilityWindow: public AccessibilityElement  {
- public:
-    AccessibilityWindow(Application* app, const void* native_window);
-    const char* get_title() const;
-};
-}  // namespace a11y
+// Tests that on linux devices the platform OS type is linux
+TEST(V11CoreSysPlatformTest, PlatformOperatingSystemIsLinux) {
+    PlatformLinux platform_linux = PlatformLinux();
+    Platform* platform = &platform_linux;
+    EXPECT_EQ(platform->GetOperatingSystem(), OperatingSystem::kLinux);
+}

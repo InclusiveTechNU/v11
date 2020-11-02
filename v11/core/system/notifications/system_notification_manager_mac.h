@@ -16,15 +16,17 @@
 
 #pragma once
 
-#include "core/accessibility/accessibility_element.h"
-#include "core/application/application.h"
+#include <vector>
+#include "core/system/notifications/system_notification_manager.h"
 
-using app::Application;
+namespace sys {
 
-namespace a11y {
-class AccessibilityWindow: public AccessibilityElement  {
+class SystemNotificationManagerMac : public SystemNotificationManager {
+ protected:
+    void AttachInputSources();
+
  public:
-    AccessibilityWindow(Application* app, const void* native_window);
-    const char* get_title() const;
+    SystemNotificationManagerMac();
 };
-}  // namespace a11y
+
+}  // namespace sys

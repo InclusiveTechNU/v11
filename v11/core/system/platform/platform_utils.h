@@ -16,15 +16,18 @@
 
 #pragma once
 
-#include "core/accessibility/accessibility_element.h"
-#include "core/application/application.h"
+#include <string>
+#include "core/system/platform/platform_info.h"
 
-using app::Application;
+namespace sys {
 
-namespace a11y {
-class AccessibilityWindow: public AccessibilityElement  {
+class PlatformUtils {
  public:
-    AccessibilityWindow(Application* app, const void* native_window);
-    const char* get_title() const;
+    // String to Version native conversion method. Takes in a string and
+    // returns a version object. Ignores extraneous text after the version
+    // but must start with the version component and not alphanumeric
+    // characters.
+    static Version StringToVersion(const std::string& str);
 };
-}  // namespace a11y
+
+}  // namespace sys

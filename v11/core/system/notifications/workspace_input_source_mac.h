@@ -16,15 +16,26 @@
 
 #pragma once
 
-#include "core/accessibility/accessibility_element.h"
-#include "core/application/application.h"
+#include <string>
+#include "core/system/notifications/system_notification.h"
+#include "core/notifications/input_source_base.h"
 
-using app::Application;
+namespace sys {
 
-namespace a11y {
-class AccessibilityWindow: public AccessibilityElement  {
+const char kWorkspaceInputSourceMacName[] = "workspace_mac";
+
+class WorkspaceInputSourceMac : public InputSourceBase
+                                       <SystemNotificationType> {
+ private:
+    const std::string name_ = std::string(kWorkspaceInputSourceMacName);
+    void* notification_center_ = nullptr;
+
+    void RegisterNotificationObserver();
+
  public:
-    AccessibilityWindow(Application* app, const void* native_window);
-    const char* get_title() const;
+    WorkspaceInputSourceMac();
+    ~WorkspaceInputSourceMac();
+    const std::string& GetInputSourceName() const;
 };
-}  // namespace a11y
+
+}  // namespace sys

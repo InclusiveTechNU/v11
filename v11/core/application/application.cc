@@ -14,17 +14,39 @@
  * limitations under the License.
  */
 
-#pragma once
-
-#include "core/accessibility/accessibility_element.h"
 #include "core/application/application.h"
 
-using app::Application;
+namespace app {
 
-namespace a11y {
-class AccessibilityWindow: public AccessibilityElement  {
- public:
-    AccessibilityWindow(Application* app, const void* native_window);
-    const char* get_title() const;
-};
-}  // namespace a11y
+ApplicationObserver* Application::get_observer() {
+    if (!_observer) {
+        _observer = ApplicationObserver::create_observer(get_process_id());
+    }
+    return _observer;
+}
+
+const char* Application::get_name() const {
+    if (_local_name) {
+        return _local_name->c_str();
+    }
+    return nullptr;
+}
+
+const char* Application::get_bundle_id() const {
+    if (_bundle_id) {
+        return _bundle_id->c_str();
+    }
+    return nullptr;
+}
+
+pid_t Application::get_process_id() const {
+    return _process_id;
+}
+
+Application::~Application() {
+    delete _observer;
+    delete _local_name;
+    delete _bundle_id;
+}
+
+}  // namespace app

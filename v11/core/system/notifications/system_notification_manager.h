@@ -16,21 +16,26 @@
 
 #pragma once
 
-#include "sys/types.h"
 #include <vector>
-#include "core/accessibility/accessibility_window.h"
-#include "core/application/application.h"
+#include "core/system/notifications/system_notification.h"
+#include "core/notifications/notification_manager.h"
+#include "core/notifications/notification_manager_base.h"
+#include "core/notifications/input_source.h"
 
-using app::Application;
+namespace sys {
 
-namespace a11y {
-class AccessibilityTree {
- private:
-    Application* _app;
+class SystemNotificationManager : public NotificationManagerBase
+                                         <SystemNotificationType> {
+ protected:
+    SystemNotificationManager();
+    ManagerType type_ = ManagerType::kSystem;
+    virtual void AttachInputSources() = 0;
 
  public:
-    explicit AccessibilityTree(Application* app);
-    std::vector<AccessibilityWindow*> get_windows();
+    virtual ~SystemNotificationManager();
+
+    // From NotificationManager class
+    ManagerType GetManagerType() const;
 };
 
-}  // namespace a11y
+}  // namespace sys

@@ -14,17 +14,23 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "core/system/platform/platform.h"
+#include "absl/strings/str_format.h"
 
-#include "core/accessibility/accessibility_element.h"
-#include "core/application/application.h"
+namespace sys {
 
-using app::Application;
+std::string Platform::GetVersionAsString() const {
+    Version version = GetVersion();
+    return absl::StrFormat("%d.%d.%d",
+                           version.major_version,
+                           version.minor_version,
+                           version.patch_version);
+}
 
-namespace a11y {
-class AccessibilityWindow: public AccessibilityElement  {
- public:
-    AccessibilityWindow(Application* app, const void* native_window);
-    const char* get_title() const;
-};
-}  // namespace a11y
+// TODO(tommymchugh): Look into Android support for mobile devices.
+// Mobile devices are currently not supported so defaulting to false.
+bool Platform::IsMobile() const {
+    return false;
+}
+
+}  // namespace sys

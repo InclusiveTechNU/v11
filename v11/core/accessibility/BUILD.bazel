@@ -37,8 +37,8 @@ cross_cc_library(
 
     ],
     deps = [
-        "//v11/core/environment/system/notifications:sys_notifications_lib",
-        "//v11/core/environment/application:core_application_lib",
+        "//v11/core/system/notifications:sys_notifications_lib",
+        "//v11/core/application:core_application_lib",
     ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:public"],

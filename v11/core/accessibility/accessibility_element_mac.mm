@@ -19,9 +19,9 @@
 #include <Foundation/Foundation.h>
 #include <Cocoa/Cocoa.h>
 #include "core/accessibility/accessibility_element.h"
-#include "core/environment/application/application_observer.h"
-#include "core/environment/application/application_observer_bridge.h"
-#include "core/environment/system/notifications/notification_utils.h"
+#include "core/application/application_observer.h"
+#include "core/application/application_observer_bridge.h"
+#include "core/system/notifications/notification_utils.h"
 
 using app::ApplicationObserver;
 using app::ApplicationObserverBridge;

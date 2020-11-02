@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "core/system/notifications/notification_utils.h"
+#include "core/system/notifications/notification_utils_bridge.h"
 
-#include "core/accessibility/accessibility_element.h"
-#include "core/application/application.h"
+namespace sys {
+namespace notifications {
+namespace utils {
 
-using app::Application;
+void* convert_notification_type_to_native(NotificationType type) {
+    return __convert_notification_type_to_native(type);
+}
 
-namespace a11y {
-class AccessibilityWindow: public AccessibilityElement  {
- public:
-    AccessibilityWindow(Application* app, const void* native_window);
-    const char* get_title() const;
-};
-}  // namespace a11y
+};  // namespace utils
+};  // namespace notifications
+};  // namespace sys

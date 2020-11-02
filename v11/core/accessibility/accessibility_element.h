@@ -19,7 +19,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "core/environment/application/application.h"
+#include "core/application/application.h"
 #include "core/notifications/notification.h"
 
 using app::Application;

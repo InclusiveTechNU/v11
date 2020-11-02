@@ -16,15 +16,23 @@
 
 #pragma once
 
-#include "core/accessibility/accessibility_element.h"
-#include "core/application/application.h"
+#include "core/system/system.h"
 
-using app::Application;
+namespace sys {
 
-namespace a11y {
-class AccessibilityWindow: public AccessibilityElement  {
+// SystemInstance is a factory class for creating a native System class object.
+// The platform is determined at compile time and the returns native System
+// implementation is casted to a System pointer.
+class SystemInstance {
+ private:
+    // Singleton variable holding shared system instance pointer.
+    static System* instance_;
+
  public:
-    AccessibilityWindow(Application* app, const void* native_window);
-    const char* get_title() const;
+    // Creates a new system object and stores it within the native
+    // implementation for later use or returns an already created system
+    // pointer.
+    static System* GetInstance();
 };
-}  // namespace a11y
+
+}  // namespace sys
