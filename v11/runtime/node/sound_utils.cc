@@ -16,7 +16,7 @@
 
 #include "runtime/node/sound_utils.h"
 
-namespace interaction {
+namespace devices {
 namespace utils {
 namespace sound {
 
@@ -87,4 +87,4 @@ napi_status voice_to_object(napi_env env,
 
 }  // namespace sound
 }  // namespace utils
-}  // namespace interaction
+}  // namespace devices

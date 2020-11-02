@@ -17,18 +17,9 @@
 #pragma once
 
 #include <node/node_api.h>
-#include "core/devices/sound/text2speech/voice.h"
-
-using sound::voice::Voice;
 
 namespace devices {
-namespace utils {
-namespace sound {
 
-napi_status voice_to_object(napi_env env,
-                            const Voice* voice,
-                            napi_value object);
+void init(napi_env env, napi_value exports);
 
-}  // namespace sound
-}  // namespace utils
 }  // namespace devices

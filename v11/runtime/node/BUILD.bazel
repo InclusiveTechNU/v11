@@ -20,7 +20,7 @@ node_native_module(
     hdrs = [
         "accessibility.h",
         "environment.h",
-        "interaction.h",
+        "devices.h",
         "sound_utils.h",
         "utils.h",
         "utils_inl.h",
@@ -29,7 +29,7 @@ node_native_module(
         "module.cc",
         "accessibility.cc",
         "environment.cc",
-        "interaction.cc",
+        "devices.cc",
         "sound_utils.cc",
         "utils.cc",
     ],
@@ -42,8 +42,8 @@ node_native_module(
         "//v11/core/accessibility:core_accessibility_lib",
         "//v11/core/environment/system:core_sys_lib",
         "//v11/core/environment/application:core_application_lib",
-        "//v11/core/interaction/sound:core_sound_lib",
-        "//v11/core/interaction/keyboard:core_keyboard_lib",
+        "//v11/core/devices/sound:core_sound_lib",
+        "//v11/core/devices/keyboard:core_keyboard_lib",
     ],
     strip_include_prefix = "//v11",
     copts = [

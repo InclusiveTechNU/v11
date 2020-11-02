@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "core/devices/keyboard/keyboard_event.h"
 
-#include <node/node_api.h>
-#include "core/devices/sound/text2speech/voice.h"
+namespace keyboard {
+namespace event {
 
-using sound::voice::Voice;
+KeyboardEvent::KeyboardEvent(const event_type& press_type,
+                             const keycode& target_key):
+                            press_type(press_type),
+                            target_key(target_key) {   }
 
-namespace devices {
-namespace utils {
-namespace sound {
+const event_type& KeyboardEvent::get_event_type() {
+    return press_type;
+}
 
-napi_status voice_to_object(napi_env env,
-                            const Voice* voice,
-                            napi_value object);
+const keycode& KeyboardEvent::get_event_target_key() {
+    return target_key;
+}
 
-}  // namespace sound
-}  // namespace utils
-}  // namespace devices
+}  // namespace event
+}  // namespace keyboard

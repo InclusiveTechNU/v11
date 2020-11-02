@@ -23,7 +23,7 @@
 #include "core/environment/application/application.h"
 #include "core/accessibility/accessibility_window.h"
 #include "core/accessibility/accessibility_element.h"
-#include "core/interaction/keyboard/keyboard_event.h"
+#include "core/devices/keyboard/keyboard_event.h"
 
 #define a_ok(call) assert(call == napi_ok)
 

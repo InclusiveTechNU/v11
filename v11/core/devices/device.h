@@ -16,19 +16,30 @@
 
 #pragma once
 
-#include <node/node_api.h>
-#include "core/devices/sound/text2speech/voice.h"
-
-using sound::voice::Voice;
+#include <string>
 
 namespace devices {
-namespace utils {
-namespace sound {
 
-napi_status voice_to_object(napi_env env,
-                            const Voice* voice,
-                            napi_value object);
+enum DeviceType {
+    kKeyboardDevice,
+    kSoundOutputDevice,
+    kUnknownDevice,
+};
 
-}  // namespace sound
-}  // namespace utils
-}  // namespace devices
+template <typename Listener, typename Dispatcher>
+class Device {
+ public:
+    virtual ~Device();
+
+    virtual DeviceType GetType() const = 0;
+
+    virtual const std::string* GetIdentifier() const = 0;
+
+    virtual Listener* const GetListener() const = 0;
+
+    virtual Dispatcher* const GetDispatcher() const = 0;
+};
+
+}  // namepsace devices
+
+#include "core/devices/device_inl.h"

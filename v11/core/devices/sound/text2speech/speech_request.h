@@ -16,19 +16,19 @@
 
 #pragma once
 
-#include <node/node_api.h>
+#include <string>
 #include "core/devices/sound/text2speech/voice.h"
 
-using sound::voice::Voice;
-
-namespace devices {
-namespace utils {
 namespace sound {
+namespace voice {
 
-napi_status voice_to_object(napi_env env,
-                            const Voice* voice,
-                            napi_value object);
+typedef pid_t request_id;
 
+struct speech_request {
+    request_id id;
+    const Voice* voice;
+    std::string text;
+};
+
+}  // namespace voice
 }  // namespace sound
-}  // namespace utils
-}  // namespace devices

@@ -20,7 +20,7 @@
 #include <utility>
 #include "absl/container/flat_hash_set.h"
 #include "runtime/node/utils.h"
-#include "core/interaction/keyboard/keycode.h"
+#include "core/devices/keyboard/keycode.h"
 #include "utils/run_main.h"
 
 using utils::create_main_app;

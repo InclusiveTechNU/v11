@@ -14,21 +14,27 @@
  * limitations under the License.
  */
 
-#pragma once
+#include "core/devices/sound/text2speech/text2speech_delegate_mac.h"
 
-#include <node/node_api.h>
-#include "core/devices/sound/text2speech/voice.h"
+@implementation Text2SpeechDelegate {
+    SpeechDidFinishCallback* did_finish_callback;
+}
 
-using sound::voice::Voice;
+- (id) init {
+    self = [super init];
+    did_finish_callback = nullptr;
+    return self;
+}
 
-namespace devices {
-namespace utils {
-namespace sound {
+- (void)attachDidFinishCallback:(SpeechDidFinishCallback *)callback {
+    did_finish_callback = callback;
+}
 
-napi_status voice_to_object(napi_env env,
-                            const Voice* voice,
-                            napi_value object);
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender
+        didFinishSpeaking:(BOOL)finishedSpeaking {
+    if (did_finish_callback) {
+        (*did_finish_callback)();
+    }
+}
 
-}  // namespace sound
-}  // namespace utils
-}  // namespace devices
+@end

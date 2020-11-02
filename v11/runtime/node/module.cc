@@ -23,7 +23,7 @@
 #include <iostream>
 #include <chrono>
 #include "get_uv_event_loop/include/get-uv-event-loop-napi.h"
-#include "runtime/node/interaction.h"
+#include "runtime/node/devices.h"
 #include "runtime/node/accessibility.h"
 #include "runtime/node/utils.h"
 #include "runtime/node/environment.h"
@@ -97,7 +97,7 @@ void setup_event_loop(napi_env env, napi_value exports) {
 
 napi_value init(napi_env env, napi_value exports) {
     // Add sub platform APIs
-    interaction::init(env, exports);
+    devices::init(env, exports);
     environment::init(env, exports);
     a11y::init(env, exports);
 

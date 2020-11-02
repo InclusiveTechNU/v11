@@ -16,19 +16,16 @@
 
 #pragma once
 
-#include <node/node_api.h>
-#include "core/devices/sound/text2speech/voice.h"
+#include <AppKit/AppKit.h>
+#include <Foundation/Foundation.h>
+#include <functional>
+#include "core/devices/sound/text2speech/text2speech_synthesizer.h"
 
-using sound::voice::Voice;
+using sound::voice::SpeechDidFinishCallback;
 
-namespace devices {
-namespace utils {
-namespace sound {
+@interface Text2SpeechDelegate : NSObject <NSSpeechSynthesizerDelegate>
 
-napi_status voice_to_object(napi_env env,
-                            const Voice* voice,
-                            napi_value object);
+- (id) init;
+- (void)attachDidFinishCallback:(SpeechDidFinishCallback *)callback;
 
-}  // namespace sound
-}  // namespace utils
-}  // namespace devices
+@end
