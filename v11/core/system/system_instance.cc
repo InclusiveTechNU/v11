@@ -28,19 +28,29 @@
 
 namespace sys {
 
+SystemInstance* SystemInstance::instance_ = nullptr;
+
+SystemInstance::SystemInstance() {
+    #if defined(OS_WINDOWS)
+        system_ = SystemWindows::GetInstance();
+    #elif defined(OS_APPLE)
+        system_ = SystemMac::GetInstance();
+    #elif defined(OS_LINUX)
+        system_ = SystemLinux::GetInstance();
+    #else
+        #error "Unknown Operating System Compilation Target"
+    #endif
+}
+
 System* SystemInstance::GetInstance() {
     if (!instance_) {
-        #if defined(OS_WINDOWS)
-            instance_ = SystemWindows::GetInstance();
-        #elif defined(OS_APPLE)
-            instance_ = SystemMac::GetInstance();
-        #elif defined(OS_LINUX)
-            instance_ = SystemLinux::GetInstance();
-        #else
-            #error "Unknown Operating System Compilation Target"
-        #endif
+        instance_ = new SystemInstance;
     }
-    return instance_;
+    return instance_->system_;
+}
+
+SystemInstance::~SystemInstance() {
+    delete system_;
 }
 
 }  // namespace sys

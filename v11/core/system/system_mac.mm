@@ -25,6 +25,8 @@ using app::Application;
 
 namespace sys {
 
+SystemMac* SystemMac::instance_ = nullptr;
+
 SystemMac::SystemMac() : SystemBase() {
     notification_manager_ = new SystemNotificationManagerMac();
     platform_ = new PlatformMac();

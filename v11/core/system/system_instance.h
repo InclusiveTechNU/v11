@@ -26,9 +26,18 @@ namespace sys {
 class SystemInstance {
  private:
     // Singleton variable holding shared system instance pointer.
-    static System* instance_;
+    static SystemInstance* instance_;
+
+    // Stored instance of the native system class which is created
+    // on construction.
+    System* system_ = nullptr;
+
+    // Private singleton constructor of the system instance object.
+    SystemInstance();
 
  public:
+    ~SystemInstance();
+
     // Creates a new system object and stores it within the native
     // implementation for later use or returns an already created system
     // pointer.

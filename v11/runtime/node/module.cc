@@ -27,12 +27,9 @@
 #include "runtime/node/accessibility.h"
 #include "runtime/node/utils.h"
 #include "runtime/node/environment.h"
-#include "core/system/system.h"
-#include "core/system/system_instance.h"
 #include "utils/run_main.h"
 
 using utils::run_non_block_loop;
-using sys::System;
 using utils::pause_main_loop;
 using utils::create_main_app;
 
