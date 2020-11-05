@@ -6,7 +6,7 @@
 /yarn.lock
 /tsconfig.json
 yarn-error.log
-node_modules
+third_party/node/node_modules
 third_party/googletest
 third_party/abseil
 node_modules
