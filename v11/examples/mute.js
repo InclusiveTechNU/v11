@@ -1,4 +1,4 @@
-const v11 = require('../../bazel-bin/v11/core/v11.js');
+const v11 = require('../../bazel-bin/v11/typescript/v11.js');
 let keys = new Set();
 
 v11.keyboard.addEventListener('press', (event) => {

@@ -15,7 +15,7 @@
  */
 
 // A simple example that uses the Speech API to say "Hello World"
-const v11 = require('../../bazel-bin/v11/core/v11.js');
+const v11 = require('../../bazel-bin/v11/typescript/v11.js');
 v11.keyboard.addEventListener('press', (event) => {
     console.log(event);
     console.log('Key was pressed!');
