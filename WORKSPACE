@@ -34,11 +34,10 @@ http_archive(
     sha256 = "4952ef879704ab4ad6729a29007e7094aef213ea79e9f2e94cbe1c9a753e63ef",
     urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/2.2.0/rules_nodejs-2.2.0.tar.gz"],
 )
-load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories")
+load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories",
+                                              "yarn_install",
+                                              "yarn_modules")
 node_repositories(package_json = ["//third_party/node:package.json"])
-
-# Setup Bazel-Managed Dependencies
-load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
 yarn_install(
     name = "npm",
     package_json = "//third_party/node:package.json",
@@ -98,8 +97,6 @@ protobuf_pip_install()
 # Install Node.JS Protobuf Support
 load("@rules_proto_ext//node:deps.bzl", "node_proto_library")
 node_proto_library()
-load("@org_pubref_rules_node//node:rules.bzl", "node_repositories", "yarn_modules")
-node_repositories()
 yarn_modules(
     name = "proto_node_modules",
     deps = {
