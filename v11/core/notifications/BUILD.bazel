@@ -1,11 +1,11 @@
 #  Copyright 2020 Northwestern Inclusive Technology Lab
-# 
+#
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,36 +16,36 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
     name = "notifications_base_lib",
+    srcs = [
+        "notification_data_builder.cc",
+    ],
     hdrs = [
         "notification.h",
         "notification_builder.h",
         "notification_builder_inl.h",
         "notification_data_builder.h",
     ],
-    srcs = [
-        "notification_data_builder.cc",
-    ],
+    strip_include_prefix = "//v11",
+    visibility = ["//visibility:public"],
     deps = [
         "@abseil_cpp//absl/container:flat_hash_map",
         "@abseil_cpp//absl/container:flat_hash_set",
     ],
-    strip_include_prefix = "//v11",
-    visibility = ["//visibility:public"],
 )
 
 cc_library(
     name = "notifications_input_source_base_lib",
     hdrs = [
         "input_source.h",
-        "input_source_inl.h",
         "input_source_base.h",
         "input_source_base_inl.h",
-    ],
-    deps = [
-        ":notifications_base_lib",
+        "input_source_inl.h",
     ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:public"],
+    deps = [
+        ":notifications_base_lib",
+    ],
 )
 
 cc_library(
@@ -57,27 +57,27 @@ cc_library(
         "notification_manager_builder.h",
         "notification_manager_builder_inl.h",
     ],
+    strip_include_prefix = "//v11",
+    visibility = ["//visibility:public"],
     deps = [
         ":notifications_base_lib",
         ":notifications_input_source_base_lib",
     ],
-    strip_include_prefix = "//v11",
-    visibility = ["//visibility:public"],
 )
 
 cc_library(
     name = "notifications_lib_mock",
-    hdrs = [
-        "input_source_mock.h",
-    ],
     srcs = [
         "input_source_mock.cc",
     ],
-    deps = [
-        ":notifications_input_source_base_lib",
+    hdrs = [
+        "input_source_mock.h",
     ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:private"],
+    deps = [
+        ":notifications_input_source_base_lib",
+    ],
 )
 
 cc_test(
@@ -85,12 +85,12 @@ cc_test(
     srcs = [
         "input_source_test.cc",
     ],
+    visibility = ["//v11:__subpackages__"],
     deps = [
         ":notifications_base_lib",
         ":notifications_input_source_base_lib",
-        ":notifications_manager_base_lib",
         ":notifications_lib_mock",
+        ":notifications_manager_base_lib",
         "@gtest//:gtest_main",
     ],
-    visibility = ["//v11:__subpackages__"],
 )

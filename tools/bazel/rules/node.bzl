@@ -1,21 +1,24 @@
 #  Copyright 2020 Northwestern Inclusive Technology Lab
-# 
+#
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-load(":base.bzl", "get_cc_library_headers",
-                  "get_cc_library_includes",
-                  "get_rel_path",
-                  "get_virtual_library_dirname")
+load(
+    ":base.bzl",
+    "get_cc_library_headers",
+    "get_cc_library_includes",
+    "get_rel_path",
+    "get_virtual_library_dirname",
+)
 
 # Supported Node Addon Extensions
 _cpp_header_extensions = [".h", ".hh", ".hpp", ".hxx", ".h++"]
@@ -38,9 +41,9 @@ def _get_gyp_src_path(dir_path, gyp_dir_path):
     relative_path_comps = []
     for i in range(len(dir_comps)):
         dir_comp = dir_comps[i]
-        if start_index+i >= len(gyp_comps) or gyp_comps[start_index+i] != dir_comp:
+        if start_index + i >= len(gyp_comps) or gyp_comps[start_index + i] != dir_comp:
             relative_path_comps.append(dir_comp)
-    return '/'.join(relative_path_comps)
+    return "/".join(relative_path_comps)
 
 def _gen_addon_build_files(ctx, name):
     # TODO(tommymchugh): Generate debug and release files
@@ -57,13 +60,14 @@ def _gen_addon_build_files(ctx, name):
         starting_path + name + ".node",
     ]
 
-def _gen_gyp_build_subs(name,
-                        srcs,
-                        gyp_dirname,
-                        deps = [],
-                        includes = [],
-                        cflags = [],
-                        mac_sdks = []):
+def _gen_gyp_build_subs(
+        name,
+        srcs,
+        gyp_dirname,
+        deps = [],
+        includes = [],
+        cflags = [],
+        mac_sdks = []):
     # Generate Apple SDK dependencies
     mac_sdks_full = []
     for sdk in mac_sdks:
@@ -72,7 +76,7 @@ def _gen_gyp_build_subs(name,
     # Generate include directories
     default_includes = [
         ".",
-        '<!(NODE_PATH=$(which node); echo "$NODE_PATH" | sed "s/bin\/node/include/")',
+        "<!(NODE_PATH=$(which node); echo \"$NODE_PATH\" | sed \"s/bin\\/node/include/\")",
     ]
     include_dirs = default_includes + includes
 
@@ -121,6 +125,7 @@ def _node_native_library_impl(ctx):
     # TODO(tommymchugh): Platform dependent seperator
     seperator = "/"
     gyp_build_file = ctx.actions.declare_file(_node_addon_build_file_name)
+
     # TODO(tommymchugh): source files which don't have a stripped prefix break
     # Capture dependency headers and include dirs
     deps_hdrs = []
@@ -143,7 +148,7 @@ def _node_native_library_impl(ctx):
 
     # Generate libraries from linked dependencies
     linked_paths = []
-    full_linked_deps = depset([], order="default")
+    full_linked_deps = depset([], order = "default")
     external_deps = []
     for dep_lib in ctx.attr.deps:
         cc_info = dep_lib[CcInfo]
@@ -161,11 +166,11 @@ def _node_native_library_impl(ctx):
                 static_lib = library.static_library
                 if static_lib != None:
                     if static_lib.short_path not in linked_paths:
-                        full_linked_deps = depset([static_lib], transitive=[full_linked_deps])
+                        full_linked_deps = depset([static_lib], transitive = [full_linked_deps])
                         linked_paths.append(static_lib.short_path)
                 elif dynamic_lib != None:
                     if dynamic_lib.short_path not in linked_paths:
-                        full_linked_deps = depset([dynamic_lib], transitive=[full_linked_deps])
+                        full_linked_deps = depset([dynamic_lib], transitive = [full_linked_deps])
                         linked_paths.append(dynamic_lib.short_path)
 
     # Generate virtual libraries from deps
@@ -184,7 +189,7 @@ def _node_native_library_impl(ctx):
         dep_lib_file = ctx.actions.declare_file(dep_lib_path)
         ctx.actions.symlink(
             output = dep_lib_file,
-            target_file = dep_lib
+            target_file = dep_lib,
         )
         link_dep_paths.append("<(PRODUCT_DIR)/" + dep_lib_rel_path)
         linked_deps.append(dep_lib_file)
@@ -195,7 +200,7 @@ def _node_native_library_impl(ctx):
         dep_lib_file = ctx.actions.declare_file(dep_lib_path)
         ctx.actions.symlink(
             output = dep_lib_file,
-            target_file = dep_lib
+            target_file = dep_lib,
         )
         path_comps = dep_lib.path.split("/")
         external_paths.append("./build/Release/" + vlib_dirname + seperator + path_comps[0] + seperator + path_comps[1])
@@ -204,13 +209,15 @@ def _node_native_library_impl(ctx):
     gyp_includes += external_paths_set.to_list()
 
     # Generate binding.gyp file from build sources
-    gyp_build_subs = _gen_gyp_build_subs(ctx.label.name,
-                                         ctx.files.srcs,
-                                         gyp_build_file.dirname,
-                                         link_dep_paths,
-                                         gyp_includes,
-                                         ctx.attr.copts,
-                                         ctx.attr.apple_sdks)
+    gyp_build_subs = _gen_gyp_build_subs(
+        ctx.label.name,
+        ctx.files.srcs,
+        gyp_build_file.dirname,
+        link_dep_paths,
+        gyp_includes,
+        ctx.attr.copts,
+        ctx.attr.apple_sdks,
+    )
     ctx.actions.expand_template(
         output = gyp_build_file,
         template = ctx.file._build_file_template,
@@ -300,6 +307,6 @@ node_native_module = rule(
         ),
         "_node_gyp": attr.label(
             default = "@npm//node-gyp",
-        )
-    }
+        ),
+    },
 )

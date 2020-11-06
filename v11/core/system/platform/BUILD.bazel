@@ -1,11 +1,11 @@
 #  Copyright 2020 Northwestern Inclusive Technology Lab
-# 
+#
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,23 +15,16 @@
 load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
 load("@rules_cc//cc:defs.bzl", "cc_test")
 
-
 cross_cc_library(
     name = "sys_platform_lib",
-    hdrs = [
-        "platform.h",
-        "platform_info.h",
-        "platform_utils.h",
-    ],
     srcs = [
         "platform.cc",
         "platform_utils.cc",
     ],
-    macos_hdrs = [
-        "platform_mac.h",
-    ],
-    macos_srcs = [
-        "platform_mac.mm",
+    hdrs = [
+        "platform.h",
+        "platform_info.h",
+        "platform_utils.h",
     ],
     linux_hdrs = [
         "platform_linux.h",
@@ -39,26 +32,32 @@ cross_cc_library(
     linux_srcs = [
         "platform_linux.cc",
     ],
-    deps = [
-        "@abseil_cpp//absl/strings:str_format",
+    macos_hdrs = [
+        "platform_mac.h",
+    ],
+    macos_srcs = [
+        "platform_mac.mm",
     ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:public"],
+    deps = [
+        "@abseil_cpp//absl/strings:str_format",
+    ],
 )
 
 cc_library(
     name = "sys_platform_lib_mock",
-    hdrs = [
-        "platform_mock.h",
-    ],
     srcs = [
         "platform_mock.cc",
     ],
-    deps = [
-        ":sys_platform_lib",
+    hdrs = [
+        "platform_mock.h",
     ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:private"],
+    deps = [
+        ":sys_platform_lib",
+    ],
 )
 
 cc_test(
@@ -68,17 +67,17 @@ cc_test(
         "platform_utils_test.cc",
     ] + select({
         "//tools/bazel/platforms:linux": [
-            "platform_test_linux.cc"
+            "platform_test_linux.cc",
         ],
         "//tools/bazel/platforms:macos": [
-            "platform_test_mac.cc"
+            "platform_test_mac.cc",
         ],
         "//conditions:default": [],
     }),
+    visibility = ["//v11:__subpackages__"],
     deps = [
         ":sys_platform_lib",
         ":sys_platform_lib_mock",
         "@gtest//:gtest_main",
     ],
-    visibility = ["//v11:__subpackages__"],
 )

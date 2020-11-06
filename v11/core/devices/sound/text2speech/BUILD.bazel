@@ -1,11 +1,11 @@
 #  Copyright 2020 Northwestern Inclusive Technology Lab
-# 
+#
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,17 +16,20 @@ load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
 
 cross_cc_library(
     name = "sound_text2speech_lib",
+    srcs = [
+        "text2speech_synthesizer.cc",
+        "voice.cc",
+    ],
     hdrs = [
+        "speech_request.h",
         "text2speech_synthesizer.h",
         "text2speech_synthesizer_bridge.h",
         "voice.h",
         "voice_bridge.h",
         "voice_quality.h",
-        "speech_request.h",
     ],
-    srcs = [
-        "text2speech_synthesizer.cc",
-        "voice.cc"
+    linux_srcs = [
+        ":sound_text2speech_lib_linux_srcs",
     ],
     macos_hdrs = [
         ":sound_text2speech_lib_macos_hdrs",
@@ -34,17 +37,14 @@ cross_cc_library(
     macos_srcs = [
         ":sound_text2speech_lib_macos_srcs",
     ],
-    linux_srcs = [
-        ":sound_text2speech_lib_linux_srcs",
-    ],
+    strip_include_prefix = "//v11",
+    visibility = ["//visibility:public"],
     windows_srcs = [
         ":sound_text2speech_lib_windows_srcs",
     ],
     deps = [
         "//v11/utils:v11_utils_lib",
     ],
-    strip_include_prefix = "//v11",
-    visibility = ["//visibility:public"],
 )
 
 # Core Sound Text2Speech Lib Linux Platform Resources
@@ -71,9 +71,9 @@ filegroup(
 filegroup(
     name = "sound_text2speech_lib_macos_srcs",
     srcs = [
+        "text2speech_delegate_mac.mm",
         "text2speech_synthesizer_bridge_mac.mm",
         "voice_bridge_mac.mm",
-        "text2speech_delegate_mac.mm",
     ],
     visibility = ["//visibility:private"],
 )

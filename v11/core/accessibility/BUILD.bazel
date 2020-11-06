@@ -1,11 +1,11 @@
 #  Copyright 2020 Northwestern Inclusive Technology Lab
-# 
+#
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,32 +16,31 @@ load("//tools/bazel/rules:cross_platform.bzl", "cross_cc_library")
 
 cross_cc_library(
     name = "core_accessibility_lib",
-    hdrs = [
-        "accessibility.h",
-        "accessibility_tree.h",
-        "accessibility_window.h",
-        "accessibility_element.h",
-    ],
     srcs = [
+        "accessibility_element.cc",
         "accessibility_tree.cc",
         "accessibility_window.cc",
-        "accessibility_element.cc",
     ],
-    macos_srcs = [
-        ":accessibility_lib_macos_srcs",
+    hdrs = [
+        "accessibility.h",
+        "accessibility_element.h",
+        "accessibility_tree.h",
+        "accessibility_window.h",
     ],
     linux_srcs = [
         ":accessibility_lib_linux_srcs",
     ],
-    windows_srcs = [
-
-    ],
-    deps = [
-        "//v11/core/system/notifications:sys_notifications_lib",
-        "//v11/core/applications:core_application_lib",
+    macos_srcs = [
+        ":accessibility_lib_macos_srcs",
     ],
     strip_include_prefix = "//v11",
     visibility = ["//visibility:public"],
+    windows_srcs = [
+    ],
+    deps = [
+        "//v11/core/applications:core_application_lib",
+        "//v11/core/system/notifications:sys_notifications_lib",
+    ],
 )
 
 # Core Accessibility Lib Linux Platform Resources
@@ -67,6 +66,5 @@ filegroup(
     ],
     visibility = ["//visibility:private"],
 )
-
 
 # Core Accessibility Lib Windows Platform Resources

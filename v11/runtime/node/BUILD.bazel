@@ -1,11 +1,11 @@
 #  Copyright 2020 Northwestern Inclusive Technology Lab
-# 
+#
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,35 +17,30 @@ load("//tools/bazel/rules:node.bzl", "node_native_module")
 
 node_native_module(
     name = "core_node_addon",
+    srcs = [
+        "accessibility.cc",
+        "devices.cc",
+        "environment.cc",
+        "module.cc",
+        "sound_utils.cc",
+        "utils.cc",
+    ],
     hdrs = [
         "accessibility.h",
-        "environment.h",
         "devices.h",
+        "environment.h",
         "sound_utils.h",
         "utils.h",
         "utils_inl.h",
     ],
-    srcs = [
-        "module.cc",
-        "accessibility.cc",
-        "environment.cc",
-        "devices.cc",
-        "sound_utils.cc",
-        "utils.cc",
-    ],
-    deps = [
-        "@abseil_cpp//absl/container:flat_hash_map",
-        "@abseil_cpp//absl/container:flat_hash_set",
-        "@abseil_cpp//absl/strings:str_format",
-        "//third_party/get_uv_event_loop:uv_event_loop_node_lib",
-        "//v11/utils:v11_utils_main_loop_lib",
-        "//v11/core/accessibility:core_accessibility_lib",
-        "//v11/core/system:core_sys_lib",
-        "//v11/core/applications:core_application_lib",
-        "//v11/core/devices/sound:core_sound_lib",
-        "//v11/core/devices/keyboard:core_keyboard_lib",
-    ],
-    strip_include_prefix = "//v11",
+    # TODO(tommymchugh): Make this OS sensitive
+    apple_sdks = select({
+        "//tools/bazel/platforms:macos": [
+            "AppKit",
+            "Foundation",
+        ],
+        "//conditions:default": [],
+    }),
     copts = [
         "-std=c++11",
         "-ansi",
@@ -54,14 +49,21 @@ node_native_module(
         "//tools/bazel/platforms:macos": [
             "-ObjC++",
             "-stdlib=libc++",
-        ], "//conditions:default": [],
+        ],
+        "//conditions:default": [],
     }),
-    # TODO(tommymchugh): Make this OS sensitive
-    apple_sdks = select({
-        "//tools/bazel/platforms:macos": [
-            "AppKit",
-            "Foundation",
-        ], "//conditions:default": [],
-    }),
+    strip_include_prefix = "//v11",
     visibility = ["//visibility:public"],
+    deps = [
+        "//v11/core/accessibility:core_accessibility_lib",
+        "//v11/core/applications:core_application_lib",
+        "//v11/core/devices/keyboard:core_keyboard_lib",
+        "//v11/core/devices/sound:core_sound_lib",
+        "//v11/core/system:core_sys_lib",
+        "//v11/utils:v11_utils_main_loop_lib",
+        "//third_party/get_uv_event_loop:uv_event_loop_node_lib",
+        "@abseil_cpp//absl/container:flat_hash_map",
+        "@abseil_cpp//absl/container:flat_hash_set",
+        "@abseil_cpp//absl/strings:str_format",
+    ],
 )
