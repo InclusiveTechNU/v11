@@ -6,7 +6,7 @@
 [![NSF Grant 1901456][18]][13]
 
 
-<img src="logo.svg" alt="V11 logo" align="right" width="30%"/>
+<img src="logo.svg" alt="V11 logo" align="right" width="240px"/>
 
 **Made with :purple_heart: in Evanston, IL at the**
 **[Northwestern Inclusive Technology Lab][1]**
