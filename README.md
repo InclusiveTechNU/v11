@@ -11,11 +11,11 @@
 **Made with :purple_heart: in Evanston, IL at the**
 **[Northwestern Inclusive Technology Lab][1]**
 
-V11 is a JavaScript library and code editor for building accessibility plugins,
-workflows, and applications. It is built on top of [V8][2] and
-Node.JS to provide a lightweight and easy to learn interface for manipulating
-applications and accessibility APIs using the features you love from
-JavaScript, while also relieving you of cross-platform nightmares.
+V11 is a cross-platform framework for building assistive scripts,
+workflows, and plugins. It is built on top of [V8][2] and Node.JS to provide a
+lightweight and easy to learn interface for querying and manipulating native
+accessibility APIs, while also relieving you of cross-platform nightmares when
+building for multiple operating systems.
 
 ## Get Started
 
