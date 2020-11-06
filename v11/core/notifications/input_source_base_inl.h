@@ -16,6 +16,8 @@
 
 #pragma once
 
+#include <string>
+#include <vector>
 #include "core/notifications/input_source_base.h"
 
 namespace sys {
@@ -27,7 +29,8 @@ InputSourceBase<Type>::~InputSourceBase() {
 }
 
 template <typename Type>
-void InputSourceBase<Type>::StoreNotification(Notification<Type>* notification) {
+void InputSourceBase<Type>::StoreNotification(Notification<Type>*
+                                              notification) {
     if (IsStoringMemory()) {
         memory_.push_back(notification);
     } else {
@@ -82,7 +85,8 @@ void InputSourceBase<Type>::ClearMemory() {
 }
 
 template <typename Type>
-const std::vector<Notification<Type>*>* InputSourceBase<Type>::GetMemory() const {
+const std::vector<Notification<Type>*>* InputSourceBase<Type>::
+                                        GetMemory() const {
     if (IsStoringMemory()) {
         return &memory_;
     }

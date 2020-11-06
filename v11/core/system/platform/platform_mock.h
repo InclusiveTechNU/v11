@@ -23,8 +23,8 @@
 namespace sys {
 
 // Testing constants for Platform class
-const std::string kMockPlatformName = "mock";
-const OperatingSystem kMockPlatformOS = OperatingSystem::kUnknown;
+const char kMockPlatformName[] = "mock";
+const OperatingSystem kMockPlatformOS = OperatingSystem::kUnknownPlatform;
 const Version kMockVersion = {1, 1, 1};
 
 // Platform class implementation for testing platform features

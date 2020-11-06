@@ -19,7 +19,8 @@
 namespace sys {
 namespace tests {
 
-void MockInputSource::CallCallbackMethod(Notification<NotificationType>* notification) {
+void MockInputSource::CallCallbackMethod(Notification<NotificationType>*
+                                         notification) {
     SendCallback(notification);
 }
 

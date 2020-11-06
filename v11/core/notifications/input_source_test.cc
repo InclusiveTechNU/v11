@@ -100,7 +100,7 @@ TEST(V11CoreSysNotificationsInputSourceTest, StoreMemoryChangesPropogate) {
     EXPECT_FALSE(source->IsStoringMemory());
 }
 
-// Tests that internal memory system is null when memory is not being stored 
+// Tests that internal memory system is null when memory is not being stored.
 TEST(V11CoreSysNotificationsInputSourceTest, MemoryWhenNotStoringMemory) {
     MockInputSource mock_source = MockInputSource();
     InputSource<NotificationType>* source = &mock_source;
@@ -131,7 +131,7 @@ TEST(V11CoreSysNotificationsInputSourceTest, DisabledWhenNotStoringMemory) {
     EXPECT_EQ(source->GetMemory(), nullptr);
 }
 
-// Tests that internal memory system is not null when memory is being stored 
+// Tests that internal memory system is not null when memory is being stored.
 TEST(V11CoreSysNotificationsInputSourceTest, MemoryWhenStoringMemory) {
     MockInputSource mock_source = MockInputSource();
     InputSource<NotificationType>* source = &mock_source;
@@ -171,7 +171,8 @@ TEST(V11CoreSysNotificationsInputSourceTest, MemoryZeroEnabledInput) {
 TEST(V11CoreSysNotificationsInputSourceTest, NoMemoryStoreRemainsEmpty) {
     MockInputSource mock_source = MockInputSource();
     InputSource<NotificationType>* source = &mock_source;
-    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification = builder->Build();
 
     source->SetStoringMemory(false);
@@ -184,7 +185,8 @@ TEST(V11CoreSysNotificationsInputSourceTest, NoMemoryStoreRemainsEmpty) {
 TEST(V11CoreSysNotificationsInputSourceTest, DisabledSourceRemainsEmpty) {
     MockInputSource mock_source = MockInputSource();
     InputSource<NotificationType>* source = &mock_source;
-    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification = builder->Build();
 
     source->SetEnabled(false);
@@ -198,9 +200,11 @@ TEST(V11CoreSysNotificationsInputSourceTest, DisabledSourceRemainsEmpty) {
 TEST(V11CoreSysNotificationsInputSourceTest, FlippedEnableMemoryIsOne) {
     MockInputSource mock_source = MockInputSource();
     InputSource<NotificationType>* source = &mock_source;
-    NotificationBuilder<NotificationType>* builder_one = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder_one =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification_one = builder_one->Build();
-    NotificationBuilder<NotificationType>* builder_two = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder_two =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification_two = builder_two->Build();
 
     source->SetEnabled(true);
@@ -217,9 +221,11 @@ TEST(V11CoreSysNotificationsInputSourceTest, FlippedEnableMemoryIsOne) {
 TEST(V11CoreSysNotificationsInputSourceTest, FlippedEnableSourceIsOne) {
     MockInputSource mock_source = MockInputSource();
     InputSource<NotificationType>* source = &mock_source;
-    NotificationBuilder<NotificationType>* builder_one = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder_one =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification_one = builder_one->Build();
-    NotificationBuilder<NotificationType>* builder_two = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder_two =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification_two = builder_two->Build();
 
     source->SetEnabled(false);
@@ -236,7 +242,8 @@ TEST(V11CoreSysNotificationsInputSourceTest, FlippedEnableSourceIsOne) {
 TEST(V11CoreSysNotificationsInputSourceTest, EnabledNotEmpty) {
     MockInputSource mock_source = MockInputSource();
     InputSource<NotificationType>* source = &mock_source;
-    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification = builder->Build();
 
     source->SetEnabled(true);
@@ -250,9 +257,11 @@ TEST(V11CoreSysNotificationsInputSourceTest, EnabledNotEmpty) {
 TEST(V11CoreSysNotificationsInputSourceTest, MemorySizeWillIncrease) {
     MockInputSource mock_source = MockInputSource();
     InputSource<NotificationType>* source = &mock_source;
-    NotificationBuilder<NotificationType>* builder_one = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder_one =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification_one = builder_one->Build();
-    NotificationBuilder<NotificationType>* builder_two = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder_two =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification_two = builder_two->Build();
 
     source->SetEnabled(true);
@@ -267,7 +276,8 @@ TEST(V11CoreSysNotificationsInputSourceTest, MemorySizeWillIncrease) {
 TEST(V11CoreSysNotificationsInputSourceTest, MemoryWillClearWhenDisabled) {
     MockInputSource mock_source = MockInputSource();
     InputSource<NotificationType>* source = &mock_source;
-    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification = builder->Build();
 
     source->SetEnabled(true);
@@ -285,7 +295,8 @@ TEST(V11CoreSysNotificationsInputSourceTest, MemoryWillClearWhenDisabled) {
 TEST(V11CoreSysNotificationsInputSourceTest, MemoryExistsForDisabledSource) {
     MockInputSource mock_source = MockInputSource();
     InputSource<NotificationType>* source = &mock_source;
-    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification = builder->Build();
 
     source->SetEnabled(true);
@@ -300,7 +311,8 @@ TEST(V11CoreSysNotificationsInputSourceTest, MemoryExistsForDisabledSource) {
 TEST(V11CoreSysNotificationsInputSourceTest, MemoryWillClearFromMethod) {
     MockInputSource mock_source = MockInputSource();
     InputSource<NotificationType>* source = &mock_source;
-    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification = builder->Build();
 
     source->SetEnabled(true);
@@ -316,7 +328,8 @@ TEST(V11CoreSysNotificationsInputSourceTest, MemoryWillClearFromMethod) {
 TEST(V11CoreSysNotificationsInputSourceTest, DisabledSoureceWillClear) {
     MockInputSource mock_source = MockInputSource();
     InputSource<NotificationType>* source = &mock_source;
-    NotificationBuilder<NotificationType>* builder = NotificationBuilder<NotificationType>::Create();
+    NotificationBuilder<NotificationType>* builder =
+        NotificationBuilder<NotificationType>::Create();
     Notification<NotificationType>* notification = builder->Build();
 
     source->SetEnabled(true);

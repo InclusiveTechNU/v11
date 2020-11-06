@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include "sys/types.h"
 #include <vector>
 #include "core/accessibility/accessibility_window.h"
 #include "core/applications/application.h"

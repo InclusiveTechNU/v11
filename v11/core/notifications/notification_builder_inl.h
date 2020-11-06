@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <string>
 #include "core/notifications/notification_builder.h"
 
 namespace sys {
@@ -38,8 +39,8 @@ void NotificationBuilder<Type>::FreeStoredData() {
     if (!data_) {
         return;
     }
-    absl::flat_hash_map<std::string,
-                        NotificationData*>::iterator data_iter = data_->begin();
+    absl::flat_hash_map<std::string, NotificationData*>::iterator data_iter =
+        data_->begin();
     while (data_iter != data_->end()) {
         delete data_iter->second;
         data_->erase(data_iter);

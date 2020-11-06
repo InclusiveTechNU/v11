@@ -64,7 +64,8 @@ class NotificationBuilder : public Notification<Type> {
     // Returns a pointer to the notification's data object. This does not
     // transfer ownership of the data object. This is always owned by the
     // notification builder.
-    const absl::flat_hash_map<std::string, NotificationData*>* GetDataMap() const;
+    const absl::flat_hash_map<std::string,
+                              NotificationData*>* GetDataMap() const;
 
     // Adds or replaces an entry in the notification's data with key 'key'
     // and data of object 'value'.

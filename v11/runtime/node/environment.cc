@@ -63,7 +63,7 @@ using app::Application;
 
 namespace environment {
 
-SystemNotificationType convert_string_to_notification_type(std::string type_str) {
+SystemNotificationType string_to_notification_type(std::string type_str) {
     if (type_str == NOTIF_TYPE_APPLICATION_DID_HIDE) {
         return SystemNotificationType::kApplicationDidHide;
     } else if (type_str == NOTIF_TYPE_APPLICATION_DID_LAUNCH) {
@@ -209,7 +209,10 @@ napi_status system(napi_env env, napi_value exports) {
     if (status != napi_ok) return status;
 
     // Declare and place platform api binding within v11.platform
-    status = napi_set_named_property(env, exports, "platform", platform_object);
+    status = napi_set_named_property(env,
+                                     exports,
+                                     "platform",
+                                     platform_object);
     if (status != napi_ok) return status;
 
     return status;
@@ -253,8 +256,9 @@ napi_status notifications(napi_env env, napi_value exports) {
         status = napi_get_cb_info(env, info, &args_count, args, nullptr, 0);
         if (status != napi_ok) return nullptr;
 
-        napi_value listener_type_object = args[0];
-        const char* listener_type_ptr = string_from_value(env, listener_type_object);
+        napi_value listener_type_val = args[0];
+        const char* listener_type_ptr = string_from_value(env,
+                                                          listener_type_val);
 
         // TODO(tommymchugh): Figure out how to check for null for callback
         // Create async thread-safe callback function
@@ -265,11 +269,14 @@ napi_status notifications(napi_env env, napi_value exports) {
                                          void* context,
                                          void* data) {
             // Convert data to notification type
-            SystemNotification* notif = reinterpret_cast<SystemNotification*>(data);
+            SystemNotification* notif =
+                reinterpret_cast<SystemNotification*>(data);
 
             // TODO(tommymchugh): determine proper context not undef
             napi_value undefined, notif_object;
-            notification_to_object<SystemNotificationType>(env, notif, &notif_object);
+            notification_to_object<SystemNotificationType>(env,
+                                                           notif,
+                                                           &notif_object);
             a_ok(napi_get_undefined(env, &undefined));
             a_ok(napi_call_function(env,
                                     undefined,
@@ -297,17 +304,21 @@ napi_status notifications(napi_env env, napi_value exports) {
             // TODO(tommymchugh): Implement catch all notification callback
             // ! Adds a callback function for all events
         } else {
-            SystemNotificationType listener_type = SystemNotificationType::kUnknownSystemNotification;
+            SystemNotificationType listener_type =
+                SystemNotificationType::kUnknownSystemNotification;
             std::string type_str = std::string(listener_type_ptr);
-            listener_type = convert_string_to_notification_type(type_str);
-            SystemNotificationManager* manager = sys_ptr->GetNotificationManager();
-            manager->AddEventListener(listener_type,
-                                      new SystemNotificationCallback([listener_callback] (const SystemNotification* notification) {
-                napi_acquire_threadsafe_function(listener_callback);
-                napi_call_threadsafe_function(listener_callback,
-                                              (void*) notification,
-                                              napi_tsfn_blocking);
-            }));
+            listener_type = string_to_notification_type(type_str);
+            SystemNotificationManager* manager = sys_ptr->
+                                                 GetNotificationManager();
+            SystemNotificationCallback* callback =
+                new SystemNotificationCallback([listener_callback]
+                        (const SystemNotification* notification) {
+                    napi_acquire_threadsafe_function(listener_callback);
+                    napi_call_threadsafe_function(listener_callback,
+                                                  (void*) notification,
+                                                  napi_tsfn_blocking);
+                });
+            manager->AddEventListener(listener_type, callback);
         }
         delete listener_type_ptr;
         return nullptr;

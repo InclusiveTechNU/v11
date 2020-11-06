@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include <iostream>
+#include <string>
 #include <vector>
 #include "runtime/node/accessibility.h"
 #include "runtime/node/utils.h"
@@ -110,7 +110,7 @@ void windows(napi_env env, napi_value exports) {
 
         // TODO(tommymchugh): Move to an application variable in raw JS instead
         // of generating one continuously in client
-        //TODO(tommymchugh): Handle memory management
+        // TODO(tommymchugh): Handle memory management
         Application* app = new Application(process_id);
         AccessibilityTree* app_tree = new AccessibilityTree(app);
         std::vector<AccessibilityWindow*> windows = app_tree->get_windows();
@@ -145,9 +145,9 @@ void listeners(napi_env env, napi_value exports) {
         AccessibilityElement* element =
             reinterpret_cast<AccessibilityElement*>(native_wrapper_ptr);
 
-        napi_value listener_type_object = args[1];
+        napi_value listener_type_val = args[1];
         const char* listener_type_ptr = string_from_value(env,
-                                                          listener_type_object);
+                                                          listener_type_val);
         if (!listener_type_ptr) {
             // TODO(tommymchugh): Handle failed string
             return nullptr;

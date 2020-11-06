@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <vector>
 #include <utility>
 #include "core/notifications/notification_manager_base.h"
 
@@ -34,8 +35,8 @@ const std::vector<InputSource<Type>*>* NotificationManagerBase<Type>::
 }
 
 template <typename Type>
-void NotificationManagerBase<Type>::AddEventListener(Type type,
-                                                     NotificationCallback<Type>* callback) {
+void NotificationManagerBase<Type>::
+     AddEventListener(Type type, NotificationCallback<Type>* callback) {
     auto present_callback = listeners_->find(type);
     if (present_callback != listeners_->end()) {
         delete present_callback->second;

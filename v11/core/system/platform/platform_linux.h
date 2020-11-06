@@ -22,18 +22,18 @@
 
 namespace sys {
 
-const std::string kReleaseFilePath = "/etc/os-release";
-const std::string kPlatformNameDefault= "Linux";
-const std::string kReleaseName = "NAME";
-const std::string kReleaseVersion = "VERSION";
+const char kReleaseFilePath[] = "/etc/os-release";
+const char kPlatformNameDefault[] = "Linux";
+const char kReleaseName[] = "NAME";
+const char kReleaseVersion[] = "VERSION";
 
 // Platform class implementation for Linux specific environments
 class PlatformLinux : public Platform {
     // The specific distribution of linux. Defaults to kPlatformNameDefault.
-    std::string name_ = kPlatformNameDefault;
+    std::string name_ = std::string(kPlatformNameDefault);
 
     // The specific version of the platform's Linux distribution.
-    Version version_ = {0,0,0};
+    Version version_ = {0, 0, 0};
 
  public:
     PlatformLinux();

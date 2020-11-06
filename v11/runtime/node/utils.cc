@@ -59,17 +59,28 @@ void application_to_object(napi_env env,
 
     if (application->get_name()) {
         napi_value name_value;
-        a_ok(napi_create_string_utf8(env, application->get_name(), NAPI_AUTO_LENGTH, &name_value));
+        a_ok(napi_create_string_utf8(env,
+                                     application->get_name(),
+                                     NAPI_AUTO_LENGTH,
+                                     &name_value));
         a_ok(napi_set_named_property(env, *value, "name", name_value));
     }
 
     napi_value process_id;
-    a_ok(napi_create_string_utf8(env, std::to_string(application->get_process_id()).c_str(), NAPI_AUTO_LENGTH, &process_id));
+    pid_t raw_pid = application->get_process_id();
+    std::string pid_str = std::to_string(raw_pid);
+    a_ok(napi_create_string_utf8(env,
+                                 pid_str.c_str(),
+                                 NAPI_AUTO_LENGTH,
+                                 &process_id));
     a_ok(napi_set_named_property(env, *value, "processId", process_id));
 
     if (application->get_bundle_id()) {
         napi_value bundle_value;
-        a_ok(napi_create_string_utf8(env, application->get_bundle_id(), NAPI_AUTO_LENGTH, &bundle_value));
+        a_ok(napi_create_string_utf8(env,
+                                     application->get_bundle_id(),
+                                     NAPI_AUTO_LENGTH,
+                                     &bundle_value));
         a_ok(napi_set_named_property(env, *value, "id", bundle_value));
     }
 }
@@ -80,16 +91,19 @@ void window_to_object(napi_env env,
     a_ok(napi_create_object(env, value));
 
     napi_value title_value;
-    a_ok(napi_create_string_utf8(env, window->get_title(), NAPI_AUTO_LENGTH, &title_value));
+    a_ok(napi_create_string_utf8(env,
+                                 window->get_title(),
+                                 NAPI_AUTO_LENGTH,
+                                 &title_value));
     a_ok(napi_set_named_property(env, *value, "title", title_value));
 
     napi_value native_wrap_object;
     a_ok(napi_create_object(env, &native_wrap_object));
     a_ok(napi_wrap(env,
                    native_wrap_object,
-                   (void*) window,
-                   [](napi_env env, void* finalize_data, void* finalize_hint) {
-                       delete (AccessibilityWindow*) finalize_data;
+                   reinterpret_cast<void*>(window),
+                   [](napi_env env, void* data, void* hint) {
+                        delete reinterpret_cast<AccessibilityWindow*>(data);
                    },
                    nullptr,
                    nullptr));
@@ -109,7 +123,10 @@ void keyboard_event_to_object(napi_env env,
         type_str = "release";
     }
     uint32_t code = keycode_to_uint(event->get_event_target_key());
-    a_ok(napi_create_string_utf8(env, type_str.c_str(), NAPI_AUTO_LENGTH, &type_value));
+    a_ok(napi_create_string_utf8(env,
+                                 type_str.c_str(),
+                                 NAPI_AUTO_LENGTH,
+                                 &type_value));
     a_ok(napi_create_int32(env, code, &key_value));
     a_ok(napi_set_named_property(env, *value, "type", type_value));
     a_ok(napi_set_named_property(env, *value, "key", key_value));
@@ -123,7 +140,7 @@ void element_to_object(napi_env env,
     const char* type = element->get_type();
     const char* label = element->get_label();
     // TODO(tommymchugh): Initialize description value
-    //const char* description = element->get_description();
+    // const char* description = element->get_description();
     const char* value_str = element->get_value();
     const char* title = element->get_title();
 
@@ -168,9 +185,9 @@ void element_to_object(napi_env env,
     a_ok(napi_create_object(env, &native_wrap_object));
     a_ok(napi_wrap(env,
                    native_wrap_object,
-                   (void*) element,
-                   [](napi_env env, void* finalize_data, void* finalize_hint) {
-                       delete (AccessibilityElement*) finalize_data;
+                   reinterpret_cast<void*>(element),
+                   [](napi_env env, void* data, void* hint) {
+                       delete reinterpret_cast<AccessibilityElement*>(data);
                    },
                    nullptr,
                    nullptr));

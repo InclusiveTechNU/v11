@@ -35,8 +35,10 @@ void SystemBase::FreeRunningApplications() {
 }
 
 void SystemBase::AddApplicationChangeListener() {
-    SystemNotificationType launch_type = SystemNotificationType::kApplicationDidLaunch;
-    SystemNotificationType exit_type = SystemNotificationType::kApplicationDidTerminate;
+    SystemNotificationType launch_type =
+        SystemNotificationType::kApplicationDidLaunch;
+    SystemNotificationType exit_type =
+        SystemNotificationType::kApplicationDidTerminate;
     SystemNotificationCallback* launch_cb = new SystemNotificationCallback(
                                         [&](const SystemNotification* notif) {
         std::string data_key = std::string(kApplicationDataTypeKey);
@@ -56,7 +58,8 @@ void SystemBase::AddApplicationChangeListener() {
             return;
         }
         const pid_t* process_id = (const pid_t*) data->GetData();
-        absl::btree_set<Application*>::iterator apps_iter = running_apps_->begin();
+        absl::btree_set<Application*>::iterator apps_iter = running_apps_->
+                                                            begin();
         while (apps_iter != running_apps_->end()) {
             Application* app = (*apps_iter);
             const pid_t app_pid = app->get_process_id();
@@ -80,7 +83,8 @@ SystemNotificationManager* const SystemBase::GetNotificationManager() const {
     return notification_manager_;
 }
 
-const absl::btree_set<Application*>* SystemBase::GetRunningApplications() const {
+const absl::btree_set<Application*>* SystemBase::
+                                     GetRunningApplications() const {
     return running_apps_;
 }
 

@@ -26,24 +26,26 @@ PlatformLinux::PlatformLinux() {
     std::ifstream release_file(kReleaseFilePath);
     bool have_name = false;
     bool have_version = false;
+    std::string release_name = std::string(kReleaseName);
+    std::string release_version = std::string(kReleaseVersion);
     if (release_file.is_open()) {
-        while(getline(release_file, release_line) &&
-                      (!have_name || !have_version)) {
-            if (release_line.size() > kReleaseName.size() &&
-                release_line.substr(0, kReleaseName.size()) == kReleaseName) {
-                name_ = release_line.substr(kReleaseName.size() + 2);
+        while (getline(release_file, release_line) &&
+               (!have_name || !have_version)) {
+            if (release_line.size() > release_name.size() &&
+                release_line.substr(0, release_name.size()) == kReleaseName) {
+                name_ = release_line.substr(release_name.size() + 2);
                 name_.pop_back();
                 have_name = true;
-            } else if (release_line.size() > kReleaseVersion.size() &&
-                       release_line.substr(0, kReleaseVersion.size())
+            } else if (release_line.size() > release_version.size() &&
+                       release_line.substr(0, release_version.size())
                           == kReleaseVersion) {
-                std::size_t ver_size = kReleaseVersion.size();
+                std::size_t ver_size = release_version.size();
                 std::string version_str = release_line.substr(ver_size + 2);
                 version_str.pop_back();
                 // Turn string representation into Version
                 version_ = PlatformUtils::StringToVersion(version_str);
                 have_version = true;
-            } 
+            }
         }
         release_file.close();
     }

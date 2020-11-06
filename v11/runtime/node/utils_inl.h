@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#pragma once
+
 #include <stdint.h>
 #include <string>
 #include <map>
@@ -36,7 +38,8 @@ void notification_to_object(napi_env env,
                             napi_value* value) {
     typedef std::map<std::string, std::string> notification_data;
     typedef std::pair<std::string, std::string> notification_pair;
-    const absl::flat_hash_set<std::string>* data_keys = notification->GetDataKeys();
+    const absl::flat_hash_set<std::string>* data_keys = notification->
+                                                        GetDataKeys();
 
     a_ok(napi_create_object(env, value));
     for (const std::string& key : *data_keys) {

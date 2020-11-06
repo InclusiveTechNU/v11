@@ -56,7 +56,12 @@ napi_value process_event_loop(napi_env env, napi_callback_info info) {
     run_non_block_loop(node_loop);
 
     napi_value callback_func = create_set_immediate_func(env);
-    a_ok(napi_call_function(env, process, next_tick, 1, &callback_func, nullptr));
+    a_ok(napi_call_function(env,
+                            process,
+                            next_tick,
+                            1,
+                            &callback_func,
+                            nullptr));
     return nullptr;
 }
 
@@ -65,7 +70,12 @@ napi_value set_immediate_func(napi_env env, napi_callback_info info) {
     napi_value global, set_immediate, proc_loop;
     a_ok(napi_get_global(env, &global));
     a_ok(napi_get_named_property(env, global, "setImmediate", &set_immediate));
-    a_ok(napi_create_function(env, nullptr, 0, process_event_loop, nullptr, &proc_loop));
+    a_ok(napi_create_function(env,
+                              nullptr,
+                              0,
+                              process_event_loop,
+                              nullptr,
+                              &proc_loop));
     napi_value* argv = &proc_loop;
     a_ok(napi_call_function(env, global, set_immediate, argc, argv, nullptr));
     return nullptr;
@@ -73,7 +83,12 @@ napi_value set_immediate_func(napi_env env, napi_callback_info info) {
 
 napi_value create_set_immediate_func(napi_env env) {
     napi_value set_immediate;
-    a_ok(napi_create_function(env, nullptr, 0, set_immediate_func, nullptr, &set_immediate));
+    a_ok(napi_create_function(env,
+                              nullptr,
+                              0,
+                              set_immediate_func,
+                              nullptr,
+                              &set_immediate));
     return set_immediate;
 }
 
@@ -89,7 +104,12 @@ void setup_event_loop(napi_env env, napi_value exports) {
     napi_value global;
     napi_value event_loop_func = create_set_immediate_func(env);
     a_ok(napi_get_global(env, &global));
-    a_ok(napi_call_function(env, global, event_loop_func, 0, nullptr, nullptr));
+    a_ok(napi_call_function(env,
+                            global,
+                            event_loop_func,
+                            0,
+                            nullptr,
+                            nullptr));
 }
 
 napi_value init(napi_env env, napi_value exports) {

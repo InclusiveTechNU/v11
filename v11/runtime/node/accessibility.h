@@ -22,4 +22,4 @@ namespace a11y {
 
 void init(napi_env env, napi_value exports);
 
-}  // namespace environment
+}  // namespace a11y

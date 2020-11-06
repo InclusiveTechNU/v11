@@ -37,10 +37,11 @@ ManagerType NotificationManagerBuilder<Type>::GetManagerType() const {
 }
 
 template <typename Type>
-void NotificationManagerBuilder<Type>::AttachInputSource(InputSource<Type>* source) {
+void NotificationManagerBuilder<Type>::
+     AttachInputSource(InputSource<Type>* source) {
     sources_.push_back(source);
-    source->SetCallback(new InputSourceCallback<Type>([&](const Notification<Type>*
-                                                          notification) {
+    source->SetCallback(new InputSourceCallback<Type>([&]
+                            (const Notification<Type>* notification) {
         auto present_callback = listeners_->find(notification->GetType());
         if (present_callback != listeners_->end()) {
             (*present_callback->second)(notification);

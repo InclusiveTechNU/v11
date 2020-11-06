@@ -20,7 +20,7 @@
 
 namespace sys {
 
-// Provides a factory class for building a NotificationData object. 
+// Provides a factory class for building a NotificationData object.
 class NotificationDataBuilder : public NotificationData {
  private:
     NotificationDataBuilder() = default;

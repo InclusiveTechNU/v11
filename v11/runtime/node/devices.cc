@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#include <iostream>
 #include <functional>
 #include <vector>
+#include <string>
 #include "runtime/node/devices.h"
 #include "runtime/node/sound_utils.h"
 #include "runtime/node/utils.h"
@@ -37,6 +37,7 @@ using keyboard::KeyboardSimulator;
 using sound::voice::Text2SpeechSynthesizer;
 using sound::voice::Text2SpeechSynthesizerBridge;
 using sound::voice::Voice;
+using sound::voice::SpeechDidFinishCallback;
 using keyboard::KeyboardListener;
 using keyboard::event::event_type;
 using keyboard::event::KeyboardEvent;
@@ -175,16 +176,20 @@ napi_status sound(napi_env env, napi_value exports) {
         // Send speech request to the native core interface
         const Voice* speaking_voice = Voice::get_voice_by_id(voice_id_ptr);
         if (speaking_voice != nullptr) {
-            Text2SpeechSynthesizer* speech_synth = new Text2SpeechSynthesizer();
-            Text2SpeechSynthesizerBridge* speech_bridge = speech_synth->get_bridge();
-            speech_bridge->set_callback(new std::function<void()>([listener_callback, speech_synth, speaking_voice]() {
-                napi_acquire_threadsafe_function(listener_callback);
-                napi_call_threadsafe_function(listener_callback,
-                                              nullptr,
-                                              napi_tsfn_blocking);
-                delete speaking_voice;
-                delete speech_synth;
-            }));
+            Text2SpeechSynthesizer* speech_synth =
+                new Text2SpeechSynthesizer();
+            Text2SpeechSynthesizerBridge* speech_bridge = speech_synth->
+                                                          get_bridge();
+            SpeechDidFinishCallback* speech_callback =
+                new SpeechDidFinishCallback([&]() {
+                    napi_acquire_threadsafe_function(listener_callback);
+                    napi_call_threadsafe_function(listener_callback,
+                                                nullptr,
+                                                napi_tsfn_blocking);
+                    delete speaking_voice;
+                    delete speech_synth;
+                });
+            speech_bridge->set_callback(speech_callback);
             speech_synth->speak(text_ptr, speaking_voice);
         } else {
             // TODO(tommymchugh): throw error for no speaking
@@ -332,17 +337,21 @@ napi_status keyboard(napi_env env, napi_value exports) {
                                                  &listener_callback);
         if (status != napi_ok) return nullptr;
         if (listener_type_str == "press") {
-            keyboard_listener->add_event_listener(event_type::KEY_DOWN, [listener_callback](KeyboardEvent* event) {
+            keyboard_listener->add_event_listener(event_type::KEY_DOWN,
+                                                  [listener_callback]
+                                                  (KeyboardEvent* event) {
                 napi_acquire_threadsafe_function(listener_callback);
                 napi_call_threadsafe_function(listener_callback,
-                                              (void*) event,
+                                              reinterpret_cast<void*>(event),
                                               napi_tsfn_blocking);
             });
         } else if (listener_type_str == "release") {
-            keyboard_listener->add_event_listener(event_type::KEY_UP, [listener_callback](KeyboardEvent* event) {
+            keyboard_listener->add_event_listener(event_type::KEY_UP,
+                                                  [listener_callback]
+                                                  (KeyboardEvent* event) {
                 napi_acquire_threadsafe_function(listener_callback);
                 napi_call_threadsafe_function(listener_callback,
-                                              (void*) event,
+                                              reinterpret_cast<void*>(event),
                                               napi_tsfn_blocking);
             });
         } else {
@@ -351,7 +360,10 @@ napi_status keyboard(napi_env env, napi_value exports) {
         return nullptr;
     }, SystemInstance::GetInstance(), &listener_key);
     if (status != napi_ok) return status;
-    status = napi_set_named_property(env, keyboard, "addEventListener", listener_key);
+    status = napi_set_named_property(env,
+                                     keyboard,
+                                     "addEventListener",
+                                     listener_key);
     if (status != napi_ok) return status;
 
     // Declare and place keyboards apis binding within v11.keyboard

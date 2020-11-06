@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-#include <iostream>
+#include <utility>
 #include "core/applications/application_observer.h"
 
 namespace app {
 
 ApplicationObserver::ApplicationObserver(pid_t identifier) {
-    _callback_handler = new std::function<void(NotificationType)>([](NotificationType type) {
-        std::cout << "hey!\n";
-    });
+    _callback_handler =
+        new std::function<void(NotificationType)>([](NotificationType type) {
+        });
     _native_bridge = new ApplicationObserverBridge(identifier);
 }
 
@@ -32,7 +32,8 @@ ApplicationObserver* ApplicationObserver::
 }
 
 void ApplicationObserver::add_observer_callback(NotificationType type,
-                                                std::function<void()>* callback) {
+                                                std::function<void()>*
+                                                callback) {
     _callbacks.insert(std::pair<NotificationType,
                                 std::function<void()>*>(type, callback));
 }

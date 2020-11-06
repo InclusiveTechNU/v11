@@ -19,7 +19,7 @@
 namespace sys {
 
 MockPlatform::MockPlatform() {
-    mock_platform_name_ = kMockPlatformName;
+    mock_platform_name_ = std::string(kMockPlatformName);
     mock_version_ = kMockVersion;
     mock_os_ = kMockPlatformOS;
 }
