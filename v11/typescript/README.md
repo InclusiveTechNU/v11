@@ -1,4 +1,5 @@
-# Core
+# V11.js
 
-V11 Core is the JavaScript wrapper above the Core APIs that provides a simple
-and lightweight interface for building accessibility workflows.
+This directory contains V11's implementation in JavaScript. We use typescript
+to make the development process easier, but the distribution is than shared
+as a JavaScript library.
