@@ -1,4 +1,4 @@
-# V11 JS Runtime for A11Y
+# V11 for A11Y
 ![Status][14]
 [![Apache 2.0 License][15]][10]
 [![Travis (.com)][16]][11]
