@@ -42,6 +42,10 @@ statement:
 const v11 = require('bazel-bin/v11/typescript/v11.js');
 ```
 
+*Note:* There are a few prerequisites that will embeded within a future release of V11.
+Make sure to have Node.JS, Yarn, and Pip installed. Otherwise you might have some fun
+errors.
+
 #### Examples
 
 V11 is inspired by the DOM to make modifying the accessibility tree easy.
