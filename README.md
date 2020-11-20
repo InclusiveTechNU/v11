@@ -29,14 +29,14 @@ all cross-platform components. Once you have installed Bazel you can generate
 the V11 developer-mode javascript library by running:
 
 ```shell
-bazel build //programming/v11/typescript:v11_lib_node_dev
+bazel build //v11/typescript:v11_lib_node_dev
 ```
 
 The output library can be imported into a Node project using the following
 statement:
 
 ```javascript
-const v11 = require('bazel-bin/programming/v11/typescript/v11.js');
+const v11 = require('bazel-bin/v11/typescript/v11.js');
 ```
 
 #### Examples
