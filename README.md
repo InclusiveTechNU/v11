@@ -19,6 +19,9 @@ building for multiple operating systems.
 
 **V11 is currently in a Developer Preview and will have a beta release later this fall**
 
+For stability this API currently showcases the MacOS implementation of V11. The beta release
+will include support for all major platforms (mac, windows, linux).
+
 ## Get Started
 
 #### Building V11 From Source
