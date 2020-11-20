@@ -17,15 +17,9 @@ lightweight and easy to learn interface for querying and manipulating native
 accessibility APIs, while also relieving you of cross-platform nightmares when
 building for multiple operating systems.
 
+**V11 is currently in a Developer Preview and will have a beta release later this fall**
+
 ## Get Started
-
-#### Installing V11
-
-To add V11 to an existing Node.JS project install using:
-
-```shell
-yarn add v11
-```
 
 #### Building V11 From Source
 
