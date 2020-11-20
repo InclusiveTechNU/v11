@@ -20,7 +20,8 @@ building for multiple operating systems.
 **V11 is currently in a Developer Preview and will have a beta release later this fall**
 
 For stability reasons, this API currently showcases the MacOS implementation of V11. The beta release
-will include support for all major platforms (mac, windows, linux).
+will include support for all major platforms (mac, windows, linux). For an early preview of whats to come
+please reach out to the project's lead: Tommy McHugh at [mchugh@u.northwestern.edu](mailto:mchugh@u.northwestern.edu).
 
 ## Get Started
 
