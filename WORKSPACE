@@ -35,8 +35,7 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/2.2.0/rules_nodejs-2.2.0.tar.gz"],
 )
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories",
-                                              "yarn_install",
-                                              "yarn_modules")
+                                              "yarn_install")
 node_repositories(package_json = ["//third_party/node:package.json"])
 yarn_install(
     name = "npm",
@@ -97,6 +96,7 @@ protobuf_pip_install()
 # Install Node.JS Protobuf Support
 load("@rules_proto_ext//node:deps.bzl", "node_proto_library")
 node_proto_library()
+load("@org_pubref_rules_node//node:rules.bzl", "yarn_modules")
 yarn_modules(
     name = "proto_node_modules",
     deps = {
@@ -134,3 +134,14 @@ local_repository(
     name = "gtest",
     path = "third_party/googletest",
 )
+History
+Snapshots
+Logpoints
+keyboard_capslock
+Open in Cloud Console
+Help
+Edit code in Cloud Shell
+Files
+Settings
+Add file to starred items
+Outline
