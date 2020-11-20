@@ -134,14 +134,3 @@ local_repository(
     name = "gtest",
     path = "third_party/googletest",
 )
-History
-Snapshots
-Logpoints
-keyboard_capslock
-Open in Cloud Console
-Help
-Edit code in Cloud Shell
-Files
-Settings
-Add file to starred items
-Outline
