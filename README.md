@@ -38,6 +38,11 @@ npm install -g node-gyp
 node-gyp install
 ```
 
+On macOS, you might also have to install XCode and install command line tools by running
+```shell
+xcode-select --install
+```
+
 #### Building V11 From Source
 
 V11 uses the [Bazel][6] build system for compiling the
