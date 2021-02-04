@@ -17,7 +17,7 @@ lightweight and easy to learn interface for querying and manipulating native
 accessibility APIs, while also relieving you of cross-platform nightmares when
 building for multiple operating systems.
 
-**V11 is currently in a Developer Preview and will have a beta release later this fall**
+**V11 is currently in a Developer Preview and will have a beta release later this spring**
 
 For stability reasons, this API currently showcases the MacOS implementation of V11. The beta release
 will include support for all major platforms (mac, windows, linux). For an early preview of whats to come
