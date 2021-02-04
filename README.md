@@ -25,6 +25,19 @@ please reach out to the project's lead: Tommy McHugh at [mchugh@u.northwestern.e
 
 ## Get Started
 
+#### Install Prerequisite Software
+Make sure to install:
+
+- [Bazel][19]
+- [Node.JS][20]
+- [Yarn][21]
+
+Once these have installed, run the following commands
+```shell
+npm install -g node-gyp
+node-gyp install
+```
+
 #### Building V11 From Source
 
 V11 uses the [Bazel][6] build system for compiling the
@@ -111,3 +124,6 @@ Read more in the CONTRIBUTING.md file.
 [16]: https://img.shields.io/travis/com/InclusiveTechNU/v11
 [17]: https://img.shields.io/badge/NU-HCI-blueviolet
 [18]: https://img.shields.io/badge/NSF-1901456-informational
+[19]: https://docs.bazel.build/versions/master/install-os-x.html
+[20]: https://nodejs.org/en/
+[21]: https://yarnpkg.com/getting-started/install
