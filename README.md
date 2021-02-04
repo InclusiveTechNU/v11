@@ -51,6 +51,7 @@ all cross-platform components. Once you have installed Bazel you can generate
 the V11 developer-mode javascript library by running:
 
 ```shell
+git clone https://github.com/InclusiveTechNU/v11.git && cd v11
 bazel build //v11/typescript:v11_lib_node_dev
 ```
 
