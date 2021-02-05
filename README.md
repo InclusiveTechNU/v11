@@ -59,7 +59,7 @@ The output library can be imported into a Node project using the following
 statement:
 
 ```javascript
-const v11 = require('bazel-bin/v11/typescript/v11.js');
+const v11 = require('./bazel-bin/v11/typescript/v11.js');
 ```
 
 *Note:* There are a few prerequisites that will embeded within a future release of V11.
