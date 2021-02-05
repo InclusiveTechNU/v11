@@ -35,12 +35,12 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/2.2.0/rules_nodejs-2.2.0.tar.gz"],
 )
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories",
-                                              "yarn_install")
+                                              "npm_install")
 node_repositories(package_json = ["//third_party/node:package.json"])
-yarn_install(
+npm_install(
     name = "npm",
     package_json = "//third_party/node:package.json",
-    yarn_lock = "//third_party/node:yarn.lock",
+    package_lock_json = "//third_party/node:package-lock.json",
 )
 
 # Install Python and Pip Build Rules
