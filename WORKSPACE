@@ -37,11 +37,6 @@ http_archive(
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories",
                                               "npm_install")
 node_repositories(package_json = ["//third_party/node:package.json"])
-npm_install(
-    name = "npm",
-    package_json = "//third_party/node:package.json",
-    package_lock_json = "//third_party/node:package-lock.json",
-)
 
 # Install Python and Pip Build Rules
 http_archive(
