@@ -24,9 +24,11 @@ const char* AccessibilityWindow::get_title() const {
     CFTypeRef window_title_raw = nullptr;
     CFStringRef window_title_label = CFStringCreateWithCString(nullptr, "AXTitle", kCFStringEncodingUTF8);
     AXUIElementCopyAttributeValue(app_ref, window_title_label, &window_title_raw);
-    assert(window_title_raw);
-
-    NSString* window_title_str = (__bridge_transfer NSString*) window_title_raw;
-    return [window_title_str UTF8String];
+    if (window_title_raw) {
+        NSString* window_title_str = (__bridge_transfer NSString*) window_title_raw;
+        return [window_title_str UTF8String];
+    } else {
+        return (new std::string("undefined"))->c_str();
+    }    
 }
 }  // namespace a11y
