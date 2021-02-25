@@ -44,6 +44,10 @@ const char* AccessibilityElement::get_description() const {
     return get_value("AXRoleDescription");
 }
 
+const char* AccessibilityElement::get_help_text() const {
+    return get_value("AXHelp");
+}
+
 const void* AccessibilityElement::get_native_element() const {
     return _native_element;
 }

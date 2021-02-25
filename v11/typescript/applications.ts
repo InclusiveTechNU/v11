@@ -32,11 +32,13 @@ export class Element implements ApplicationElement {
   type: string;
   title?: string;
   label?: string;
+  helpText?: string;
   actions: {[k: string]: () => void};
 
   constructor(element: core.Types.Element) {
     this.type = processType(element.type);
     this.title = element.title;
+    this.helpText = element.helpText;
     this._value = element.value;
     this.label = element.label;
     this._native = element.native;

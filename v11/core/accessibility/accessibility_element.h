@@ -53,6 +53,7 @@ class AccessibilityElement {
     const char* get_title() const;
     const char* get_value() const;
     const char* get_description() const;
+    const char* get_help_text() const;
     const void* get_native_element() const;
     void add_notification_listener(NotificationType type,
                                    std::function<void()>* callback);

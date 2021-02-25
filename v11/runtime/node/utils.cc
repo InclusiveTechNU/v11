@@ -18,6 +18,7 @@
 #include <string>
 #include <map>
 #include <utility>
+#include <iostream>
 #include "absl/container/flat_hash_set.h"
 #include "runtime/node/utils.h"
 #include "core/devices/keyboard/keycode.h"
@@ -143,6 +144,7 @@ void element_to_object(napi_env env,
     // const char* description = element->get_description();
     const char* value_str = element->get_value();
     const char* title = element->get_title();
+    const char* help_text = element->get_help_text();
 
     if (type) {
         napi_value type_value;
@@ -169,6 +171,15 @@ void element_to_object(napi_env env,
                                     NAPI_AUTO_LENGTH,
                                     &value_value));
         a_ok(napi_set_named_property(env, *value, "value", value_value));
+    }
+
+    if (help_text) {
+        napi_value help_text_value;
+        a_ok(napi_create_string_utf8(env,
+                                    help_text,
+                                    NAPI_AUTO_LENGTH,
+                                    &help_text_value));
+        a_ok(napi_set_named_property(env, *value, "helpText", help_text_value));
     }
 
     if (title) {

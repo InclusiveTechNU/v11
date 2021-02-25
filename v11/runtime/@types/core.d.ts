@@ -66,6 +66,7 @@ declare module 'core' {
     title?: string;
     value?: string;
     label?: string;
+    helpText?: string;
     native: {};
   }
 
