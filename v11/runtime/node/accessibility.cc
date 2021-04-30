@@ -49,6 +49,7 @@ using sys::NotificationType;
 #define NOTIF_TYPE_UI_ELEMENT_DID_CHANGE_TITLE "title"
 #define NOTIF_TYPE_UI_ELEMENT_DID_CHANGE_VALUE "value"
 #define NOTIF_TYPE_UI_ELEMENT_REMOVED "remove"
+#define NOTIF_TYPE_UI_ELEMENT_CREATED "create"
 
 namespace a11y {
 
@@ -87,6 +88,8 @@ NotificationType convert_string_to_notification_type(std::string type_str) {
         return NotificationType::kUIElementDidChangeValue;
     } else if (type_str == NOTIF_TYPE_UI_ELEMENT_REMOVED) {
         return NotificationType::kUIElementDidRemove;
+    } else if (type_str == NOTIF_TYPE_UI_ELEMENT_CREATED) {
+        return NotificationType::kApplicationDidCreateUIElement;
     } else {
         return NotificationType::kUnknownNotification;
     }

@@ -178,9 +178,9 @@ napi_status sound(napi_env env, napi_value exports) {
         if (speaking_voice != nullptr) {
             Text2SpeechSynthesizer* speech_synth =
                 new Text2SpeechSynthesizer();
-            Text2SpeechSynthesizerBridge* speech_bridge = speech_synth->
+           Text2SpeechSynthesizerBridge* speech_bridge = speech_synth->
                                                           get_bridge();
-            SpeechDidFinishCallback* speech_callback =
+            /* SpeechDidFinishCallback* speech_callback =
                 new SpeechDidFinishCallback([&]() {
                     napi_acquire_threadsafe_function(listener_callback);
                     napi_call_threadsafe_function(listener_callback,
@@ -189,7 +189,7 @@ napi_status sound(napi_env env, napi_value exports) {
                     delete speaking_voice;
                     delete speech_synth;
                 });
-            speech_bridge->set_callback(speech_callback);
+            speech_bridge->set_callback(speech_callback);*/
             speech_synth->speak(text_ptr, speaking_voice);
         } else {
             // TODO(tommymchugh): throw error for no speaking
